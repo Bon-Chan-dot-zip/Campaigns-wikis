@@ -1,2 +1,62 @@
-placeholder 
-(i aint doing ts rn)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ENTRY</title>
+    <link rel="icon" href="eyeclosed.ipng">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: black;
+            color: #aaa;
+            font-family: monospace;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .descend-btn {
+            background: none;
+            border: 1px solid #333;
+            padding: 10px 22px;
+            color: #aaa;
+            font-size: 16px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            animation: flicker 4s infinite;
+            transition:
+                color 0.2s,
+                border-color 0.2s,
+                box-shadow 0.2s;        
+        }
+
+        .descend-btn:hover {
+            color: #aaffaa;
+            border-color: #55aa55;
+            box-shadow: 0 0 8px rgba(100,255,100,0.25);
+        }
+
+        .descend-btn:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+      
+        @keyframes flicker {
+            0%, 96% { opacity: 1; }
+            97% { opacity: 0.6; }
+            98% { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="descend-btn"
+        onclick="window.location.href='Descent2.html'">
+        Descend?
+    </button>
+</body>
+</html>
+
