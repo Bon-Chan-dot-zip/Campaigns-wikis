@@ -54,21 +54,21 @@
 		@keyframes scanlineRoll {
 			from { transform: translateY(0); }
 			to   { transform: translateY(4px); }
-		}
-        <!--This fucking shit doesent work -->
-		@keyframes hsyncJitter {
+        }
+
+        @keyframes hsyncJitter {
 			0%   { transform: translateX(0); }
 			92%  { transform: translateX(0); }
 			93%  { transform: translateX(-1px); }
 			94%  { transform: translateX(1px); }
-			95%  { transform: translateX(-2px); }
+			95%  { transform: translateX(-1px); }
 			96%  { transform: translateX(0); }
 			100% { transform: translateX(0); }
 		}
 		  
-		.hsync {
-			animation: hsyncJitter 6s infinite;
-		}
+		<!--.hsync {
+            animation: hsyncJitter 6s infinite;
+        }-->
 		
         <!-- I had to ask chatgbt to tell me how to make fractal noise, genuienly have no idea what the link does-->
         .noise {
