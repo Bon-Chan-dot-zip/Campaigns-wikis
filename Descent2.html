@@ -481,14 +481,49 @@ In early 2027, geomonitoring networks worldwide detected a rapid decay in Earthâ
                 {text: "", delay: 100},
                 {type: "note", content: "All checks use d20 + stat modifier. Stat modifier = (stat - 10) / 2 (rounded down).", delay: 400},
                 {type: "separator", delay: 100},
-                {text: "THE AUGMENT SYSTEM", type: "prompt", delay: 100},
+                {text: "SPEED-BASED TURN SYSTEM", type: "prompt", delay: 200},
+                {text: "", delay: 100},
+                {text: "> Rounds are determined by TOTAL SPEED of all combatants", type: "prompt", delay: 150},
+                {text: "> Entity turns = Round Length / Their Speed", type: "prompt", delay: 150},
+                {text: "> Turn order: Slowest (lowest speed) to Fastest (highest speed)", type: "prompt", delay: 150},
+                {text: "> Each turn: 1 Movement Action + 1 Normal Action + 1 Bonus Action", type: "prompt", delay: 150},
+                {text: "", delay: 100},
+                {type: "box", title: "EXAMPLE: SPEED CALCULATION", content: "Cleaning Bot (20), Ravager (50), Scavenger (30). Total Speed: 100. Turns: CB (5), S (3), RB (2). Order: CB->S->CB->RB->CB->S->CB->S->CB->RB. Speed ties resolved by faster speed (lower value).", delay: 400},
+                    {type: "note", content: "Certain abilities and all weapons have their own speed values, upon using them, their speed value is used to calculate when the players next turn arrives.", delay: 300},
+                {type: "separator", delay: 100},
+                {text: "WEAPON SPEED TIERS", type: "prompt", delay: 200},
+                {text: "", delay: 100},
+                {type: "damage", types: [
+                    {name: "ULTRA-LIGHT", desc: "Fists, autonomous bots. Speed: 5-10"},
+                    {name: "LIGHT", desc: "Handguns, swords, knives. Speed: 10-20"},
+                    {name: "MEDIUM", desc: "Assault rifles, shotguns, axes. Speed: 20-40"},
+                    {name: "HEAVY", desc: "Greatswords, heavy machine guns. Speed: 40-60"},
+                    {name: "SUPER-HEAVY", desc: "Experimental weapons. Speed: 60-100"}
+                ], delay: 300},
+                {text: "", delay: 100},
+                {type: "note", content: "Non-held/autonomous bots impose an Ultra-Light tier speed decrease on the user for mechanical purposes regardless of weight as each has its own speed value.", delay: 300},
+                {text: "THE MODULE SYSTEM", type: "prompt", delay: 100},
                 {text: "", delay: 50},
-                {text: "> Each character starts with 3 ELITE MODULES", type: "prompt", delay: 50},
+                {text: "> Each character starts with 3 MODULES", type: "prompt", delay: 50},
                 {text: "> Modules can be: FUSED, MODIFIED, and EXTRACTED", type: "prompt", delay: 50},
                 {text: "> Find RELICS in the depths to harvest new modules", type: "prompt", delay: 50},
                 {text: "> Create unique skill combos through module mixing", type: "prompt", delay: 50},
                 {text: "", delay: 100},
                 {type: "box", title: "MODULE EXAMPLE: KINETIC REDIRECTOR", content: "Elite Module (Physique). 'When struck, +2 Physique on your next turn'. This module can be broken down into 'When struck', '+2', 'Physique', 'Next turn'. These individual tokens can then EXTRACTED from this module and FUSED to other modules to change, add, or replace their effects. ", delay: 400},
+                {text: "> CORE modules are fundamental pieces of a character's kit,", type: "prompt", delay: 50},
+                {text: "> They cannot be removed or deactivated, they are a passive and serve as the base for the characters abilities.", type: "prompt", delay: 50},
+                {text: "> Core modules contain the character ultimate ability.", type: "prompt", delay: 50},
+                {type: "separator", delay: 100},
+                {text: "EQUIPMENT & MODULES", type: "prompt", delay: 200},
+                {text: "", delay: 50},
+                {text: "> 3 EQUIPMENT SLOTS (firearms, tools, armor)", type: "prompt", delay: 50},
+                {text: "> 5 MODULE SLOTS (crafted abilities)", type: "prompt", delay: 50},
+                {text: "> 1 CORE SLOT (class/passive + ultimate ability)", type: "prompt", delay: 50},
+                {text: "> 3 RESERVE SLOTS (switch modules outside combat)", type: "prompt", delay: 50},
+                {text: "", delay: 100},
+                {type: "box", title: "ARMOR & ENCUMBRANCE", content: "Armor provides percentage based damage reductions but reduces speed accordingly. Scavenged armor is rare and often more hindrance than help. Equipment slot required.", delay: 300},
+                {text: "", delay: 50},
+                {type: "box", title: "MODULE CRAFTING", content: "Harvest text tokens from fallen enemies' modules. Tokens can be FUSED into custom modules. Pay extra to transmute tokens into equivalent grammatical forms. Excessive effects or token on a module can cause INSTABILITY - permanent debuffs that persist across sessions.", delay: 300},
                 {type: "separator", delay: 200},
                 {text: "DAMAGE SYSTEM", type: "prompt", delay: 200},
                 {text: "", delay: 100},
@@ -504,41 +539,42 @@ In early 2027, geomonitoring networks worldwide detected a rapid decay in Earthâ
                 {text: "> Critical hits bypass any resistances that arent immune.", type: "prompt", delay: 50},
                 {text: "", delay: 100},
                 {type: "separator", delay: 200},
-                {text: "DECAY & AFFLICTIONS", type: "prompt", delay: 300},
-                {text: "", delay: 100},
-                {text: "The megastructure warps living matter.", type: "prompt", delay: 200},
-                {text: "> Accumulate DECAY as you delve deeper", type: "prompt", delay: 150},
-                {text: "> At thresholds (10, 25, 50, 100): roll for AFFLICTION", type: "prompt", delay: 150},
-                {text: "> Afflictions are permanent physical mutations", type: "prompt", delay: 150},
-                {text: "", delay: 200},
-                {type: "mixed", title: "HEMOGRAPHIC PROPHECY", content: "Your blood writes itself into prophecies as it spills, it crawls back in when you arent looking. When below 50% hp, roll a d5 to see how many turns you gain advantage on.", delay: 300},
-                {type: "boon", title: "NEURO-ACCELERATIVE BURNOUT", content: "Brain processes accelerate, you notice twitches in the darkness before others. +2 to Initiative rolls.", delay: 300},
-                {type: "debuff", title: "BONE VITRIFICATION", content: "Your bones literally turn into glass. Critical hits against you deal double damage and you cannot withstand falls over 10ft.", delay: 300},
-                {text: "", delay: 200},
-                {type: "separator", delay: 200},
+               // {text: "DECAY & AFFLICTIONS", type: "prompt", delay: 300},
+               // {text: "", delay: 100},
+               // {text: "The megastructure warps living matter.", type: "prompt", delay: 200},
+               // {text: "> Accumulate DECAY as you delve deeper", type: "prompt", delay: 150},
+               // {text: "> At thresholds (10, 25, 50, 100): roll for AFFLICTION", type: "prompt", delay: 150},
+               // {text: "> Afflictions are permanent physical mutations", type: "prompt", delay: 150},
+               // {text: "", delay: 200},
+               // {type: "mixed", title: "HEMOGRAPHIC PROPHECY", content: "Your blood writes itself into prophecies as it spills, it crawls back in when you arent looking. When below 50% hp, roll a d5 to see how many turns you gain advantage on.", delay: 300},
+               // {type: "boon", title: "NEURO-ACCELERATIVE BURNOUT", content: "Brain processes accelerate, you notice twitches in the darkness before others. +2 to Initiative rolls.", delay: 300},
+               // {type: "debuff", title: "BONE VITRIFICATION", content: "Your bones literally turn into glass. Critical hits against you deal double damage and you cannot withstand falls over 10ft.", delay: 300},
+               // {text: "", delay: 200},
+               // {type: "separator", delay: 200},
                 {text: "HEX GRID EXPLORATION", type: "prompt", delay: 300},
                 {text: "", delay: 100},
                 {text: "> The megastructure is mapped on hex grids", type: "prompt", delay: 50},
-                {text: "> Each hex = 1 hour of travel (or 5 kilometers)", type: "prompt", delay: 50},
+                {text: "> Each hex = 5 Kilometers, with the time to travel dependent on terrain, weather conditions, and mode of transport.", type: "prompt", delay: 50},
                 {text: "> Different strata have unique properties", type: "prompt", delay: 50},
                 {text: "> Encounter tables can vary by depth and location", type: "prompt", delay: 50},
+                {text: "> Weather: At the beginning of every day (or every 24 hours) roll d7 for conditions & effects", type: "prompt", delay: 150},
                 {text: "", delay: 100},
                 {type: "image", placeholder: "<s>[HEX MAP: UPPER STRATA - CITY OF MOSCOW]</s> <br>[DATA REDACTED]", delay: 400},
                 {type: "separator", delay: 200},
                 {text: "EXAMPLE COMBAT", type: "prompt", delay: 300},
-                {text: "", delay: 100},
-                {text: "> Fighting a corrupted maintenance drone", type: "command", delay: 150},
-                {text: "> Attack with heavy axe (Slash damage)", type: "prompt", delay: 150},
+                {text: "> Fighting a dysfunctional maintenance drone", type: "command", delay: 150},
+                {text: "> Speed: Player (25), Drone (30). Total: 55", type: "prompt", delay: 150},
+                {text: "> Turns: Player (2), Drone (1) => Order: Player -> Drone -> Player", type: "prompt", delay: 150},
+                {text: "> Attack with heavy axe (Slash damage, Speed 45)", type: "prompt", delay: 150},
                 {text: "> Physique mod (+2) + d20 roll (12) = 14 total", type: "prompt", delay: 150},
-                {text: "> Drone's rolls to block: 12 â†’ HIT", type: "success", delay: 150},
+                {text: "> Drone's rolls to block: 12, HIT", type: "success", delay: 150},
                 {text: "> Base damage: 1d8 (6) + Physique mod (+2) = 8", type: "prompt", delay: 150},
-                {text: "> Drone has 25% Slash resistance â†’ 6 damage dealt", type: "warning", delay: 150},
+                {text: "> Drone has 25% Slash resistance, 6 damage dealt", type: "warning", delay: 150},
                 {text: "> 'Kinetic Charger' module activates: +4 next attack", type: "success", delay: 150},
-                {text: "", delay: 200},
                 {type: "separator", delay: 100},
                 {text: "STARTING GEAR", type: "prompt", delay: 300},
                 {text: "", delay: 100},
-                {text: "- 3 elite modules of choice", type: "prompt", delay: 150},
+                {text: "- 3 modules of choice", type: "prompt", delay: 150},
                 {text: "- $20 (amount negotiable)", type: "prompt", delay: 150},
                 {text: "", delay: 300},
                 {type: "box", title: "SURVIVAL NOTES", content: "The Structure obeys its own laws. Never explore its depths alone, and if you mark your path make sure nothings following it.", delay: 400},
@@ -679,6 +715,46 @@ In early 2027, geomonitoring networks worldwide detected a rapid decay in Earthâ
                 lineCount.textContent = `LINE: ${totalLines.toString().padStart(3, '0')}`;
                 contentArea.scrollTop = contentArea.scrollHeight;
             }, 3800);
+            // Add character builder link to the terminal
+            // Wait for the terminal to finish booting
+            setTimeout(() => {
+                // Create a link in the content area
+                const contentArea = document.querySelector('.content-area');
+                const linkSection = document.createElement('div');
+                linkSection.className = 'prompt-line';
+                linkSection.style.marginTop = '20px';
+                
+                linkSection.innerHTML = `
+                    <span class="prompt">> Access: </span>
+                    <button class="terminal-link" onclick="window.open('descentcreator.html', '_blank')">
+                        CHARACTER BUILDER INTERFACE
+                    </button>
+                    <span class="prompt"> for stat allocation and calculations</span>
+                `;
+                
+                contentArea.appendChild(linkSection);
+                
+                // Add the CSS for the link button
+                const style = document.createElement('style');
+                style.textContent = `
+                    .terminal-link {
+                        color: #55aa55;
+                        text-decoration: underline;
+                        cursor: pointer;
+                        background-color: transparent;
+                        border: none;
+                        font-family: inherit;
+                        font-size: inherit;
+                        padding: 0 2px;
+                        margin: 0 2px;
+                    }
+                    .terminal-link:hover {
+                        color: #77cc77;
+                        text-shadow: 0 0 8px rgba(85, 170, 85, 0.5);
+                    }
+                `;
+                document.head.appendChild(style);
+            }, 5000); // Adjust delay based on your boot sequence length
             
             // Add keyboard input simulation
             document.addEventListener('keydown', function(e) {
