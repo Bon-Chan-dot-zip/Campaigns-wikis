@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BABEL_SYS_4.2.9 :: Character Builder</title>
+    <title>DESCENT: Stat Builder</title>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         * {
@@ -492,8 +492,8 @@
     
     <div class="terminal">
         <div class="header">
-            <div class="title">BABEL_SYS_4.2.9 :: CHARACTER BUILDER</div>
-            <div class="timestamp">[SYSTEM_TIME: 04:27:89]</div>
+            <div class="title">ALIGHIERI v2.11 :: CHARACTER BUILDER</div>
+            <div class="timestamp" id="timestamp">[00:00:00]</div>
         </div>
         
         <div class="content-area">
@@ -663,7 +663,7 @@
             <div class="separator"></div>
             
             <div class="prompt-line">
-                <span class="system-msg">> STATISTICS LOCKED. PROCEED TO EQUIPMENT ALLOCATION?</span>
+                <span class="system-msg">> STATISTICS LOCKED. <s>PROCEED TO MODULE ALLOCATION</s> CONTACT ADMINISTRATOR</span>
             </div>
             <div class="prompt-line">
                 <span class="cursor"></span>
@@ -671,7 +671,6 @@
         </div>
         
         <div class="footer">
-            <div>BABEL_SYS_4.2.9 © 2067 MEGASTRUCTURE EXPLORATION AUTHORITY</div>
             <div>ALL RIGHTS RESERVED. UNAUTHORIZED ACCESS PROHIBITED.</div>
         </div>
         
@@ -679,10 +678,22 @@
             <div>STATUS: CHARACTER CREATION ACTIVE</div>
             <div>POINTS: <span id="statusPoints">40</span>/40</div>
         </div>
+        <audio controls autoplay>
+            <source src="ambient.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
     </div>
 
     <script>
-        // Initial stats
+        const timestamp = document.getElementById('timestamp');
+        function updateTime() {
+            const now = new Date();
+            timestamp.textContent = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+        }
+            
+        updateTime();
+        setInterval(updateTime, 1000);
+        // stats init
         let stats = {
             physique: 1,
             prowess: 1,
@@ -692,18 +703,17 @@
         
         let points = 40;
         
-        // Calculate modifier
+        // modifier calc
         function calculateModifier(stat) {
             return Math.floor((stat - 10) / 2);
         }
         
-        // Update all displays
+        //  display updater
         function updateDisplay() {
-            // Update point counter
             document.getElementById('pointsValue').textContent = points;
             document.getElementById('statusPoints').textContent = points;
             
-            // Add/remove zero class for red text
+            // red text shit
             const pointsElement = document.getElementById('pointsValue');
             if (points === 0) {
                 pointsElement.classList.add('zero');
@@ -711,13 +721,11 @@
                 pointsElement.classList.remove('zero');
             }
             
-            // Update stat values
             document.getElementById('physiqueValue').textContent = stats.physique;
             document.getElementById('prowessValue').textContent = stats.prowess;
             document.getElementById('ingenuityValue').textContent = stats.ingenuity;
             document.getElementById('resolveValue').textContent = stats.resolve;
-            
-            // Update character sheet
+        
             const physiqueMod = calculateModifier(stats.physique);
             const prowessMod = calculateModifier(stats.prowess);
             const ingenuityMod = calculateModifier(stats.ingenuity);
@@ -735,7 +743,6 @@
             document.getElementById('sheetResolve').textContent = stats.resolve;
             document.getElementById('sheetResolveMod').textContent = resolveMod >= 0 ? `+${resolveMod}` : resolveMod;
             
-            // Calculate derived values
             const health = 18 + (physiqueMod * 2);
             const speed = 50 - (prowessMod * 5);
             const movement = Math.max(10, 10 + prowessMod * 5);
@@ -746,7 +753,7 @@
             document.getElementById('sheetMovement').textContent = `${movement} ft/turn`;
             document.getElementById('sheetSuccessRate').textContent = `${successRate}%`;
             
-            // Update Avrae commands
+            // Avrae command updater 
             document.getElementById('cmdPhysiqueMod').textContent = physiqueMod >= 0 ? `+${physiqueMod}` : physiqueMod;
             document.getElementById('cmdUvarPhy').textContent = physiqueMod;
             
@@ -759,26 +766,21 @@
             document.getElementById('cmdResolveMod').textContent = resolveMod >= 0 ? `+${resolveMod}` : resolveMod;
             document.getElementById('cmdUvarRes').textContent = resolveMod;
             
-            // Enable/disable buttons
             updateButtonStates();
         }
         
-        // Adjust stat value
         function adjustStat(stat, change) {
-            // Check if we have enough points to increase
             if (change > 0 && points === 0) return;
             
-            // Check if we can decrease (minimum 1)
             if (change < 0 && stats[stat] <= 1) return;
             
-            // Apply change
             stats[stat] += change;
             points -= change;
             
             updateDisplay();
         }
         
-        // Reset all stats
+        // Reset
         function resetStats() {
             stats = {
                 physique: 1,
@@ -790,7 +792,7 @@
             updateDisplay();
         }
         
-        // Update button enabled/disabled states
+        // update buttons
         function updateButtonStates() {
             const statButtons = document.querySelectorAll('.stat-btn');
             statButtons.forEach(button => {
