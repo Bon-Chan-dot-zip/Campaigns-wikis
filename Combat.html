@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WMC:: Combat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green: #3d6b8c;
+      --green-light: #6fa3c4;
+      --green-dim: #1e3a4f;
+      --cream: #e8e0cc;
+      --paper: #d4c9ae;
+      --tan: #b8a98a;
+      --rust: #7a3d2c;
+      --rust-light: #a65c45;
+      --navy: #0d1520;
+      --navy-light: #162338;
+      --yellow: #c48a14;
+      --yellow-pale: #e8c060;
+      --ink: #1a1410;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --serif: 'IBM Plex Serif', serif;
+    }
+
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--tan) transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--tan);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--rust);
+    }
+    html { 
+      scroll-behavior: smooth; 
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      background: var(--navy);
+      border-bottom: 4px solid var(--rust);
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, var(--yellow) 0, var(--yellow) 10px, transparent 10px, transparent 20px);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .logo-text h1 {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 0.22em;
+      color: var(--cream);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .logo-text .tagline {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--yellow-pale);
+      letter-spacing: 0.18em;
+      margin-top: 4px;
+      opacity: 0.85;
+    }
+    nav {
+      background: var(--green-dim);
+      border-bottom: 2px solid var(--green);
+    }
+    nav ul {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      list-style: none;
+    }
+    nav ul li a {
+      display: block;
+      padding: 0.65rem 1.2rem;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.15s, color 0.15s;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background: var(--rust);
+      color: #fff;
+    }
+    nav ul li:last-child a { 
+      border-right: none; 
+    }
+    .alert-strip {
+      background: var(--rust-light);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      padding: 8px 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      overflow: hidden;
+    }
+    .alert-label {
+      background: #fff;
+      color: var(--rust-light);
+      font-weight: 700;
+      padding: 1px 8px;
+      flex-shrink: 0;
+      font-size: 0.65rem;
+    }
+    .alert-scroll {
+      overflow: hidden;
+      flex: 1;
+    }
+    .alert-scroll span {
+      display: inline-block;
+      white-space: nowrap;
+      animation: scroll-left 28s linear infinite;
+    }
+    @keyframes scroll-left {
+      0%   { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in   { animation: fadeInUp 0.5s ease both; }
+    .fade-in-1 { animation-delay: 0.1s; }
+    .fade-in-2 { animation-delay: 0.25s; }
+    .page-wrap {
+      max-width: 80%;
+      margin: auto;
+      gap: 2.5rem;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .main-col {
+      overflow-y: auto;
+      height: 100%;
+    }
+    .side-col { 
+      position: sticky; 
+      top: 4rem;
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.8rem 0;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--tan);
+      grid-column: 1 / -1;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--tan);
+    }
+    .redacted {
+      background: var(--ink);
+      color: transparent;
+      user-select: none;
+      padding: 0 4px;
+      cursor: not-allowed;
+    }
+    .reveal-redacted {
+      background: var(--ink);
+      color: transparent;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .reveal-redacted:hover {
+      background: rgba(122,61,44,0.25);
+      color: var(--rust-light);
+      outline: 1px solid var(--rust);
+    }
+    .sb {
+      background: var(--paper);
+      border: 1px solid var(--tan);
+      margin-bottom: 1.2rem;
+      overflow: hidden;
+    }
+    .sb-head {
+      padding: 0.9rem 1.1rem;
+      border-bottom: 1px solid rgba(184,169,138,0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sb-title {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+    }
+    .sb-badge {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 1px solid rgba(184,169,138,0.4);
+      color: var(--yellow-pale);
+    }
+    .sb-body { padding: 1.1rem; max-height: 400px; overflow-y: auto;
+    }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-family: var(--sans);
+    }
+    .footer-top-bar {
+      background: #080e18;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0.6rem 2rem;
+    }
+    .footer-top-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-top-label {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .footer-status-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-dot.green  { 
+      background: #4caf50; 
+      box-shadow: 0 0 5px rgba(76,175,80,0.6); 
+    }
+    .status-dot.amber { 
+      background: var(--yellow); 
+      box-shadow: 0 0 5px rgba(196,138,20,0.6); 
+    }
+    .status-dot.red    { 
+      background: var(--rust-light); 
+      box-shadow: 0 0 5px rgba(166,92,69,0.6); 
+    }
+    .status-text { 
+      margin-right: 0.6rem; 
+    }
+    .footer-stock {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+    }
+    .stock-val { 
+      color: #4caf50; 
+      font-weight: 700; 
+    }
+    .footer-main {
+      background: #0a1120;
+      padding: 3.5rem 2rem 2.5rem;
+    }
+    .footer-main-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 4rem;
+    }
+    .footer-wordmark {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.25em;
+      color: var(--cream);
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+    .footer-wordmark span {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.35);
+    }
+    .footer-tagline {
+      font-family: var(--serif);
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--tan);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .footer-certifications {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .cert-badge {
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.4rem 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+    .cert-badge span { 
+      color: rgba(255,255,255,0.5); 
+      font-size: 0.55rem; 
+    }
+    .redacted-cert { 
+      border-color: rgba(122,61,44,0.3); 
+    }
+    .footer-awards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .award-item {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.2);
+    }
+    .footer-links-area {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .footer-link-heading {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-link-col ul { 
+      list-style: none; 
+    }
+    .footer-link-col ul li {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: color 0.15s;
+      font-family: var(--sans);
+    }
+    .footer-link-col ul li:hover { 
+      color: rgba(255,255,255,0.75); 
+    }
+    .footer-compliance {
+      background: #060c14;
+      padding: 1.5rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-compliance-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .compliance-logos {
+      display: flex;
+      gap: 0.6rem;
+    }
+    .comp-logo {
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.5rem 0.7rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+    .comp-logo span { 
+      color: rgba(255,255,255,0.25); 
+      font-weight: 400; 
+      font-size: 0.45rem; 
+    }
+    .footer-legal-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .footer-legal-links span {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.35);
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .footer-legal-links span:hover { 
+      color: rgba(255,255,255,0.65); 
+    }
+    .footer-legal-text {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.18);
+      line-height: 1.9;
+    }
+    @media (max-width: 900px) {
+      .footer-main-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-links-area { grid-template-columns: 1fr 1fr; }
+      .footer-compliance-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .footer-links-area { grid-template-columns: 1fr; }
+      .footer-top-inner { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    }
+    @media (max-width: 900px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .side-col { position: static; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .header-inner { flex-wrap: wrap; }
+      .footer-inner { grid-template-columns: 1fr; }
+      nav ul { flex-wrap: wrap; }
+    }
+    .redacted {
+      background: var(--ink);
+      color: transparent;
+      user-select: none;
+      padding: 0 3px;
+    }
+    .placeholder {
+      background: rgba(212, 160, 23, .15);
+      color: var(--yellow);
+      border: 1px dashed rgba(212, 160, 23, .4);
+      padding: 1px 6px;
+      font-family: var(--mono);
+      font-size: .7em;
+      letter-spacing: .05em;
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0 1.5rem;
+      font-family: var(--mono);
+      font-size: .55rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--tan);
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--tan);
+    }
+    .doc-card {
+      background: var(--paper);
+      border: 1px solid var(--tan);
+      border-top: 4px solid var(--rust);
+      padding: 2rem;
+      position: relative;
+      margin-bottom: 1.5rem;
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, .07);
+    }
+    .doc-card::before {
+      content: attr(data-doc);
+      position: absolute;
+      top: -1px;
+      right: 1.5rem;
+      background: var(--rust);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: .52rem;
+      letter-spacing: .15em;
+      padding: 2px 10px;
+    }
+    .doc-card.navy {
+      border-top-color: var(--navy);
+    }
+    .doc-card.navy::before {
+      background: var(--navy);
+    }
+    .doc-card.green {
+      border-top-color: var(--green);
+    }
+    .doc-card.green::before {
+      background: var(--green);
+    }
+    .doc-card.yellow {
+      border-top-color: var(--yellow);
+    }
+    .doc-card.yellow::before {
+      background: var(--yellow);
+      color: var(--ink);
+    }
+    .doc-label {
+      font-family: var(--sans);
+      font-size: .58rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: .3rem;
+    }
+    .doc-card.navy .doc-label {
+      color: var(--navy);
+    }
+    .doc-card.green .doc-label {
+      color: var(--green);
+    }
+    .doc-card.yellow .doc-label {
+      color: var(--yellow);
+    }
+    .doc-h3 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .rule-list {
+      list-style: none;
+      margin-top: .8rem;
+    }
+    .rule-list li {
+      font-family: var(--serif);
+      font-size: .9rem;
+      line-height: 1.85;
+      color: #2a261e;
+      padding: .55rem 0;
+      border-bottom: 1px dashed var(--tan);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .rule-list li:last-child {
+      border-bottom: none;
+    }
+    .rule-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--rust);
+      font-size: .7rem;
+      top: .7rem;
+    }
+    .rule-list.navy li::before {
+      color: var(--navy);
+    }
+    .rule-list.green li::before {
+      color: var(--green);
+    }
+    .rule-note {
+      font-family: var(--mono);
+      font-size: .65rem;
+      letter-spacing: .08em;
+      color: var(--tan);
+      margin-top: .4rem;
+      padding-left: 1.2rem;
+    }
+    .rule-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: .8rem;
+    }
+    .rule-col-box {
+      background: rgba(0, 0, 0, .04);
+      border: 1px solid var(--tan);
+      padding: 1rem;
+    }
+    .rule-col-box h5 {
+      font-family: var(--mono);
+      font-size: .58rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: .6rem;
+    }
+    .rule-col-box.offense h5 {
+      color: var(--rust);
+    }
+    .rule-col-box.defense h5 {
+      color: var(--green);
+    }
+    .rule-col-box ul {
+      list-style: none;
+    }
+    .rule-col-box ul li {
+      font-family: var(--serif);
+      font-size: .82rem;
+      line-height: 1.75;
+      color: #2a261e;
+      padding: .3rem 0;
+      border-bottom: 1px dashed var(--tan);
+    }
+    .rule-col-box ul li:last-child {
+      border-bottom: none;
+    }
+    table {
+      width:100%;
+      border-collapse:collapse;
+      font-size:.82rem;
+      margin-top:.8rem;
+    }
+    thead {
+      background:var(--navy);
+      color:var(--cream);
+    }
+    thead th {
+      font-family:var(--mono);
+      font-size:.58rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      padding:.6rem 1rem;
+      text-align:left;
+      border-right:1px solid rgba(255,255,255,.1);
+    }
+    tbody tr {
+      border-bottom:1px solid var(--tan);
+    }
+    tbody tr:nth-child(even) {
+      background:rgba(0,0,0,.04);
+    }
+    tbody td {
+      padding:.65rem 1rem;
+      font-family:var(--serif);
+      color:var(--ink);
+      border-right:1px solid var(--tan);
+      vertical-align:top;
+    }
+    tbody td:first-child {
+      font-family:var(--mono);
+      font-size:.7rem;
+      letter-spacing:.1em;
+      color:var(--rust);
+      font-weight:700;
+      white-space:nowrap;
+    }
+    .tag-good {
+      color:var(--green);
+      font-family:var(--mono);
+      font-size:.65rem;
+      letter-spacing:.1em;
+    }
+    .tag-bad {
+      color:var(--rust-light);
+      font-family:var(--mono);
+      font-size:.65rem;
+      letter-spacing:.1em;
+    }
+   .formula-box {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 1rem 1.5rem;
+      font-family: var(--mono);
+      font-size: .85rem;
+      letter-spacing: .05em;
+      margin: .8rem 0;
+      border-left: 4px solid var(--green-light);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .formula-box .f-label {
+      font-size: .55rem;
+      letter-spacing: .2em;
+      color: var(--tan);
+      text-transform: uppercase;
+      margin-right: .5rem;
+    }
+    .page-hero {
+      background: var(--navy);
+      padding: 2.5rem 2rem;
+      border-bottom: 2px solid var(--rust);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(74,124,89,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(74,124,89,.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .page-hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .page-hero-eyebrow {
+      font-family: var(--mono);
+      font-size: .6rem;
+      letter-spacing: .25em;
+      color: var(--green-light);
+      margin-bottom: .7rem;
+    }
+    .page-hero h2 {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: .6rem;
+    }
+    .page-hero p {
+      font-family: var(--serif);
+      font-size: .92rem;
+      color: var(--tan);
+      max-width: 620px;
+      line-height: 1.75;
+    }
+    .breadcrumb {
+      font-family: var(--mono);
+      font-size: .58rem;
+      letter-spacing: .12em;
+      color: var(--tan);
+      margin-bottom: 1rem;
+    }
+    .breadcrumb a {
+      color: var(--green-light);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover {
+      text-decoration:underline;
+    }
+    .action-badges {
+      display:flex;
+      gap:.6rem;
+      flex-wrap:wrap;
+      margin-top:1rem;
+    }
+    .abadge {
+      font-family:var(--mono);
+      font-size:.62rem;
+      letter-spacing:.12em;
+      padding:4px 12px;
+      border:1.5px solid;
+      text-transform:uppercase;
+      font-weight: bold;
+    }
+    .abadge.main {
+      color:var(--rust);
+      border-color:var(--rust);
+      font-weight: bold;
+    }
+    .abadge.move {
+      color:var(--green);
+      border-color:var(--green);
+      font-weight: bold;
+    }
+    .abadge.minor{
+      color:var(--yellow);
+      border-color:var(--yellow);
+      font-weight: bold;
+    }
+    .init-ladder {
+      margin-top:1rem;
+    }
+    .init-rung {
+      display:flex;
+      align-items:center;
+      gap:.8rem;
+      margin-bottom:.4rem;
+    }
+    .init-num {
+      font-family:var(--mono);
+      font-size:.7rem;
+      width:28px;
+      text-align:right;
+      color:var(--tan);
+    }
+    .init-bar {
+      flex:1;
+      height:28px;
+      display:flex;
+      align-items:center;
+      padding:0 .8rem;
+      font-family:var(--sans);
+      font-size:.72rem;
+      font-weight:600;
+      letter-spacing:.05em;
+    }
+    .init-bar.player {
+      max-width: 30%;
+      min-width: 250px;
+      background:rgba(74,124,89,.2);
+      border:1px solid var(--green);
+      color:var(--green-light);
+    }
+    .init-bar.enemy {
+      max-width: 30%;
+      min-width: 250px;
+      background:rgba(155,74,42,.2);
+      border:1px solid var(--rust);
+      color:var(--rust-light);
+    }
+
+    @media(max-width:900px){.page-wrap{grid-template-columns:1fr;}.side-col{position:static;}.header-inner{grid-template-columns:1fr;}.header-meta{display:none;}.footer-inner{grid-template-columns:1fr 1fr;}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo-block">
+        <img src="Wishmakers_logo.png" style="height: 72px;">
+        <div class="logo-text">
+          <h1>Wishmakers</h1>
+          <div class="tagline">Building a Better World, One Wish at a Time</div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="Wishmakers_Home.html">Home</a></li>
+      <li><a href="Stats.html">Core Stats</a></li>
+      <li><a href="Missions.html">Missions</a></li>
+      <li><a href="Kits.html">Kits</a></li>
+      <li><a href="Combat.html" class="active">Combat</a></li>
+      <li><a href="#"><s>Field Archive</s></a></li>
+      <li><a href="#"><s>Lore Archive</s></a></li>
+    </ul>
+  </nav>
+  <div class="alert-strip">
+    <span class="alert-label">NOTICE</span>
+    <div class="alert-scroll">
+      <span>
+        ACTIVE INCIDENT - EASTERN EUROPE SECTOR - LOCKDOWN IN EFFECT &nbsp;⬥&nbsp;
+        NEW NIGHTMARE TYPE: "NOETIC" OFFICIALLY ADOPTED &nbsp;⬥&nbsp;
+        ALL FIELD AGENTS: REQUIRED RECERTIFICATION BY END OF QUARTER &nbsp;⬥&nbsp;
+        WISHMAKERS CORP. IS CURRENTLY ACCEPTING CONTRACTOR APPLICATIONS &nbsp;⬥&nbsp;
+        REMINDER: NON-DISCLOSURE AGREEMENTS ARE BINDING. &nbsp;⬥&nbsp;
+        ISLE TECHNOLOGIES PARTNERSHIP DEAL CLOSED &nbsp;⬥&nbsp;
+      </span>
+    </div>
+  </div>
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="Wishmakers_Home.html">Home</a> / Combat Manual</div>
+    <div class="page-hero-eyebrow">▸ WMC/RULES/COMBAT - Field Operations Combat Manual</div>
+    <h2>Combat Reference</h2>
+    <p>Standard engagement rules for all field operatives. Covers initiative, action economy, map rules, death protocol, and resolution mechanics.</p>
+  </div>
+</div>
+<div class="page-wrap">
+  <div class="section-divider">Initiative & Turn Order</div>
+    <div class="doc-card navy" data-doc="WMC/COMBAT/01">
+      <div class="doc-label">Section 01 - Initiative</div>
+      <h3 class="doc-h3">Determining Turn Order</h3>
+      <div class="formula-box">
+        <span class="f-label">Roll</span> d20 + Finesse
+        <span style="margin-left:1.5rem;font-size:.7rem;color:var(--tan);">Highest result acts first. Ties broken by higher Finesse stat. If still tied roll d2.</span>
+      </div>
+      <ul class="rule-list navy">
+        <li>All participants roll simultaneously. Order is set highest to lowest.</li>
+        <li>Players may swap their position in the turn order with another player, <strong>provided the swap does not bypass an enemy's turn.</strong></li>
+      </ul>
+      <div style="margin-top:1.2rem;">
+        <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;color:var(--tan);margin-bottom:.6rem;text-transform:uppercase;">Example: Valid vs. Invalid Swap</div>
+        <div class="init-ladder">
+          <div style="font-family:var(--mono);font-size:.58rem;color:var(--tan);margin-bottom:.4rem;letter-spacing:.1em;">VALID:  no enemy bypassed:</div>
+          <div class="init-rung"><div class="init-num">1st</div><div class="init-bar enemy">ENEMY</div></div>
+          <div class="init-rung"><div class="init-num">2nd</div><div class="init-bar player">PLAYER 1 ⇄ PLAYER 2 (can swap)</div></div>
+          <div class="init-rung"><div class="init-num">3rd</div><div class="init-bar player">PLAYER 2 ⇄ PLAYER 1</div></div>
+          <div class="init-rung"><div class="init-num">4th</div><div class="init-bar enemy">ENEMY</div></div>
+        </div>
+        <div class="init-ladder" style="margin-top:.8rem;">
+          <div style="font-family:var(--mono);font-size:.58rem;color:var(--rust-light);margin-bottom:.4rem;letter-spacing:.1em;">INVALID: would bypass enemy turn:</div>
+          <div class="init-rung"><div class="init-num">1st</div><div class="init-bar player">PLAYER 1</div></div>
+          <div class="init-rung"><div class="init-num">2nd</div><div class="init-bar enemy">ENEMY</div></div>
+          <div class="init-rung"><div class="init-num">3rd</div><div class="init-bar player">PLAYER 2 ✗ cannot move to 1st</div></div>
+          <div class="init-rung"><div class="init-num">4th</div><div class="init-bar enemy">ENEMY</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-divider">Action Economy</div>
+    <div class="doc-card" data-doc="WMC/COMBAT/02">
+      <div class="doc-label">Section 02 - Actions</div>
+      <h3 class="doc-h3">What You Can Do On Your Turn</h3>
+      <p style="font-family:var(--serif);font-size:.9rem;line-height:1.8;color:#2a261e;margin-bottom:1rem;">Each turn every agent has three resources. Actions may be taken in any order. Extra actions granted by effects or abilities are always last.</p>
+      <div class="action-badges">
+        <span class="abadge move">1 × Movement</span>
+        <span class="abadge main">1 × Main Action</span>
+        <span class="abadge minor">1 × Minor Action</span>
+      </div>
+      <ul class="rule-list" style="margin-top:1.2rem;">
+        <li><strong>Dash (Main Action):</strong> Move an additional distance equal to your full movement speed.</li>
+        <li><strong>Dash (Minor Action):</strong> Move an additional distance equal to half your movement speed only.</li>
+        <li><strong>Environment & Player Interactions:</strong> Do not consume actions unless explicitly stated. If they do, they consume a <span class="abadge minor" style="font-size:.55rem;padding:1px 6px;">minor action</span> unless otherwise specified.</li>
+        <li><strong>Equipping / Drawing Items:</strong> Pulling out any item with a mechanical purpose costs a <span class="abadge minor" style="font-size:.55rem;padding:1px 6px;">minor action</span>.</li>
+      </ul>
+    </div>
+    <div class="section-divider">Map & Movement</div>
+    <div class="doc-card green" data-doc="WMC/COMBAT/03">
+      <div class="doc-label">Section 03 - Map Rules</div>
+      <h3 class="doc-h3">Grid & Occupancy</h3>
+      <ul class="rule-list green">
+        <li>All maps use a <strong>square grid</strong>. Each tile is <strong>5 ft × 5 ft</strong>.</li>
+        <li>Only one entity may occupy a tile at a time.</li>
+        <li>An entity may <strong>attempt to pass through</strong> an occupied tile. The occupier chooses which stat to contest: <strong>Might</strong> or <strong>Finesse</strong>. Both roll d20 + that stat; higher result wins.</li>
+      </ul>
+    </div>
+    <div class="section-divider">Incapacitation & Death</div>
+    <div class="doc-card" data-doc="WMC/COMBAT/04">
+      <div class="doc-label">Section 04 - Death Mechanics</div>
+      <h3 class="doc-h3">When HP Reaches Zero</h3>
+      <p style="font-family:var(--serif);font-size:.9rem;line-height:1.8;color:#2a261e;margin-bottom:1rem;">Upon reaching 0 HP or below, the agent must immediately pass a saving throw.</p>
+      <div class="formula-box" style="border-left-color:var(--rust);">
+        <span class="f-label">Check</span> DC 17 - Clarity or Vitality
+      </div>
+      <div class="rule-cols">
+        <div class="rule-col-box defense">
+          <h5>✓ Success - Last Stand</h5>
+          <ul>
+            <li>Remain conscious and active.</li>
+            <li>Turn reduced to halved movement.</li>
+            <li>At the start of each subsequent turn, pass DC 14 Clarity/Vitality or fall unconscious.</li>
+            <li>Negative HP rule still applies (see below).</li>
+            <li>Agents with Corruption may tap into it to fuel their last stand if they fail a check, incuring Corruption levels equal to the points needed to succeed the save. </li>
+          </ul>
+        </div>
+        <div class="rule-col-box offense">
+          <h5>✗ Failure - Unconscious</h5>
+          <ul>
+            <li>Fall unconscious immediately.</li>
+            <li>Can still be targeted and attacked while down.</li>
+            <li>Negative HP rule applies.</li>
+          </ul>
+        </div>
+      </div>
+      <div style="background:rgba(155,74,42,.1);border:1px solid rgba(155,74,42,.3);padding:.8rem 1rem;margin-top:1rem;font-family:var(--serif);font-size:.85rem;line-height:1.7;color:#2a261e;">
+        <strong style="font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;color:var(--rust);">NEGATIVE HP - DEATH THRESHOLD</strong><br>
+        When a downed agent's HP reaches <strong>negative half of their maximum HP</strong>, they die. (e.g. an agent with 20 max HP dies at −10.)
+      </div>
+    </div>
+    <div class="section-divider">Unarmed Attacks & Skill Checks</div>
+    <div class="doc-card yellow" data-doc="WMC/COMBAT/05">
+      <div class="doc-label">Section 05 - Resolution</div>
+      <h3 class="doc-h3">Dice Resolution Rules</h3>
+      <p style="font-family:var(--serif);font-size:.9rem;line-height:1.8;color:#2a261e;margin-bottom:1rem;">All checks are resolved as d20 + relevant stat. All results are rounded down.</p>
+      <div class="formula-box" style="border-left-color:var(--yellow);">
+        <span class="f-label">Skill Check</span> d20 + Stat &nbsp;&nbsp;
+        <span style="font-size:.7rem;color:var(--tan);">Nat 1 = Critical Failure &nbsp;|&nbsp; Nat 20 = Critical Success</span>
+      </div>
+      <div class="formula-box" style="border-left-color:var(--yellow);margin-top:.5rem;">
+        <span class="f-label">Unarmed Hit</span> d20 + Might / Finesse / Skill
+      </div>
+      <div class="formula-box" style="border-left-color:var(--yellow);margin-top:.5rem;">
+        <span class="f-label">Unarmed Dmg</span> 1d6 + 1/2 × Might / Finesse / Skill
+      </div>
+
+      <div class="section-divider" style="margin:1.2rem 0 .8rem;">Critical Results Table</div>
+      <table>
+        <thead>
+          <tr><th>Result</th><th>Context</th><th>Effect</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="tag-good">NAT 20 - Offensive</td><td>Attack roll</td><td>Double damage.</td></tr>
+          <tr><td class="tag-good">NAT 20 - Defensive</td><td>Block / dodge roll</td><td>Auto-win, unless attacker's total (with stat modifiers) is ≥ 150% of your defensive value.</td></tr>
+          <tr><td class="tag-bad">NAT 1 - Offensive</td><td>Attack roll</td><td>Auto-miss. No damage.</td></tr>
+          <tr><td class="tag-bad">NAT 1 - Defensive</td><td>Block / dodge roll</td><td>Auto-lose. All DR from block or dodge is ignored.</td></tr>
+          <tr><td style="color:var(--tan);font-family:var(--mono);font-size:.7rem;">BOTH NAT 20s</td><td>Both sides crit</td><td>Cancel out - neither effect triggers, unless one value is ≥ 150% of the other.</td></tr>
+          <tr><td style="color:var(--tan);font-family:var(--mono);font-size:.7rem;">BOTH NAT 1s</td><td>Both sides fumble</td><td>Cancel out - same 150% exception applies.</td></tr>
+          <tr><td class="tag-good">NAT 20 - Skill Check</td><td>Non-combat check</td><td>Auto-success. DC is ignored entirely.</td></tr>
+          <tr><td class="tag-bad">NAT 1 - Skill Check</td><td>Non-combat check</td><td>Auto-failure. DC is ignored entirely.</td></tr>
+        </tbody>
+      </table>
+      <div class="rule-note" style="margin-top:.8rem;">> All values are rounded down throughout the system.</div>
+      <div class="rule-note" style="margin-top:.8rem;">> Crit/fumble rules also apply to non-d20 dice, using their maximum and negative values.</div>
+    </div>
+</div> 
+<footer>
+  <div class="footer-top-bar">
+    <div class="footer-top-inner">
+      <div class="footer-top-left">
+        <span class="footer-top-label">Global Operations Status</span>
+        <div class="footer-status-dots">
+          <span class="status-dot green"></span><span class="status-text">Americas</span>
+          <span class="status-dot green"></span><span class="status-text">EMEA</span>
+          <span class="status-dot amber"></span><span class="status-text">APAC</span>
+          <span class="status-dot red"></span><span class="status-text">Europe</span>
+        </div>
+      </div>
+      <div class="footer-top-right">
+        <span class="footer-top-label">Investor Relations</span>
+        <span class="footer-stock">WMC &nbsp;▲ 2.4%&nbsp; <span class="stock-val">$341.88</span></span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-main">
+    <div class="footer-main-inner">
+      <div class="footer-brand-col">
+        <div class="footer-wordmark">WISHMAKERS<br><span>CORPORATION</span></div>
+        <div class="footer-tagline">Building a Better World.<br>One Wish at a Time.™</div>
+        <div class="footer-certifications">
+          <div class="cert-badge">ISO<br><span>9001</span></div>
+          <div class="cert-badge">ISO<br><span>27001</span></div>
+          <div class="cert-badge">ISO<br><span>45001</span></div>
+          <div class="cert-badge redacted-cert"><span class="redacted">██████</span><br><span class="redacted">████</span></div>
+        </div>
+        <div class="footer-awards">
+          <div class="award-item">★ Forbes Global 500 - 2023</div>
+          <div class="award-item">★ Best Workplace in Anomaly Mgmt. - 2021</div>
+          <div class="award-item">★ <span class="redacted">████████████████████</span> - Cycle-14</div>
+        </div>
+      </div>
+      <div class="footer-links-area">
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Solutions</div>
+          <ul>
+            <li>Anomaly Classification</li>
+            <li>Containment Services</li>
+            <li>Incident Resolution</li>
+            <li>Risk Assessment</li>
+            <li>Civilian Cover Management</li>
+            <li><span class="redacted">Category X Handling</span></li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Industries</div>
+          <ul>
+            <li>Government & Defence</li>
+            <li>Infrastructure</li>
+            <li>Financial Services</li>
+            <li>Healthcare</li>
+            <li>Real Estate</li>
+            <li>Extra-Dimensional</li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Company</div>
+          <ul>
+            <li>About Us</li>
+            <li>Leadership</li>
+            <li>Careers</li>
+            <li>Press Room</li>
+            <li>Corporate Responsibility</li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Resources</div>
+          <ul>
+            <li>Field Manual</li>
+            <li>Anomaly Registry</li>
+            <li>Training Portal</li>
+            <li>Contractor Hub</li>
+            <li>Wellness Program</li>
+            <li><span class="redacted">Research Archive</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-compliance">
+    <div class="footer-compliance-inner">
+      <div class="footer-compliance-left">
+      </div>
+      <div class="footer-compliance-right">
+        <div class="footer-legal-links">
+          <span>Privacy Policy</span>
+          <span>Terms of Service</span>
+          <span>Cookie Preferences</span>
+          <span>Non-Disclosure Terms</span>
+        </div>
+        <div class="footer-legal-text">
+          © Wishmakers Corporation. All rights reserved. Wishmakers Corporation is registered in <span class="redacted">██████████</span> and operates under the Wishmakers trademark in all jurisdictions. "Wishmakers", "WMC", and "Building a Better World. One Wish at a Time." are registered trademarks. All anomalies, entities, and incidents referenced are classified infrastructure assets. Unauthorised disclosure is a terms of service violation and may result in <span class="redacted">consequences not enumerated in this document</span>.
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  <script>
+    
+  </script>
+</body>
+</html>
