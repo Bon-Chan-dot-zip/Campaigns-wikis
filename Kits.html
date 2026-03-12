@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WMC:: Kits</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green: #3d6b8c;
+      --green-light: #6fa3c4;
+      --green-dim: #1e3a4f;
+      --cream: #e8e0cc;
+      --paper: #d4c9ae;
+      --tan: #b8a98a;
+      --rust: #7a3d2c;
+      --rust-light: #a65c45;
+      --navy: #0d1520;
+      --navy-light: #162338;
+      --yellow: #c48a14;
+      --yellow-pale: #e8c060;
+      --ink: #1a1410;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --serif: 'IBM Plex Serif', serif;
+    }
+
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--tan) transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--tan);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--rust);
+    }
+    html { 
+      scroll-behavior: smooth; 
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      background: var(--navy);
+      border-bottom: 4px solid var(--rust);
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, var(--rust) 0, var(--rust) 12px, transparent 10px, transparent 20px);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .logo-text h1 {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 0.22em;
+      color: var(--cream);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .logo-text .tagline {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--yellow-pale);
+      letter-spacing: 0.18em;
+      margin-top: 4px;
+      opacity: 0.85;
+    }
+    nav {
+      background: var(--green-dim);
+      border-bottom: 4px solid var(--rust)
+    }
+    nav ul {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      list-style: none;
+    }
+    nav ul li a {
+      display: block;
+      padding: 0.65rem 1.2rem;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.15s, color 0.15s;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background: var(--rust);
+      color: #fff;
+    }
+    nav ul li:last-child a { 
+      border-right: none; 
+    }
+    .alert-strip {
+      background: var(--rust-light);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      padding: 8px 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      overflow: hidden;
+    }
+    .alert-label {
+      background: #fff;
+      color: var(--rust-light);
+      font-weight: 700;
+      padding: 1px 8px;
+      flex-shrink: 0;
+      font-size: 0.65rem;
+    }
+    .alert-scroll {
+      overflow: hidden;
+      flex: 1;
+    }
+    .alert-scroll span {
+      display: inline-block;
+      white-space: nowrap;
+      animation: scroll-left 28s linear infinite;
+    }
+    @keyframes scroll-left {
+      0%   { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in   { animation: fadeInUp 0.5s ease both; }
+    .fade-in-1 { animation-delay: 0.1s; }
+    .fade-in-2 { animation-delay: 0.25s; }
+    .page-wrap {
+      max-width: 80%;
+      margin: auto;
+      gap: 2.5rem;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .main-col {
+      overflow-y: auto;
+      height: 100%;
+    }
+    .side-col { 
+      position: sticky; 
+      top: 4rem;
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.8rem 0;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--tan);
+      grid-column: 1 / -1;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--tan);
+    }
+    .redacted {
+      background: var(--ink);
+      color: transparent;
+      user-select: none;
+      padding: 0 4px;
+      cursor: not-allowed;
+    }
+    .reveal-redacted {
+      background: var(--ink);
+      color: transparent;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .reveal-redacted:hover {
+      background: rgba(122,61,44,0.25);
+      color: var(--rust-light);
+      outline: 1px solid var(--rust);
+    }
+    .sb {
+      background: var(--paper);
+      border: 1px solid var(--tan);
+      margin-bottom: 1.2rem;
+      overflow: hidden;
+    }
+    .sb-head {
+      padding: 0.9rem 1.1rem;
+      border-bottom: 1px solid rgba(184,169,138,0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sb-title {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+    }
+    .sb-badge {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 1px solid rgba(184,169,138,0.4);
+      color: var(--yellow-pale);
+    }
+    .sb-body { padding: 1.1rem; max-height: 400px; overflow-y: auto;
+    }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-family: var(--sans);
+    }
+    .footer-top-bar {
+      background: #080e18;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0.6rem 2rem;
+    }
+    .footer-top-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-top-label {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .footer-status-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-dot.green  { 
+      background: #4caf50; 
+      box-shadow: 0 0 5px rgba(76,175,80,0.6); 
+    }
+    .status-dot.amber { 
+      background: var(--yellow); 
+      box-shadow: 0 0 5px rgba(196,138,20,0.6); 
+    }
+    .status-dot.red    { 
+      background: var(--rust-light); 
+      box-shadow: 0 0 5px rgba(166,92,69,0.6); 
+    }
+    .status-text { 
+      margin-right: 0.6rem; 
+    }
+    .footer-stock {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+    }
+    .stock-val { 
+      color: #4caf50; 
+      font-weight: 700; 
+    }
+    .footer-main {
+      background: #0a1120;
+      padding: 3.5rem 2rem 2.5rem;
+    }
+    .footer-main-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 4rem;
+    }
+    .footer-wordmark {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.25em;
+      color: var(--cream);
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+    .footer-wordmark span {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.35);
+    }
+    .footer-tagline {
+      font-family: var(--serif);
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--tan);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .footer-certifications {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .cert-badge {
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.4rem 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+    .cert-badge span { 
+      color: rgba(255,255,255,0.5); 
+      font-size: 0.55rem; 
+    }
+    .redacted-cert { 
+      border-color: rgba(122,61,44,0.3); 
+    }
+    .footer-awards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .award-item {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.2);
+    }
+    .footer-links-area {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .footer-link-heading {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-link-col ul { 
+      list-style: none; 
+    }
+    .footer-link-col ul li {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: color 0.15s;
+      font-family: var(--sans);
+    }
+    .footer-link-col ul li:hover { 
+      color: rgba(255,255,255,0.75); 
+    }
+    .footer-compliance {
+      background: #060c14;
+      padding: 1.5rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-compliance-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .compliance-logos {
+      display: flex;
+      gap: 0.6rem;
+    }
+    .comp-logo {
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.5rem 0.7rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+    .comp-logo span { 
+      color: rgba(255,255,255,0.25); 
+      font-weight: 400; 
+      font-size: 0.45rem; 
+    }
+    .footer-legal-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .footer-legal-links span {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.35);
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .footer-legal-links span:hover { 
+      color: rgba(255,255,255,0.65); 
+    }
+    .footer-legal-text {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.18);
+      line-height: 1.9;
+    }
+    @media (max-width: 900px) {
+      .footer-main-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-links-area { grid-template-columns: 1fr 1fr; }
+      .footer-compliance-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .footer-links-area { grid-template-columns: 1fr; }
+      .footer-top-inner { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    }
+    @media (max-width: 900px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .side-col { position: static; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .header-inner { flex-wrap: wrap; }
+      .footer-inner { grid-template-columns: 1fr; }
+      nav ul { flex-wrap: wrap; }
+    }
+    .doc-card {
+      background:var(--paper);
+      border:1px solid var(--tan);
+      border-top:4px solid var(--rust);
+      padding:2rem;
+      position:relative;
+      margin-bottom:1.5rem;
+      box-shadow:4px 4px 0 rgba(0,0,0,.07);
+    }      
+    .doc-card::before {
+      content:attr(data-doc);
+      position:absolute;
+      top:-1px;
+      right:1.5rem;
+      background:var(--rust);
+      color:#fff;
+      font-family:var(--mono);
+      font-size:.52rem;
+      letter-spacing:.15em;
+      padding:2px 10px;
+    }
+    .doc-card.navy {
+      border-top-color:var(--navy);
+    }
+    .doc-card.navy::before {
+      background:var(--navy);
+    }
+    .doc-card.green {
+      border-top-color:var(--green);
+    }
+    .doc-card.green::before {
+      background:var(--green);
+    }
+    .doc-card.yellow {
+      border-top-color:var(--yellow);
+    }
+    .doc-card.yellow::before {
+      background:var(--yellow);
+      color:var(--ink);
+    }
+    .doc-label {
+      font-family:var(--sans);
+      font-size:.58rem;
+      font-weight:700;
+      letter-spacing:.2em;
+      text-transform:uppercase;
+      color:var(--rust);
+      margin-bottom:.3rem;
+    }
+    .doc-card.navy .doc-label {
+      color:var(--navy);
+    }
+    .doc-card.green .doc-label {
+      color:var(--green);
+    }
+    .doc-card.yellow .doc-label {
+      color:var(--yellow);
+    }
+    .doc-h3 {
+      font-family:var(--serif);
+      font-size:1.3rem;
+      font-weight:600;
+      color:var(--navy);
+      margin-bottom:1rem;
+      line-height:1.2;
+    }
+    .rule-list {
+      list-style:none;
+      margin-top:.8rem;
+    }
+    .rule-list li {
+      font-family:var(--serif);
+      font-size:.9rem;
+      line-height:1.85;
+      color:#2a261e;
+      padding:.55rem 0;
+      border-bottom:1px dashed var(--tan);
+      padding-left:1.2rem;
+      position:relative;
+    }
+    .rule-list li:last-child {
+      border-bottom:none;
+    }
+    .rule-list li::before {
+      content:'▸';
+      position:absolute;
+      left:0;
+      color:var(--rust);
+      font-size:.7rem;
+      top:.7rem;
+    }
+    .rule-list.navy li::before {
+      color:var(--navy); 
+    }
+    .rule-list.green li::before {
+      color:var(--green);
+    }
+    .formula-box {
+      background:var(--navy);
+      color:var(--cream);
+      padding:1rem 1.5rem;
+      font-family:var(--mono);
+      font-size:.82rem;
+      letter-spacing:.05em;
+      margin:.8rem 0;
+      border-left:4px solid var(--green-light);
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      flex-wrap:wrap;
+    }
+    .formula-box .f-label {
+      font-size:.55rem;
+      letter-spacing:.2em;
+      color:var(--tan);
+      text-transform:uppercase;
+      margin-right:.5rem;
+    }
+    .page-hero {
+      background:var(--navy);
+      padding:2.5rem 2rem;
+      border-bottom:2px solid var(--rust);
+      position:relative;
+      overflow:hidden;
+    }
+    .page-hero::before {
+      content:'';
+      position:absolute;
+      inset:0;
+      background-image:linear-gradient(rgba(74,124,89,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(74,124,89,.06) 1px,transparent 1px);
+      background-size:40px 40px;
+    }
+    .page-hero-inner {
+      max-width:1200px;
+      margin:0 auto;
+      position:relative;
+      z-index:1;
+    }
+    .page-hero-eyebrow {
+      font-family:var(--mono);
+      font-size:.6rem;
+      letter-spacing:.25em;
+      color:var(--green-light);
+      margin-bottom:.7rem;
+    }
+    .page-hero h2 {
+      font-family:var(--serif);
+      font-size:2.2rem;
+      font-weight:600;
+      color:var(--cream);
+      line-height:1.15;
+      margin-bottom:.6rem;
+    }
+    .page-hero p{
+      font-family:var(--serif);
+      font-size:.92rem;
+      color:var(--tan);
+      max-width:620px;
+      line-height:1.75;
+    }
+    .breadcrumb{
+      font-family:var(--mono);
+      font-size:.58rem;
+      letter-spacing:.12em;
+      color:var(--tan);
+      margin-bottom:1rem;
+    }
+    .breadcrumb a {
+      color:var(--green-light);
+      text-decoration:none;
+    }
+    .work-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+      margin:1rem 0;
+    }
+    .work-card {
+      background:var(--navy);
+      padding:1.2rem;
+      border-bottom:3px solid var(--green);
+      color:var(--cream);
+    }
+    .work-card:nth-child(2) {
+      border-bottom-color:var(--rust);
+    }
+    .work-card:nth-child(3) {
+      border-bottom-color:var(--yellow);
+    }
+    .work-code {
+      font-family:var(--mono);
+      font-size:.55rem;
+      letter-spacing:.18em;
+      color:var(--tan);
+      margin-bottom:.4rem;
+    }
+    .work-card:nth-child(2) .work-code {
+      color:var(--rust-light);
+    }
+    .work-card:nth-child(3) .work-code {
+      color:var(--yellow-pale);
+    }
+    .work-name {
+      font-family:var(--sans);
+      font-weight:700;
+      font-size:.8rem;
+      letter-spacing:.07em;
+      text-transform:uppercase;
+      margin-bottom:.5rem;
+      color:var(--cream);
+    }
+    .work-stats {
+      font-family:var(--mono);
+      font-size:.68rem;
+      letter-spacing:.1em;
+      color:var(--green-light);
+      margin-bottom:.4rem;
+    }
+    .work-card:nth-child(2) .work-stats {color:var(--rust-light);}
+    .work-card:nth-child(3) .work-stats {color:var(--yellow-pale);}
+    .work-desc {
+      font-family:var(--serif);
+      font-size:.75rem;
+      line-height:1.6;
+      color:var(--tan);
+    }
+    .mood-track {
+      display:flex;
+      gap:0;
+      border:1px solid var(--tan);
+      overflow:hidden;
+      margin-top:.8rem;
+    }
+    .mood-seg {
+      flex:1;
+      padding:.7rem;
+      text-align:center;
+      border-right:1px solid var(--tan);
+    }
+    .mood-seg:last-child {
+      border-right:none;
+    }
+    .mood-seg.sad {
+      background:rgba(26,39,68,.3);
+    }
+    .mood-seg.neutral {
+      background:rgba(74,124,89,.1);
+    }
+    .mood-seg.happy {
+      background:rgba(212,160,23,.1);
+    }
+    .mood-icon {
+      font-size:1.1rem;
+      display:block;
+      margin-bottom:.3rem;
+    }
+    .mood-label {
+      font-family:var(--mono);
+      font-size:.55rem;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+    }
+    .mood-seg.sad .mood-label {color:var(--navy-light);}
+    .mood-seg.neutral .mood-label {color:var(--green);}
+    .mood-seg.happy .mood-label {color:var(--yellow);}
+    .mood-desc {
+      font-family:var(--serif);
+      font-size:.72rem;
+      line-height:1.5;
+      color:var(--ink);
+      margin-top:.3rem;
+    }
+    .kit-slots {
+      display:flex;
+      gap:.6rem;
+      flex-wrap:wrap;
+      margin-top:.8rem;
+    }
+    .kit-slot {
+      width:80px;
+      height:80px;
+      border:2px dashed var(--tan);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:.3rem;
+      font-family:var(--mono);
+      font-size:.52rem;
+      letter-spacing:.1em;
+      color:var(--tan);
+      text-align:center;
+      text-transform:uppercase;
+    }
+    .kit-slot.active {
+      border-color:var(--green);
+      color:var(--green);
+      background:rgba(74,124,89,.08);
+    }
+    .kit-slot.passive {
+      border-color:var(--rust);
+      color:var(--rust);
+      background:rgba(155,74,42,.08);
+    }
+    .kit-slot .slot-num {
+      font-size:.9rem;
+      font-weight:700;
+    }
+    .affinity-bar {
+      margin-top:.8rem;
+    }
+    .aff-row {
+      display:flex;
+      align-items:center;
+      gap:.7rem;
+      margin-bottom:.5rem;
+    }
+    .aff-label {
+      font-family:var(--mono);
+      font-size:.58rem;
+      letter-spacing:.1em;
+      color:var(--ink);
+      width:120px;
+      flex-shrink:0;
+    }
+    .aff-track {
+      flex:1;
+      height:8px;
+      background:rgba(0,0,0,.1);
+      border:1px solid var(--tan);
+      overflow:hidden;
+    }
+    .aff-fill {
+      height:100%;
+      background:var(--yellow);
+      background-image:repeating-linear-gradient(90deg,transparent 0,transparent 8px,rgba(0,0,0,.15) 8px,rgba(0,0,0,.15) 9px);
+    }
+    .aff-val {
+      font-family:var(--mono);
+      font-size:.58rem;
+      color:var(--ink);
+      width:40px;
+      text-align:right;
+      flex-shrink:0;
+    }
+
+    @media(max-width:900px){.page-wrap{grid-template-columns:1fr;}.side-col{position:static;}.work-grid{grid-template-columns:1fr;}.header-inner{grid-template-columns:1fr;}.header-meta{display:none;}.footer-inner{grid-template-columns:1fr 1fr;}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo-block">
+        <img src="Wishmakers_logo.png" style="height: 72px;">
+        <div class="logo-text">
+          <h1>Wishmakers</h1>
+          <div class="tagline">Building a Better World, One Wish at a Time</div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="Wishmakers_Home.html">Home</a></li>
+      <li><a href="Stats.html">Core Stats</a></li>
+      <li><a href="Missions.html">Missions</a></li>
+      <li><a href="Kits.html" class="active">Kits</a></li>
+      <li><a href="Combat.html">Combat</a></li>
+      <li><a href="#"><s>Field Archive</s></a></li>
+      <li><a href="#"><s>Lore Archive</s></a></li>
+    </ul>
+  </nav>
+  <div class="alert-strip">
+    <span class="alert-label">NOTICE</span>
+    <div class="alert-scroll">
+      <span>
+        ACTIVE INCIDENT - EASTERN EUROPE SECTOR - LOCKDOWN IN EFFECT &nbsp;⬥&nbsp;
+        NEW NIGHTMARE TYPE: "NOETIC" OFFICIALLY ADOPTED &nbsp;⬥&nbsp;
+        ALL FIELD AGENTS: REQUIRED RECERTIFICATION BY END OF QUARTER &nbsp;⬥&nbsp;
+        WISHMAKERS CORP. IS CURRENTLY ACCEPTING CONTRACTOR APPLICATIONS &nbsp;⬥&nbsp;
+        REMINDER: NON-DISCLOSURE AGREEMENTS ARE BINDING. &nbsp;⬥&nbsp;
+        ISLE TECHNOLOGIES PARTNERSHIP DEAL CLOSED &nbsp;⬥&nbsp;
+      </span>
+    </div>
+  </div>
+  <div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="Wishmakers_Home.html">Home</a> / Kits & Reveries</div>
+    <div class="page-hero-eyebrow">▸ WMC/RULES/KITS - Agent Equipment & Anomalous Acquisition</div>
+    <h2>Kits & Reveries</h2>
+    <p>How agents are equipped, how anomalies are contained and studied, and how Reveries are produced and integrated into a character's kit. Covers Works, Daydream Mood, and Affinity progression.</p>
+  </div>
+</div>
+<div class="page-wrap">
+   <div class="section-divider">Agent Kits - Base Equipment</div>
+    <div class="doc-card navy" data-doc="WMC/KITS/01">
+      <div class="doc-label">Section 01 - Kit Structure</div>
+      <h3 class="doc-h3">Building Your Kit</h3>
+      <p style="font-family:var(--serif);font-size:.9rem;line-height:1.8;color:#2a261e;margin-bottom:1rem;">Every agent's capabilities are defined by their Kit. A Kit is a set of abilities derived from their Reverie or, in the case of Daydreams, their inherent anomalous nature. Kits are the primary structure through which players engage in combat.</p>
+      <ul class="rule-list navy">
+        <li>Each player begins with <strong>4 slots</strong> for kit construction.</li>
+        <li>Slots may be used for <strong>active skills</strong> or <strong>passives</strong>. No Ultimates at kit creation.</li>
+        <li>Players are encouraged to create a <strong>unique basic attack</strong>. This does not consume a kit slot.</li>
+        <li>Players kits may interact with any of the system's functions in any way.</li>
+      </ul>
+      <div style="margin-top:1.2rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;color:var(--tan);margin-bottom:.6rem;text-transform:uppercase;">Example Kit Layout - 4 Slots</div>
+      <div class="kit-slots">
+        <div class="kit-slot active"><span class="slot-num">1</span>Active Skill</div>
+        <div class="kit-slot active"><span class="slot-num">2</span>Active Skill</div>
+        <div class="kit-slot passive"><span class="slot-num">3</span>Passive</div>
+        <div class="kit-slot passive"><span class="slot-num">4</span>Passive</div>
+        <div class="kit-slot" style="border-style:solid;border-color:var(--navy);color:var(--navy);"><span class="slot-num" style="font-size:.7rem;">★</span>Basic Attack (Free)</div>
+      </div>
+    </div>
+
+    <!-- DAYDREAMS -->
+    <div class="doc-card green" data-doc="WMC/KITS/02">
+      <div class="doc-label">Section 02 - Daydreams & Reverie Origins</div>
+      <h3 class="doc-h3">Kit Source: Reverie vs. Daydream</h3>
+      <ul class="rule-list green">
+        <li>Most agents are equipped with either a <strong>personal Reverie</strong> or a <strong>company-issued one</strong>. The kit is built around this item.</li>
+        <li>Players may instead choose to play a <strong>Daydream</strong>; a character who is themselves anomalous. In this case, the kit reflects their inherent abilities rather than a Reverie.</li>
+        <li>Daydream characters, depending on how unusual they are, may gain <strong>additional passives and inherent drawbacks</strong> tied to their anomalous nature.</li>
+        <li>Lore note: Reveries used for base kits and Reveries obtained via Works (see below) are mechanically distinct categories, though they share the same in-world origin.</li>
+      </ul>
+    </div>
+
+    <!-- CONTAINMENT & WORKS -->
+    <div class="section-divider">Containment & Works</div>
+    <div class="doc-card" data-doc="WMC/KITS/03">
+      <div class="doc-label">Section 03 - Daydream Containment</div>
+      <h3 class="doc-h3">Containing an Daydream</h3>
+      <p style="font-family:var(--serif);font-size:.9rem;line-height:1.8;color:#2a261e;margin-bottom:1rem;">Most missions feature a Daydream. Rather than destroying it, players may attempt to <strong>contain</strong> it. A successfully contained Daydream can be studied to potentially yield a Reverie.</p>
+      <ul class="rule-list">
+        <li>Containment requires either <strong>clearing the Daydream</strong> (in the case of Wonderlands / domain-type anomalies) or subduing the entity directly.</li>
+        <li>Once contained, players may perform <strong>Works</strong> on the Daydream to attempt to obtain a Reverie.</li>
+        <li>Works usually require a set number of successes. The required amount varies per Daydream.</li>
+      </ul>
+    </div>
+
+    <div class="doc-card navy" data-doc="WMC/KITS/04">
+      <div class="doc-label">Section 04 - Works</div>
+      <h3 class="doc-h3">Performing Works</h3>
+      <p style="font-family:var(--serif);font-size:.9rem;line-height:1.8;color:#2a261e;margin-bottom:.8rem;">Works are the process of studying or interacting with a contained Daydream. Each Daydream has a preferred Work type; using it improves success odds.</p>
+      <div class="work-grid">
+        <div class="work-card">
+          <div class="work-code">WORK TYPE / INSTINCT</div>
+          <div class="work-name">Instinct</div>
+          <div class="work-stats">Strength (MIG) + Vitality (VIT)</div>
+          <div class="work-desc">Physical engagement, endurance-based study. Approaching the Daydream directly. Favoured by Daydreams that respond to presence and force.</div>
+        </div>
+        <div class="work-card">
+          <div class="work-code">WORK TYPE / INSIGHT</div>
+          <div class="work-name">Insight</div>
+          <div class="work-stats">Intellect (INT) + Clarity (CLA)</div>
+          <div class="work-desc">Intellectual and perceptive study. Understanding Daydream patterns and behaviour. Favoured by sapient or cognitively complex Daydreams.</div>
+        </div>
+        <div class="work-card">
+          <div class="work-code">WORK TYPE / TECHNIQUE</div>
+          <div class="work-name">Technique</div>
+          <div class="work-stats">Finesse (FIN) + Skill (SKL)</div>
+          <div class="work-desc">Precise, dexterous interaction. Technical manipulation and careful procedure. Favoured by Daydreams sensitive to approach and method.</div>
+        </div>
+      </div>
+      <div class="formula-box" style="margin-top:1.2rem;border-left-color:var(--yellow);">
+        <span class="f-label">Work Roll</span>
+        (AVG of appropriate stats × 2) + preference bonus &nbsp; vs. &nbsp; d100 or 5d20
+        <span style="font-size:.7rem;color:var(--tan);display:block;width:100%;margin-top:.3rem;">Roll <strong>below</strong> your calculated number = Success. Roll <strong>above</strong> = Failure.</span>
+      </div>
+      <ul class="rule-list navy" style="margin-top:1rem;">
+        <li>Using the Daydream's <strong>preferred Work type</strong> adds a bonus to your calculated number.</li>
+        <li>The total number of successes and failures required depends on the Daydream.</li>
+        <li>Some Daydreams have <strong>breach conditions</strong>. Usually a maximum number of failures allowed before the Daydream escapes containment. (e.g. 5 works required, 1 fail = breach, means all 5 must be successful.)</li>
+        <li>A <strong>breach</strong> causes the daydream to escape containment or otherwise unworkable. This may trigger special conditions or events on future missions, which must be completed to re-contain it.</li>
+      </ul>
+    </div>
+    <div class="doc-card green" data-doc="WMC/KITS/05">
+      <div class="doc-label">Section 05 - Daydream Mood</div>
+      <h3 class="doc-h3">Mood & What It Grants</h3>
+      <p style="font-family:var(--serif);font-size:.9rem;line-height:1.8;color:#2a261e;margin-bottom:.8rem;">The number of successes and failures during Works affects the Daydream's mood. Daydreams may grant different items depending on their mood at the point of successful completion.</p>
+      <div class="mood-track">
+        <div class="mood-seg sad"><span class="mood-icon">◆</span><span class="mood-label">Sad</span><div class="mood-desc">More failures than successes. May still yield items.</div></div>
+        <div class="mood-seg neutral"><span class="mood-icon">◈</span><span class="mood-label">Neutral</span><div class="mood-desc">Balanced or close to baseline.</div></div>
+        <div class="mood-seg happy"><span class="mood-icon">◇</span><span class="mood-label">Happy</span><div class="mood-desc">More successes than failures, preferred Work used.</div></div>
+      </div>
+      <p style="font-family:var(--serif);font-size:.82rem;line-height:1.75;color:#2a261e;margin-top:1rem;">Items may be granted under any mood state. Some Daydreams may require different moods to grant rewards.</p>
+    </div>
+    <div class="section-divider">Reveries & Affinity</div>
+    <div class="doc-card" data-doc="WMC/KITS/06">
+      <div class="doc-label">Section 06 - Reveries</div>
+      <h3 class="doc-h3">What Is a Reverie</h3>
+      <p style="font-family:var(--serif);font-size:.9rem;line-height:1.8;color:#2a261e;margin-bottom:1rem;">A Reverie is the item obtained via Works. It is an anomalous object produced by the Wishmakers Corporation, or sometimes by rival entities, or by humans who have experienced intense emotional events.</p>
+      <ul class="rule-list">
+        <li>A Reverie holds importance roughly comparable to a player's base kit. Power scales with the <strong>rank of the Daydream</strong> it was derived from.</li>
+        <li>A Reverie functions as a normal item. It can be used, carried, and equipped like any other piece of gear most of the time.</li>
+        <li>Each Reverie has its own <strong>Affinity Counter</strong> and requirement. Requirement difficulty typically correlates with the difficulty of the Daydream it came from.</li>
+      </ul>
+    </div>
+
+    <div class="doc-card yellow" data-doc="WMC/KITS/07">
+      <div class="doc-label">Section 07 - Affinity</div>
+      <h3 class="doc-h3">Affinity & Kit Modification</h3>
+      <ul class="rule-list">
+        <li>Affinity is built by <strong>using the Reverie continuously</strong>. Each Reverie tracks its own counter independently.</li>
+        <li>When a player reaches the Affinity threshold for a Reverie, their <strong>base kit is modified</strong> to incorporate elements of the Reverie, including its downsides.</li>
+        <li>This modification happens automatically and is retained for as long as the player has it equipped.</li>
+        <li>Reveries obtained from higher-ranked Daydreams have higher Affinity thresholds. They take longer to bond with, and their effects on the base kit are more significant.</li>
+      </ul>
+    </div>
+    <div class="section-divider">Inventory Rules</div>
+    <div class="doc-card green" data-doc="WMC/KITS/08">
+      <div class="doc-label">Section 08 - Inventory</div>
+      <h3 class="doc-h3">Carrying & Equipping Items</h3>
+      <ul class="rule-list green">
+        <li>Players have <strong>infinite inventory</strong> for general items.</li>
+        <li>Players can only equip one Reverie at a time, and can carry 2 additional ones into missions.</li>
+        <li>A player can have 2 tools/consumables/items equipped at once, and can bring 3 additional ones into missions.</li>
+        <li>Pulling out any item with a <strong>mechanical purpose</strong> (consumables, weapons, tools) costs a <strong>Minor Action</strong>, unless the item is already equipped.</li>
+        <li>Items that are already "equipped" (actively held or worn) can be used without spending an action to draw them.</li>
+      </ul>
+    </div>
+</div>
+ 
+<footer>
+  <div class="footer-top-bar">
+    <div class="footer-top-inner">
+      <div class="footer-top-left">
+        <span class="footer-top-label">Global Operations Status</span>
+        <div class="footer-status-dots">
+          <span class="status-dot green"></span><span class="status-text">Americas</span>
+          <span class="status-dot green"></span><span class="status-text">EMEA</span>
+          <span class="status-dot amber"></span><span class="status-text">APAC</span>
+          <span class="status-dot red"></span><span class="status-text">Europe</span>
+        </div>
+      </div>
+      <div class="footer-top-right">
+        <span class="footer-top-label">Investor Relations</span>
+        <span class="footer-stock">WMC &nbsp;▲ 2.4%&nbsp; <span class="stock-val">$341.88</span></span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-main">
+    <div class="footer-main-inner">
+      <div class="footer-brand-col">
+        <div class="footer-wordmark">WISHMAKERS<br><span>CORPORATION</span></div>
+        <div class="footer-tagline">Building a Better World.<br>One Wish at a Time.™</div>
+        <div class="footer-certifications">
+          <div class="cert-badge">ISO<br><span>9001</span></div>
+          <div class="cert-badge">ISO<br><span>27001</span></div>
+          <div class="cert-badge">ISO<br><span>45001</span></div>
+          <div class="cert-badge redacted-cert"><span class="redacted">██████</span><br><span class="redacted">████</span></div>
+        </div>
+        <div class="footer-awards">
+          <div class="award-item">★ Forbes Global 500 - 2023</div>
+          <div class="award-item">★ Best Workplace in Anomaly Mgmt. - 2021</div>
+          <div class="award-item">★ <span class="redacted">████████████████████</span> - Cycle-14</div>
+        </div>
+      </div>
+      <div class="footer-links-area">
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Solutions</div>
+          <ul>
+            <li>Anomaly Classification</li>
+            <li>Containment Services</li>
+            <li>Incident Resolution</li>
+            <li>Risk Assessment</li>
+            <li>Civilian Cover Management</li>
+            <li><span class="redacted">Category X Handling</span></li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Industries</div>
+          <ul>
+            <li>Government & Defence</li>
+            <li>Infrastructure</li>
+            <li>Financial Services</li>
+            <li>Healthcare</li>
+            <li>Real Estate</li>
+            <li>Extra-Dimensional</li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Company</div>
+          <ul>
+            <li>About Us</li>
+            <li>Leadership</li>
+            <li>Careers</li>
+            <li>Press Room</li>
+            <li>Corporate Responsibility</li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Resources</div>
+          <ul>
+            <li>Field Manual</li>
+            <li>Anomaly Registry</li>
+            <li>Training Portal</li>
+            <li>Contractor Hub</li>
+            <li>Wellness Program</li>
+            <li><span class="redacted">Research Archive</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-compliance">
+    <div class="footer-compliance-inner">
+      <div class="footer-compliance-left">
+      </div>
+      <div class="footer-compliance-right">
+        <div class="footer-legal-links">
+          <span>Privacy Policy</span>
+          <span>Terms of Service</span>
+          <span>Cookie Preferences</span>
+          <span>Non-Disclosure Terms</span>
+        </div>
+        <div class="footer-legal-text">
+          © Wishmakers Corporation. All rights reserved. Wishmakers Corporation is registered in <span class="redacted">██████████</span> and operates under the Wishmakers trademark in all jurisdictions. "Wishmakers", "WMC", and "Building a Better World. One Wish at a Time." are registered trademarks. All anomalies, entities, and incidents referenced are classified infrastructure assets. Unauthorised disclosure is a terms of service violation and may result in <span class="redacted">consequences not enumerated in this document</span>.
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  <script>
+    
+  </script>
+</body>
+</html>
