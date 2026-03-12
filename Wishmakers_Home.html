@@ -1,0 +1,2327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WMC Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green: #3d6b8c;
+      --green-light: #6fa3c4;
+      --green-dim: #1e3a4f;
+      --cream: #e8e0cc;
+      --paper: #d4c9ae;
+      --tan: #b8a98a;
+      --rust: #7a3d2c;
+      --rust-light: #a65c45;
+      --navy: #0d1520;
+      --navy-light: #162338;
+      --yellow: #c48a14;
+      --yellow-pale: #e8c060;
+      --ink: #1a1410;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --serif: 'IBM Plex Serif', serif;
+    }
+
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--tan) transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--tan);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--rust);
+    }
+    html { 
+      scroll-behavior: smooth; 
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      background: var(--navy);
+      border-bottom: 4px solid var(--rust);
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, var(--yellow) 0, var(--yellow) 10px, transparent 10px, transparent 20px);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .logo-text h1 {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 0.22em;
+      color: var(--cream);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .logo-text .tagline {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--yellow-pale);
+      letter-spacing: 0.18em;
+      margin-top: 4px;
+      opacity: 0.85;
+    }
+    nav {
+      background: var(--green-dim);
+      border-bottom: 2px solid var(--green);
+    }
+    nav ul {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      list-style: none;
+    }
+    nav ul li a {
+      display: block;
+      padding: 0.65rem 1.2rem;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.15s, color 0.15s;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background: var(--rust);
+      color: #fff;
+    }
+    nav ul li:last-child a { 
+      border-right: none; 
+    }
+    .alert-strip {
+      background: var(--rust-light);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      padding: 8px 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      overflow: hidden;
+    }
+    .alert-label {
+      background: #fff;
+      color: var(--rust-light);
+      font-weight: 700;
+      padding: 1px 8px;
+      flex-shrink: 0;
+      font-size: 0.65rem;
+    }
+    .alert-scroll {
+      overflow: hidden;
+      flex: 1;
+    }
+    .alert-scroll span {
+      display: inline-block;
+      white-space: nowrap;
+      animation: scroll-left 28s linear infinite;
+    }
+    @keyframes scroll-left {
+      0%   { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .hero {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(74,124,89,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,124,89,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(26,39,68,0) 0%, rgba(13,17,23,0.7) 100%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .hero h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+    }
+    .hero h2 em {
+      font-style: italic;
+      color: var(--yellow-pale);
+    }
+    .hero p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--tan);
+      max-width: 620px;
+      margin: 0 auto;
+      font-family: var(--serif);
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in   { animation: fadeInUp 0.5s ease both; }
+    .fade-in-1 { animation-delay: 0.1s; }
+    .fade-in-2 { animation-delay: 0.25s; }
+    .page-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 2.5rem;
+      align-items: start;
+      overflow: hidden;
+    }
+    .main-col {
+      overflow-y: auto;
+      height: 100%;
+    }
+    .side-col { 
+      position: sticky; 
+      top: 4rem;
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.8rem 0;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--tan);
+      grid-column: 1 / -1;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--tan);
+    }
+    .redacted {
+      background: var(--ink);
+      color: transparent;
+      user-select: none;
+      padding: 0 4px;
+      cursor: not-allowed;
+    }
+    .reveal-redacted {
+      background: var(--ink);
+      color: transparent;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .reveal-redacted:hover {
+      background: rgba(122,61,44,0.25);
+      color: var(--rust-light);
+      outline: 1px solid var(--rust);
+    }
+    .letterhead {
+      background: #f5edd8;
+      border: 1px solid var(--tan);
+      box-shadow: 4px 4px 0 rgba(0,0,0,0.07);
+    }
+    .letterhead-top {
+      background: var(--navy);
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--yellow);
+    }
+    .letterhead-logo {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.22em;
+      color: var(--cream);
+      text-transform: uppercase;
+    }
+    .letterhead-logo span {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.16em;
+      color: var(--yellow-pale);
+      margin-top: 3px;
+      font-weight: 400;
+    }
+    .letterhead-ref {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      color: var(--tan);
+      letter-spacing: 0.1em;
+      text-align: right;
+      line-height: 1.9;
+    }
+    .letterhead-body {
+      padding: 2.5rem 3rem;
+      font-family: var(--serif);
+      font-size: 0.93rem;
+      line-height: 1.9;
+      color: #1c1a16;
+    }
+    .letterhead-body .salutation { 
+      margin-bottom: 1.5rem; 
+    }
+    .letterhead-body p { 
+      margin-bottom: 1.1rem; 
+    }
+    .letterhead-sig {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .sig-block {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      line-height: 1.9;
+    }
+    .sig-name {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--navy);
+      margin-bottom: 2px;
+      letter-spacing: 0.02em;
+    }
+    .stamp {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: rgba(122,61,44,0.5);
+      border: 2px solid rgba(122,61,44,0.3);
+      padding: 4px 8px;
+      text-transform: uppercase;
+      transform: rotate(-4deg);
+      flex-shrink: 0;
+    }
+    .letterhead-footer-strip {
+      background: rgba(0,0,0,0.04);
+      border-top: 1px solid var(--tan);
+      padding: 0.7rem 3rem;
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      color: var(--tan);
+      letter-spacing: 0.1em;
+      display: flex;
+      justify-content: space-between;
+    }
+    .faq-block { 
+      margin-bottom: 0; 
+    }
+    .faq-item {
+      background: var(--paper);
+      border: 1px solid var(--tan);
+      border-left: 4px solid var(--green);
+      margin-bottom: 0.8rem;
+    }
+    .faq-item.concern { 
+      border-left-color: var(--rust); 
+    }
+    .faq-q {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .faq-q-text {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+    .faq-q-text::before {
+      content: 'Q: ';
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      margin-right: 4px;
+    }
+    .faq-item.concern .faq-q-text::before { 
+      color: var(--rust); 
+    }
+    .faq-badge {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.12em;
+      padding: 2px 8px;
+      background: var(--green-dim);
+      color: var(--green-light);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .faq-item.concern .faq-badge { 
+      background: var(--rust); color: #fff; 
+    }
+    .faq-a {
+      padding: 0.9rem 1.5rem 1rem;
+      font-family: var(--serif);
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: #2a261e;
+      border-top: 1px dashed var(--tan);
+    }
+    .report-form-wrap {
+      background: var(--navy);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .form-header {
+      background: var(--rust);
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--yellow);
+    }
+    .form-header-text {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+    .form-header-text span {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      font-weight: 400;
+      margin-top: 3px;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.7);
+    }
+    .form-ref {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+      text-align: right;
+      line-height: 1.9;
+    }
+    .form-notice {
+      background: rgba(196,138,20,0.15);
+      border-bottom: 1px solid rgba(196,138,20,0.3);
+      padding: 0.7rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--yellow-pale);
+    }
+    .form-notice::before { 
+      content: '⚠  '; 
+    }
+    .form-body { 
+      padding: 2rem; 
+    }
+    .form-row { 
+      display: grid; 
+      gap: 1.2rem; 
+      margin-bottom: 1.5rem; 
+    }
+    .form-row.two   { 
+      grid-template-columns: 1fr 1fr; 
+    }
+    .form-row.one   { 
+      grid-template-columns: 1fr; 
+    }
+    .form-group { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 6px; 
+    }
+    .form-group label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--tan);
+    }
+    .form-group .req { 
+      color: var(--rust-light);
+      margin-left: 3px; 
+    }
+    .f-input, .f-select, .f-textarea {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--cream);
+      padding: 0.6rem 0.8rem;
+      font-family: var(--serif);
+      font-size: 0.85rem;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.15s;
+    }
+    .f-input:focus, .f-select:focus, .f-textarea:focus {
+      border-color: var(--green-light);
+      background: rgba(255,255,255,0.09);
+    }
+    .f-select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23b8a98a'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.8rem center;
+      background-color: rgba(255,255,255,0.06);
+      padding-right: 2rem;
+    }
+    .f-select option { 
+      background: var(--navy); 
+    }
+    .f-textarea {
+      resize: vertical;
+      min-height: 80px;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+    }
+    .f-hint {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.25);
+    }
+    .form-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin: 1.5rem 0;
+    }
+    .form-section-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow-pale);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .form-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+    .radio-group, .check-group { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 6px; 
+    }
+    .r-option, .c-option {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--serif);
+      font-size: 0.83rem;
+      color: var(--cream);
+      cursor: pointer;
+    }
+    .r-option input[type="radio"],
+    .c-option input[type="checkbox"] {
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      background: transparent;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.12s;
+      position: relative;
+    }
+    .r-option input[type="radio"]:checked {
+      background: var(--green-light);
+      border-color: var(--green-light);
+      box-shadow: inset 0 0 0 3px var(--navy);
+    }
+    .c-option input[type="checkbox"]:checked {
+      background: var(--rust);
+      border-color: var(--rust);
+    }
+    .c-option input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: -2px; left: 1px;
+      font-size: 10px;
+      color: #fff;
+    }
+    .r-danger, .c-danger { 
+      color: var(--rust-light); 
+    }
+    .form-submit-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .form-legal {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.25);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+    .btn-submit {
+      background: var(--rust);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 2.2rem;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-submit:hover { 
+      background: var(--rust-light); 
+    }
+    .form-footer-bar {
+      background: rgba(0,0,0,0.25);
+      padding: 0.7rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.2);
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .full-width-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+    .accordion { 
+      margin-bottom: 2rem; 
+    }
+    .accord-item {
+      border: 1px solid var(--tan);
+      margin-bottom: -1px;
+      background: var(--paper);
+      position: relative;
+    }
+    .accord-item.open { 
+      z-index: 1; 
+      border-color: var(--rust); 
+    }
+    .accord-trigger {
+      width: 100%; background: none; border: none;
+      padding: 1rem 1.5rem;
+      display: grid; grid-template-columns: auto 1fr auto auto;
+      align-items: center; gap: 1rem;
+      cursor: pointer; text-align: left;
+      transition: background 0.12s;
+    }
+    .accord-trigger:hover { 
+      background: rgba(0,0,0,0.03); 
+    }
+    .accord-item.open .accord-trigger { 
+      background: rgba(155,74,42,0.06); 
+    }
+    .accord-num {
+      font-family: var(--mono); font-size: 0.62rem;
+      letter-spacing: 0.1em; color: var(--rust);
+      width: 28px; text-align: center; flex-shrink: 0;
+    }
+    .accord-title {
+      font-family: var(--sans); font-weight: 700;
+      font-size: 0.85rem; color: var(--navy); letter-spacing: 0.04em;
+    }
+    .accord-class {
+      font-family: var(--mono); font-size: 0.55rem;
+      letter-spacing: 0.12em; padding: 2px 8px;
+    }
+    .accord-arrow {
+      font-family: var(--mono); font-size: 0.75rem;
+      color: var(--tan); transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+    .accord-item.open .accord-arrow { 
+      transform: rotate(90deg); 
+      color: var(--rust); 
+    }
+    .accord-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .accord-item.open .accord-body { 
+      max-height: 850px; 
+    }
+    .accord-content {
+      padding: 1.2rem 1.5rem 1.5rem 3.5rem;
+      border-top: 1px dashed var(--tan);
+      font-family: var(--serif); font-size: 0.88rem;
+      line-height: 1.85; color: #2a261e;
+    }
+    .accord-content p { 
+      margin-bottom: 0.8rem; 
+    }
+    .accord-content p:last-child { 
+      margin-bottom: 0; 
+    }
+    .accord-footer {
+      margin-top: 1rem; padding-top: 0.8rem;
+      border-top: 1px solid var(--tan);
+      display: flex; gap: 1rem; align-items: center;
+      font-family: var(--mono); font-size: 0.55rem;
+      letter-spacing: 0.1em; color: var(--tan);
+    }
+    .sb {
+      background: var(--paper);
+      border: 1px solid var(--tan);
+      margin-bottom: 1.2rem;
+      overflow: hidden;
+    }
+    .sb-head {
+      padding: 0.9rem 1.1rem;
+      border-bottom: 1px solid rgba(184,169,138,0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sb-title {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+    }
+    .sb-badge {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 1px solid rgba(184,169,138,0.4);
+      color: var(--yellow-pale);
+    }
+    .sb-body { padding: 1.1rem; max-height: 400px; overflow-y: auto;
+    }
+    .sb-nl { 
+      background: var(--ink); 
+      border: none; 
+    }
+    .sb-nl .sb-head {
+      border-bottom-color: rgba(196,138,20,0.3);
+      background: rgba(196,138,20,0.08);
+    }
+    .sb-nl .sb-title { 
+      color: var(--yellow-pale); 
+    }
+    .sb-nl-inner { 
+      padding: 1.2rem; 
+    }
+    .sb-nl-issue {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .sb-nl-title {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 0.3rem;
+    }
+    .sb-nl-subtitle {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.75rem;
+      color: var(--yellow-pale);
+      margin-bottom: 0.8rem;
+    }
+    .sb-nl-rule {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(196,138,20,0.4), transparent);
+      margin: 0.6rem 0;
+    }
+    .sb-nl-excerpt {
+      font-family: var(--serif);
+      font-size: 0.75rem;
+      line-height: 1.7;
+      color: var(--tan);
+      margin-bottom: 0.8rem;
+    }
+    .sb-nl-recall {
+      background: rgba(122,61,44,0.15);
+      border-left: 2px solid var(--rust);
+      padding: 0.5rem 0.7rem;
+      font-family: var(--serif);
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.5;
+      margin-bottom: 0.8rem;
+    }
+    .sb-nl-recall strong {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      color: var(--rust-light);
+      display: block;
+      margin-bottom: 0.2rem;
+      text-transform: uppercase;
+    }
+    .sb-nl-footer {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.2);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 0.7rem;
+    }
+    .sb-review-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px dashed rgba(184,169,138,0.4);
+    }
+    .sb-review-item:last-child { 
+      border-bottom: none; 
+    }
+    .sb-review-stars { 
+      font-size: 0.75rem; 
+      color: var(--yellow); 
+      margin-bottom: 0.2rem; 
+    }
+    .sb-review-title {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .sb-review-body {
+      font-family: var(--serif);
+      font-size: 0.75rem;
+      line-height: 1.65;
+      color: #3a3520;
+    }
+    .sb-review-author {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      color: var(--tan);
+      margin-top: 0.3rem;
+    }
+    .sb-review-flag {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      color: var(--rust);
+      margin-top: 0.2rem;
+      letter-spacing: 0.08em;
+    }
+    .sb-ltd {
+      background: var(--ink);
+      border: none;
+      position: sticky;
+      overflow: hidden;
+      top: 1rem;
+    }
+    .sb-ltd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(196,138,20,0.18), transparent 60%);
+    }
+    .sb-ltd .sb-head {
+      position: relative;
+      z-index: 1;
+      border-bottom-color: rgba(232,192,96,0.4);
+    }
+    .sb-ltd-inner {
+      padding: 1.2rem;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    .sb-ltd-label {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      color: var(--yellow);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .sb-ltd-name {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--cream);
+      margin-bottom: 0.2rem;
+    }
+    .sb-ltd-var {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.72rem;
+      color: var(--yellow-pale);
+      margin-bottom: 0.8rem;
+    }
+    .sb-ltd-desc {
+      font-family: var(--serif);
+      font-size: 0.73rem;
+      line-height: 1.65;
+      color: var(--tan);
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+    .sb-ltd-price {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--yellow-pale);
+      margin-bottom: 0.6rem;
+    }
+    .sb-ltd-btn {
+      width: 100%;
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.6rem;
+      background: var(--yellow);
+      color: var(--ink);
+      border: none;
+      cursor: pointer;
+      margin-bottom: 0.4rem;
+      transition: background 0.15s;
+    }
+    .sb-ltd-btn:hover { 
+      background: var(--yellow-pale); 
+    }
+    .sb-ltd-stock {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      color: var(--rust-light);
+      text-align: center;
+    }
+    .sb-spotlight { 
+      border-left: 4px solid var(--navy); 
+    }
+    .spotlight-inner {
+      padding: 1rem 1.1rem 0.5rem;
+    }
+    .spot-photo-row {
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+      margin-bottom: 0.8rem;
+    }
+    .spot-photo {
+      width: 54px;
+      height: 66px;
+      background: var(--navy);
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .spot-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px,
+        transparent 1px, transparent 3px
+      );
+    }
+    .spot-photo-placeholder {
+      font-family: var(--mono);
+      font-size: 0.42rem;
+      color: rgba(255,255,255,0.15);
+      text-align: center;
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+      z-index: 1;
+    }
+    .spot-id-block {}
+    .spot-name {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .spot-id {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      color: var(--rust);
+      margin-bottom: 0.4rem;
+    }
+    .spot-division {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      color: var(--tan);
+      background: rgba(0,0,0,0.06);
+      padding: 2px 6px;
+      display: inline-block;
+    }
+    .spot-commendation {
+      font-family: var(--serif);
+      font-size: 0.75rem;
+      font-style: italic;
+      line-height: 1.65;
+      color: #3a3520;
+      margin-bottom: 0.8rem;
+      padding-left: 0.6rem;
+      border-left: 2px solid var(--tan);
+    }
+    .spot-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.3rem 0.5rem;
+      border-top: 1px dashed var(--tan);
+      padding-top: 0.7rem;
+      margin-bottom: 0.5rem;
+    }
+    .spot-stat {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.06em;
+    }
+    .spot-stat-label { 
+      color: var(--tan); 
+      display: block; 
+    }
+    .spot-stat-val {
+      color: var(--ink);
+      font-weight: 700;
+      display: block;
+      margin-top: 1px;
+    }
+    .spot-stat-val.flagged { 
+      color: var(--rust); 
+    }
+    .spot-flag-note {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.08em;
+      color: var(--rust);
+      background: rgba(122,61,44,0.07);
+      border-top: 1px dashed rgba(122,61,44,0.2);
+      padding: 0.4rem 0.6rem;
+      margin: 0 -1.1rem;
+    }
+    .spotlight-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1.1rem 0.8rem;
+      border-top: 1px solid rgba(184,169,138,0.3);
+    }
+    .spot-nav-btn {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.1em;
+      background: none;
+      border: 1px solid var(--tan);
+      color: var(--ink);
+      padding: 3px 8px;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .spot-nav-btn:hover {
+      background: var(--navy);
+      color: var(--cream);
+      border-color: var(--navy);
+    }
+    .spot-nav-count {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      color: var(--tan);
+    }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-family: var(--sans);
+    }
+    .footer-top-bar {
+      background: #080e18;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0.6rem 2rem;
+    }
+    .footer-top-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-top-label {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .footer-status-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-dot.green  { 
+      background: #4caf50; 
+      box-shadow: 0 0 5px rgba(76,175,80,0.6); 
+    }
+    .status-dot.amber { 
+      background: var(--yellow); 
+      box-shadow: 0 0 5px rgba(196,138,20,0.6); 
+    }
+    .status-dot.red    { 
+      background: var(--rust-light); 
+      box-shadow: 0 0 5px rgba(166,92,69,0.6); 
+    }
+    .status-text { 
+      margin-right: 0.6rem; 
+    }
+    .footer-stock {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+    }
+    .stock-val { 
+      color: #4caf50; 
+      font-weight: 700; 
+    }
+    .footer-main {
+      background: #0a1120;
+      padding: 3.5rem 2rem 2.5rem;
+    }
+    .footer-main-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 4rem;
+    }
+    .footer-wordmark {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.25em;
+      color: var(--cream);
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+    .footer-wordmark span {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.35);
+    }
+    .footer-tagline {
+      font-family: var(--serif);
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--tan);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .footer-certifications {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .cert-badge {
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.4rem 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+    .cert-badge span { 
+      color: rgba(255,255,255,0.5); 
+      font-size: 0.55rem; 
+    }
+    .redacted-cert { 
+      border-color: rgba(122,61,44,0.3); 
+    }
+    .footer-awards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .award-item {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.2);
+    }
+    .footer-links-area {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .footer-link-heading {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-link-col ul { 
+      list-style: none; 
+    }
+    .footer-link-col ul li {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: color 0.15s;
+      font-family: var(--sans);
+    }
+    .footer-link-col ul li:hover { 
+      color: rgba(255,255,255,0.75); 
+    }
+    .footer-compliance {
+      background: #060c14;
+      padding: 1.5rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-compliance-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .compliance-logos {
+      display: flex;
+      gap: 0.6rem;
+    }
+    .comp-logo {
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.5rem 0.7rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+    .comp-logo span { 
+      color: rgba(255,255,255,0.25); 
+      font-weight: 400; 
+      font-size: 0.45rem; 
+    }
+    .footer-legal-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .footer-legal-links span {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.35);
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .footer-legal-links span:hover { 
+      color: rgba(255,255,255,0.65); 
+    }
+    .footer-legal-text {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.18);
+      line-height: 1.9;
+    }
+    @media (max-width: 900px) {
+      .footer-main-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-links-area { grid-template-columns: 1fr 1fr; }
+      .footer-compliance-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .footer-links-area { grid-template-columns: 1fr; }
+      .footer-top-inner { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    }
+    @media (max-width: 900px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .side-col { position: static; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .cta-strip { grid-template-columns: 1fr; }
+      .btn-group { align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .header-inner { flex-wrap: wrap; }
+      .footer-inner { grid-template-columns: 1fr; }
+      nav ul { flex-wrap: wrap; }
+      .letterhead-body { padding: 1.5rem; }
+      .letterhead-footer-strip { flex-direction: column; gap: 0.3rem; }
+      .form-row.two { grid-template-columns: 1fr; }
+      .gloss-entry { grid-template-columns: 1fr; }
+    }
+    .consent-banner {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--navy);
+      border-top: 2px solid var(--rust);
+      z-index: 1000;
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+      animation: slideUp 0.4s cubic-bezier(0.22, 0.68, 0, 1.2) both;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .consent-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .consent-title {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 0.7rem;
+    }
+    .consent-body {
+      font-family: var(--serif);
+      font-size: 0.78rem;
+      line-height: 1.8;
+      color: var(--tan);
+    }
+    .consent-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .consent-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 0.7rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      cursor: pointer;
+    }
+    .toggle-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .toggle-label {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--cream);
+      letter-spacing: 0.04em;
+    }
+    .toggle-desc {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.3);
+    }
+    .toggle-switch {
+      width: 36px;
+      height: 18px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 0;
+      position: relative;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-switch.active {
+      background: var(--green-dim);
+      border-color: var(--green);
+    }
+    .toggle-switch.locked {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    .toggle-knob {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 12px;
+      height: 12px;
+      background: rgba(255,255,255,0.3);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .toggle-switch.active .toggle-knob {
+      transform: translateX(18px);
+      background: var(--green-light);
+    }
+    .consent-buttons {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: flex-end;
+    }
+    .consent-btn-primary {
+      background: var(--rust);
+      color: #fff;
+      border: none;
+      padding: 0.6rem 1.4rem;
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .consent-btn-primary:hover { 
+      background: var(--rust-light); 
+    }
+    .consent-btn-secondary {
+      background: transparent;
+      color: rgba(255,255,255,0.4);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.6rem 1.4rem;
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .consent-btn-secondary:hover {
+      color: var(--cream);
+      border-color: rgba(255,255,255,0.3);
+    }
+    .consent-footer-bar {
+      background: rgba(0,0,0,0.3);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 0.4rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 0.45rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.18);
+    }
+
+    @media (max-width: 900px) {
+      .consent-inner { grid-template-columns: 1fr; }
+      .consent-buttons { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo-block">
+        <img src="Wishmakers_logo.png" style="height: 72px;">
+        <div class="logo-text">
+          <h1>Wishmakers</h1>
+          <div class="tagline">Building a Better World, One Wish at a Time</div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Core Stats</a></li>
+      <li><a href="#">Missions</a></li>
+      <li><a href="#">Kits</a></li>
+      <li><a href="#">Combat</a></li>
+      <li><a href="#">Field Protocols</a></li>
+      <li><a href="#">Lore Archive</a></li>
+      <li><a href="#">GM Resources</a></li>
+    </ul>
+  </nav>
+  <div class="alert-strip">
+    <span class="alert-label">NOTICE</span>
+    <div class="alert-scroll">
+      <span>
+        ACTIVE INCIDENT — EASTERN EUROPE SECTOR — LOCKDOWN IN EFFECT &nbsp;⬥&nbsp;
+        NEW NIGHTMARE TYPE: "NOETIC" OFFICIALLY ADOPTED &nbsp;⬥&nbsp;
+        ALL FIELD AGENTS: REQUIRED RECERTIFICATION BY END OF QUARTER &nbsp;⬥&nbsp;
+        WISHMAKERS CORP. IS CURRENTLY ACCEPTING CONTRACTOR APPLICATIONS &nbsp;⬥&nbsp;
+        REMINDER: NON-DISCLOSURE AGREEMENTS ARE BINDING. &nbsp;⬥&nbsp;
+        ISLE TECHNOLOGIES PARTNERSHIP DEAL CLOSED &nbsp;⬥&nbsp;
+      </span>
+    </div>
+  </div>
+  <section class="hero">
+    <div class="hero-inner">
+      <h2 class="fade-in fade-in-1">
+        When the <em>impossible</em> becomes<br>a logistical problem.
+      </h2>
+      <p class="fade-in fade-in-2">
+        The world changed. But Wishmakers kept it secure. As the foremost private contractor
+        in anomalous phenomena management, we provide classification, containment,
+        and resolution services across all continents and extra-dimensional spaces.
+      </p>
+    </div>
+  </section>
+  <div class="page-wrap">
+    <div class="main-col">
+      <div class="section-divider" style="grid-column:unset;">From the Desk of the Chief Executive</div>
+      <div class="letterhead">
+        <div class="letterhead-top">
+          <div class="letterhead-logo">
+            Wishmakers Corporation
+            <span>Office of the Chief Executive</span>
+          </div>
+          <div class="letterhead-ref">
+            CLASSIFICATION: UNCLASSIFIED<br>
+            DISTRIBUTION: ALL STAFF / ALL CONTRACTORS<br>
+          </div>
+        </div>
+        <div class="letterhead-body">
+          <div class="salutation">Dear New Member of the Wishmakers Family,</div>
+          <p>
+            Welcome. And I do mean that sincerely. The fact that you are reading this letter means you have successfully passed our evaluation procedures. You should feel proud of yourself; fewer than one in ten candidates complete <span class="reveal-redacted">alive</span>. Give yourself a pat on the back as well, I'd do it for you but we havent developped a successful version of digital translocation.
+          </p>
+          <p>
+            Wishmakers Corporation was built on a simple belief: that the world, whatever its current condition, deserves to have its peoples dreams come true. People who will look at something that would shatter the mind of many, file the appropriate paperwork, and continue on with their day. Now <em>you</em> are now one of those people.
+          </p>
+          <p>
+            I will be fully transparent with you, as I am with all of your peers. There will be moments in this role that will challenge you. Not professionally that is; your training should've prepared you for that. But in other ways that are hard to articulate in a written onboarding document <span class="reveal-redacted">We do have ways to get it across but our memetics division cites "potential violation of privacy" as a cause for concern</span>. The Research Division is working on better language for this. In the meantime, please know that our Employee Wellness Program is staffed around the clock and that your evaluations are completely confidential. Except in the cases outlined in Section 9-F of your contract, which I hope you have read when you signed it.
+          </p>
+          <p>
+            Some of you will have questions. That is commendable. Most questions have answers. For the ones that don't, we have protocols. The protocols are in your handbook. The handbook is in your onboarding packet. If your onboarding packet is missing the handbook, please contact HR and do not go looking for it yourself. Save us the paperwork, please.
+          </p>
+          <p>
+            I look forward to the contributions you will make to this organisation, and I look forward to reading your first field report (I won't laugh I promise).
+          </p>
+          <p>
+            The work matters. <em>You</em> matter. Wishmakers thanks you for your service.
+          </p>
+          <div class="letterhead-sig">
+            <div>
+              <div class="sig-name">A. ANDERSEN</div>
+              <div class="sig-block">
+                ALICE ANDERSEN<br>
+                CHIEF EXECUTIVE OFFICER<br>
+                WISHMAKERS CORPORATION<br>
+                CLEARANCE: <span class="redacted">████████</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="letterhead-footer-strip">
+          <span>WISHMAKERS CORPORATION</span>
+          <span>THIS LETTER IS SUBJECT TO YOUR NON-DISCLOSURE AGREEMENT</span>
+          <span>WMC/EXEC/WLC-001</span>
+        </div>
+      </div>
+      <div class="section-divider" style="grid-column:unset;">Frequently Asked Questions</div>
+      <div class="faq-block">
+        <div class="faq-item">
+          <div class="faq-q">
+            <div class="faq-q-text">What exactly does Wishmakers Corporation do?</div>
+            <div class="faq-badge">General</div>
+          </div>
+          <div class="faq-a">
+            The Wishmakers Corporation is technically anomalous phenomena management firm. We identify, classify, contain, and resolve events and entities that fall outside conventional understanding. Our clients can range from the grandma next door to the United States government. In addition to our unique services we also produce goods for the general populace, made with techniques and materials pioneered by our research division.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <div class="faq-q-text">Is the work dangerous?</div>
+            <div class="faq-badge">General</div>
+          </div>
+          <div class="faq-a">
+            That depends on your division and your personal definition of "dangerous." Field Operations agents face different conditions than, say, Client Relations staff. What we can tell you is that Wishmakers has an excellent containment record, a comprehensive insurance package, and a <span class="redacted">robust next-of-kin notification procedure</span> that has been consistently praised for its clarity and compassion. We take safety very seriously.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">
+            <div class="faq-q-text">What is the Corruption Index and why is mine already showing a reading?</div>
+            <div class="faq-badge">Technical</div>
+          </div>
+          <div class="faq-a">
+            The Corruption Index is a cumulative measure of anomalous contact over the course of your employment. An initial reading at onboarding is completely normal and indicates that your baseline tolerances have been established. A reading above 10 at onboarding is <span class="redacted">less routine but not unprecedented</span>, and your supervisor has already been informed. The Wellness Office may reach out.
+          </div>
+        </div>
+        <div class="faq-item concern">
+          <div class="faq-q">
+            <div class="faq-q-text">I saw something in the building that wasn't in any of the briefing materials. Who do I report this to?</div>
+            <div class="faq-badge">Concern</div>
+          </div>
+          <div class="faq-a">
+            Report it to your Division supervisor immediately using Form WMC/IR/INTERNAL or the form located at the bottom of this page. Do not describe it to colleagues before filing. Do not photograph it. Do not attempt to interact with it. If it interacted with you first, which, if you are asking this question, you should stop reading and fill the form immediately. Please be specific. The Emergency Response Division values specificity.
+          </div>
+        </div>
+        <div class="faq-item concern">
+          <div class="faq-q">
+            <div class="faq-q-text">When will I receive my full clearance documentation?</div>
+            <div class="faq-badge">Admin</div>
+          </div>
+          <div class="faq-a">
+            Clearance documentation is issued on a continuous basis as trust is established and evaluations are completed. Most staff achieve <span class="redacted">Level 3</span> clearance within their first contract period. Advancement beyond that depends on factors including performance, psychological stability, and <span class="reveal-redacted">whether certain things have laid claim on you</span>. It is worth noting that higher clearance levels permits access to our extended archives, and some personnel actively prefer not to advance. Both choices are respected here.
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="side-col">
+      <div class="sb sb-nl">
+        <div class="sb-head">
+          <span class="sb-title">The Wish-Times</span>
+          <span class="sb-badge">Issue 67</span>
+        </div>
+        <div class="sb-nl-inner">
+          <div class="sb-nl-issue">Harvest Edition &nbsp;·&nbsp;</div>
+          <div class="sb-nl-title">The Long Dark</div>
+          <div class="sb-nl-subtitle">A note on the season, and one matter of housekeeping.</div>
+          <div class="sb-nl-rule"></div>
+          <div class="sb-nl-excerpt">The days are shortening. If you have noticed they are shortening faster than expected, please be assured that this time it's normal. Winter is coming quicker this year, which means that now is the best time to browse our collection of items to help you prepare for the cold.</div>
+          <div class="sb-nl-excerpt" style="font-style:italic;font-size:.73rem;color:rgba(255,255,255,.3);">"We make things that last. We are precise about what we mean by that."</div>
+          <div class="sb-nl-recall">
+            <strong> Product Notice</strong>
+            Sleep Tonic (Elderflower Ver., Product No. 10338–10501): discontinue use and return with enclosed packaging. If no packaging was provided, visit any open WMC retail location or call our support line.
+          </div>
+          <div class="sb-nl-footer">Read full issue ↗ &nbsp;·&nbsp; WMC Customer Division</div>
+        </div>
+      </div>
+      <div class="sb sb-spotlight">
+        <div class="sb-head">
+          <span class="sb-title">Personnel Spotlight</span>
+        </div>
+        <div class="spotlight-inner" id="spotlightInner">
+        </div>
+        <div class="spotlight-nav">
+          <button class="spot-nav-btn" onclick="prevSpotlight()">← Prev</button>
+          <span class="spot-nav-count" id="spotlightCount">1 / 4</span>
+          <button class="spot-nav-btn" onclick="nextSpotlight()">Next →</button>
+        </div>
+      </div>
+      <div class="sb">
+        <div class="sb-head">
+          <span class="sb-title">Customer Reviews</span>
+        </div>
+        <div class="sb-body">
+          <div class="sb-review-item">
+            <div class="sb-review-stars">★★★★★</div>
+            <div class="sb-review-title">It fits.</div>
+            <div class="sb-review-body">Like that one russian story, this greatcoat is a great coat, really love the extra neck protection.</div>
+            <div class="sb-review-author">K. Charlie</div>
+          </div>
+          <div class="sb-review-item">
+            <div class="sb-review-stars">★★★★☆</div>
+            <div class="sb-review-title">Great Range</div>
+            <div class="sb-review-body">Asblutely stunning, just the perfect blast radius and damage localization, though the targetting systems are a bit rudimentary its perfeclty serviceable.</div>
+            <div class="sb-review-author">B. Obama</div>
+          </div>
+          <div class="sb-review-item">
+            <div class="sb-review-stars">★★☆☆☆</div>
+            <div class="sb-review-title">Why the hell is my skin blue???</div>
+            <div class="sb-review-body">I bought your "Happy Memories" but when I used it, (as instructed on the packaging) It made my skin bluer for some reason. So not only am I a smurf now but the "calming effect" you guys advertised barely worked.</div>
+            <div class="sb-review-author">N. Wintsch</div>
+          </div>
+          <div class="sb-review-item">
+            <div class="sb-review-stars">★★★★☆</div>
+            <div class="sb-review-title">Perfect for Stealing Copper</div>
+            <div class="sb-review-body">dude your funky key is so goated. i got into so many electrical boxes you would not believe. dont worry i didnt steal any of yalls</div>
+            <div class="sb-review-author">anonymous</div>
+            <div class="sb-review-flag">Flagged for logistics review</div>
+          </div>
+          <div class="sb-review-item">
+            <div class="sb-review-stars">★★★★☆</div>
+            <div class="sb-review-title">Excellent Quality!</div>
+            <div class="sb-review-body">One of the best revolvers I've ever bought. Super smooth action, perfectly heavy trigger with a super satisfying click. The voices are a bit much but they help me do my taxes so I guess I can't complain</div>
+            <div class="sb-review-author">L. Annemarie</div>
+          </div>
+          <div class="sb-review-item">
+            <div class="sb-review-stars">☆☆☆☆☆</div>
+            <div class="sb-review-title">EVIL</div>
+            <div class="sb-review-body">My son bought your "Nostalgia Pop" nonesense and hes lost. He cant stop eating them. I see him everyday with 4 stuffed in his mouth his eyes glazed over. I dont even recognize him anymore. how could you seell this? how could you do this?</div>
+            <div class="sb-review-author">S. White</div>
+          <div class="sb-review-stars">★★★☆☆</div>
+            <div class="sb-review-title">The channels are a bit boring</div>
+            <div class="sb-review-body">I mean, its basically just a regular tv, the shadows the light it emits move but you kinda get used to it after a while. It advertises an extended catalogue of on-demand shows like interdimensional cable type thing. But like 90% of it is slop. Still neat.</div>
+            <div class="sb-review-author">A. Denhurst</div>
+          </div>
+          <div class="sb-review-stars">★★★★★</div>
+            <div class="sb-review-title">Laptops Alive</div>
+            <div class="sb-review-body">Great laptop overall, like specs wise its better than average for its price. 2 weeks in it did grow flesh and a tongue and stuff, it was pretty chill though just had to feed it leftovers every now and then or it'd get feisty. Not violent.</div>
+            <div class="sb-review-author">U. Inessa</div>
+          </div>
+
+        </div>
+      <div class="sb-ltd">
+        <div class="sb-head">
+          <span class="sb-title" style="color:var(--yellow-pale);">Limited Edition</span>
+          <span class="sb-badge" style="color:var(--rust-light);border-color:rgba(122,61,44,.5);">123 Left</span>
+        </div>
+        <div class="sb-ltd-inner">
+          <div class="sb-ltd-label">Harvest Collection</div>
+          <div class="sb-ltd-visual">
+          </div>
+          <div class="sb-ltd-name">"A Normal Coat"</div>
+          <div class="sb-ltd-var">Harvest Edition</div>
+          <div class="sb-ltd-desc">A new take on an old idea. With an extended collar and hem as well as a deep amber inner lining. This autumnal take on our iconic product is woven from our patented materials that retain warmth independently of external temperature. Sentience included in the first 100 orders.</div>
+          <div class="sb-ltd-price">$340.00</div>
+          <button class="sb-ltd-btn">Add to Cart</button>
+          <div class="sb-ltd-stock">⚑ Only 123 units remaining</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+ <div class="full-width-section">
+  <div class="section-divider">Lore Archive — Collapsible Entries</div>
+  <div class="accordion" id="lore-accord">
+    <div class="accord-item open">
+      <button class="accord-trigger" onclick="toggleAccord(this)">
+        <span class="accord-num">01</span>
+        <span class="accord-title">First Contact Event</span>
+        <span class="accord-arrow">▶</span>
+      </button>
+      <div class="accord-body">
+        <div class="accord-content">
+          <p>The First Contact Event is the official designation for the period during which anomalous phenomena first became  at a global scale. Prior occurrences are noted in historical record but were not recognised as belonging to a coherent category. The First Emergence changed that.</p>
+          <p>Within a period of <span class="redacted">fourteen months</span>, anomaly sightings across <span class="redacted">three continents</span> increased by an order of magnitude. Governments that had previously handled individual incidents through existing law enforcement and military frameworks found themselves without adequate response structures. Wishmakers Corporation — then a considerably smaller consultancy operating under a <span class="redacted">different name</span> — was among the first private entities to develop a functional classification system.</p>
+          <p>The cause of the First Emergence is classified. The official public record attributes it to <span class="reveal-redacted">a convergence of environmental, electromagnetic, and sociological factors</span> that Research Division has since described as "technically accurate and substantively meaningless."</p>
+          <div class="accord-footer">
+            <span>SOURCE: WMC/LORE/HIST-001</span>
+            <span>CLEARANCE: UNCLASSIFIED</span>
+            <span>LAST REVIEWED: CYCLE-13</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accord-item">
+      <button class="accord-trigger" onclick="toggleAccord(this)">
+        <span class="accord-num">02</span>
+        <span class="accord-title">Daydreams, Nightmares, and Wonderlands</span>
+        <span class="accord-arrow">▶</span>
+      </button>
+      <div class="accord-body">
+        <div class="accord-content">
+          <p>Since the emergence of the anomalous on a global scale, Wishmakers has taken great carein maintaining public morale by using codenames for anomalous phenomena. Research has shown that associating the anomlous with dream or immaterial phenomena aids in preventing negative emotions when interacting with these concepts, thus one of the most common terms that is quintessential to the trade is "daydream". Now effectively synonymous with "anomaly". A daydream may refer to anything anomalous, be it an object, event, location, or entity. Daydream status is given to anything that exhibits even a smidge of anomalous traits. There is no half, one-third, or even one two-hundredths daydream. If it is anomalous it is a daydream.</p>
+          <p>Nightmare, a classification given to daydreams that pose an active threat to human, or otherwise intelligent life. Nightmares, although commonly thought of as such, are not solely given to dangerous entities, in fact, any daydream may be classified as a nightmare should it meet the criteria. This includes wonderlands, or otherwise places, events, and objects.</p>
+          <p>Wonderlands are a specific category of daydreams, like reveries they refer to a specific manner that daydreams manifest in. Wonderlands are best described as places. They often manifest with defined areas of effect. Domains, structures, and extra-dimensional spaces can all be categorized as a wonderland. Although extremely uncommon, a reverie may fully, or partially, be categorized as a wonderland, depending onits exact manner of function.</p>
+          <p>For information on Reveries, see WMC/FIELD/MNL-021.</p>
+          <div class="accord-footer">
+            <span>SOURCE: WMC/FIELD/MNL-001</span>
+            <span>CLEARANCE: Level 1</span>
+            <span>LAST REVIEWED: 21/06/2025</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accord-item">
+      <button class="accord-trigger" onclick="toggleAccord(this)">
+        <span class="accord-num">03</span>
+        <span class="accord-title">Corruption</span>
+        <span class="accord-arrow">▶</span>
+      </button>
+      <div class="accord-body">
+        <div class="accord-content">
+          <p>Corruption is the process by which a subject is altered, mutated, or overwritten through exposure to, or contact with, an anomaly. This phenomenon is not limited to organic life but applies to all matter, energy, and even abstract concepts such as cognition or spirituality.</p>
+          <p>The specific effects and rate of corruption are linked to the originating anomaly; the changes inflicted upon a subject are a direct expression of that anomaly's fundamental nature. While organic beings may experience physical mutations, inorganic materials are equally susceptible, undergoing transmutation into substances or structures characteristic of the source. In rare instances, one anomaly can corrupt another. Due to the innate resistance against anomalous force, this typically requires the corrupting anomaly's influence to be overwhelmingly potent. The result may be a merging of anomalous traits, if compatible, or a complete overwriting of the weaker anomaly's properties.</p>
+          <p>The progression of corruption ceases upon the loss of contact with the anomalous source. However, its effects are permanent. Although reversing it is possible, the process is extremely difficult.</p>
+          <p>Due to the conceptual nature of anomalies, corruption extends beyond the physical to affect spiritual, cognitive, and other non-material aspects of an entity. To manage this, organizations like Wishmakers utilize a Corruption Index to quantify an individual's total exposure. This index tracks corruption on a per-anomaly basis, allowing for the correlation of specific effects with their source, which is important for determining appropriate treatment and assignment eligibility. A baseline reading of 0-5 is considered normal. Levels over 15 are generally cause for concern. While individual tolerance varies, the average non-lethal maximum is 90-100; at this threshold, the cumulative physiological and psychological effects typically result in a comatose or an otherwise indisposed of state. The accumulation of 20-25 levels from a single anomaly marks the threshold where permanent mutations begin to manifest, with severity increasing alongside the corruption level.</p>
+          <div class="accord-footer">
+            <span>SOURCE: WMC/FIELD/MNL-012</span>
+            <span>CLEARANCE: Level 2</span>
+            <span>LAST REVIEWED: 03/7/2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accord-item">
+      <button class="accord-trigger" onclick="toggleAccord(this)">
+        <span class="accord-num">04</span>
+        <span class="accord-title">Reveries & Affinity</span>
+        <span class="accord-arrow">▶</span>
+      </button>
+      <div class="accord-body">
+        <div class="accord-content">
+          <p>Reveries are, like wonderland, a specific type of daydream. Reveries are, in essence, a piece of a specific daydream, though with its core anomlous components distilled to a lesser degree. To elaborate further,there are generally two types of reveries; artificial, and natural. Here at Wishmakers Corporation our vaults contain primarily artificial reveries. They are created by analyzing contained daydreams and <span class="redacted">duplicating their anomalous properties into suitable vessels.</span> Due to our limited technology the resulting objects contain only a fraction of their originals capabilities. Some other companies also produce their own reveries, although to a quality far lesser than Wishmakers in most aspects.</p>
+          <p>Natural reveries are functionally the same as artificial reveries. The most common method of a natural reverie manifesting is when a human experiences extreme emotional intensity. The mechanics behind this type of event has not yet been discovered. <span class="redacted">Attempts to induce such events have proven wholly unsuccessful. All future testing has been banned in accordance with the Ethics Board.</span> Reveries created by humans have varying properties. Other methods by which natural reveries are created exist, such as in cases they are directly created by a daydream, <span class="reveal-redacted">spontaneous manifestation of a reverie without an associated entity or daydream is a noted event, possible ramifications of such events are being actively monitored.</span> </p>
+          <p> Nearly all field operators are required to be equipped with a reverie while on duty. Evidently the vast majority of them are issued by Wishmakers rather than being personnal items, or ones issued by other companies.</p>
+          <p>Affinity is a specific and milder form of corruption that occurs exclusively between a person and a reverie. It is characterized by a progressive bond formed through repeated usage or sustained contact with a particular reverie.</p>
+          <p>At low levels, affinity manifests no noticeable effects; the reverie functions normally, and the user experiences no alterations. As the bond strengthens, higher levels of Affinity induce a temporary anomalous effect on the user whenever they are in contact with, or have the reverie equipped. This effect is directly related to the nature of the reverie itself. Concurrently, increased affinity enhances and expands the reverie's own capabilities, up to a predetermined limit correlated with its rank. Higher-ranked Reveries typically require greater affinity to unlock their full potential, while lower-ranked ones may have minimal requirements or offer no affinity bonuses whatsoever.</p>
+          <p>Unlike standard corruption, affinity is not broken by the loss of contact. <span class="reveal-redacted">Consequently, this form of corruption is permanent and cannot be cleared.</span> However, any anomalous effects it induces on the user are entirely dependent on proximity; they vanish immediately when contact with the reverie is lost and reappear upon re-establishing it. For reveries that occur naturally, a baseline level of affinity is often already present due to the circumstances of their manifestation.</p>
+          <div class="accord-footer">
+            <span>SOURCE: WMC/FIELD/MNL-021</span>
+            <span>CLEARANCE: Level 2</span>
+            <span>LAST REVIEWED: 15/11/2023</span>
+          </div>
+        </div>
+      </div>
+    <div class="accord-item">
+      <button class="accord-trigger" onclick="toggleAccord(this)">
+        <span class="accord-num">05</span>
+        <span class="accord-title">Security Team</span>
+        <span class="accord-arrow">▶</span>
+      </button>
+      <div class="accord-body">
+        <div class="accord-content">
+          <p><span class="redacted">This entry has been restricted for your safety. Please do not attempt to access this entry through alternative means. The Audit team has been informed of all attempts so far.</span></p>
+          <div class="accord-footer">
+            <span>SOURCE: <span class="redacted">███████████████</span></span>
+            <span>CLEARANCE: <span class="redacted">█████████</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-divider" style="grid-column:unset;">Form WMC/IR/PUBLIC — Report an Anomalous Incident</div>
+      <div class="report-form-wrap">
+        <div class="form-header">
+          <div class="form-header-text">
+            Incident Report — Public Submission Portal
+            <span>Form WMC/IR/PUBLIC — For use by contractors, clients, and civilian witnesses</span>
+          </div>
+          <div class="form-ref">
+            FORM VERSION: 3.1<br>
+            AUTO-ASSIGNED ON SUBMIT<br>
+            RESPONSE TIME: <span class="redacted">VARIABLE</span>
+          </div>
+        </div>
+        <div class="form-notice">
+          All submissions are reviewed by a qualified Intake Officer. Submission constitutes acknowledgment of WMC's information-handling policies and does not guarantee follow-up contact.
+        </div>
+        <div class="form-body">
+          <div class="form-section-label">Reporter Information</div>
+          <div class="form-row two">
+            <div class="form-group">
+              <label>Full Name <span class="req">*</span></label>
+              <input class="f-input" type="text" placeholder="As it appears on your legal documentation"/>
+              <span class="f-hint">Pseudonyms accepted but may delay processing.</span>
+            </div>
+            <div class="form-group">
+              <label>Employee / Contractor ID (if applicable)</label>
+              <input class="f-input" type="text" placeholder="WMC/AGENT/____ or leave blank"/>
+            </div>
+          </div>
+          <div class="form-row two">
+            <div class="form-group">
+              <label>Contact Method <span class="req">*</span></label>
+              <input class="f-input" type="text" placeholder="E-mail, phone number, physical address, etc."/>
+              <span class="f-hint">Do not use personal communications if you believe you are being monitored.</span>
+            </div>
+            <div class="form-group">
+              <label>Current Clearance Level</label>
+              <select class="f-select">
+                <option value="">— Select —</option>
+                <option>No Clearance / Civilian</option>
+                <option>Level 1</option>
+                <option>Level 2</option>
+                <option>Level 3</option>
+                <option>Level 4</option>
+                <option>Level 5</option>
+                <option>Prefer Not to State</option>
+              </select>
+            </div>
+          </div>
+          <hr class="form-divider"/>
+          <div class="form-section-label">Incident Details</div>
+          <div class="form-row two">
+            <div class="form-group">
+              <label>Date / Time of Incident <span class="req">*</span></label>
+              <input class="f-input" type="text" placeholder="As precisely as you can determine"/>
+              <span class="f-hint">If duration is unclear, provide first and last known contact times.</span>
+            </div>
+            <div class="form-group">
+              <label>Location <span class="req">*</span></label>
+              <input class="f-input" type="text" placeholder="Address, landmark, or specific desciption"/>
+            </div>
+          </div>
+          <div class="form-row one">
+            <div class="form-group">
+              <label>Anomaly Behaviour — Describe what you observed <span class="req">*</span></label>
+              <textarea class="f-textarea" style="min-height:100px;" placeholder="Be as specific as possible. Include: movement, apparent intent, communication (if any), physical effects on the environment, and any unusual sensory experiences."></textarea>
+            </div>
+          </div>
+          <div class="form-row two">
+            <div class="form-group">
+              <label>Estimated Threat</label>
+              <select class="f-select">
+                <option value="">— Unsure —</option>
+                <option> Passive / No apparent threat</option>
+                <option> Reactive / Conditional threat</option>
+                <option> Active / Clear and present danger</option>
+                <option> Critical / Immediate escalation required</option>
+                <option>Unknown, I cannot classify this</option>
+                <option>It classified itself and that concerns me</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Duration of Contact</label>
+              <input class="f-input" type="text" placeholder="Minutes / hours / or 'ongoing'"/>
+            </div>
+          </div>
+          <hr class="form-divider"/>
+          <div class="form-section-label">Reporter Condition</div>
+          <div class="form-row two">
+            <div class="form-group">
+              <label>Were you the only witness? <span class="req">*</span></label>
+              <div class="radio-group">
+                <label class="r-option"><input type="radio" name="witness" value="yes"/> Yes, I was alone</label>
+                <label class="r-option"><input type="radio" name="witness" value="no"/> No, others were present</label>
+                <label class="r-option"><input type="radio" name="witness" value="unclear"/> I am not certain, there may have been others present that I cannot account for</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Were you, or are you being followed? <span class="req">*</span></label>
+              <div class="radio-group">
+                <label class="r-option"><input type="radio" name="followed" value="no"/> No</label>
+                <label class="r-option"><input type="radio" name="followed" value="yes"/> Yes</label>
+                <label class="r-option"><input type="radio" name="followed" value="unsure"/> I am not sure</label>
+                <label class="r-option"><input type="radio" name="followed" value="ongoing"/> It is still happening as I complete this form</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-row one">
+            <div class="form-group">
+              <label>Please check all that apply since the incident</label>
+              <div class="check-group" style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                <label class="c-option"><input type="checkbox"/> Unusual sleep disturbances or imagery</label>
+                <label class="c-option"><input type="checkbox"/> Difficulty recalling the event accurately</label>
+                <label class="c-option"><input type="checkbox"/> Heightened awareness of peripheral movement</label>
+                <label class="c-option"><input type="checkbox"/> Unexplained reluctance to enter certain spaces</label>
+                <label class="c-option"><input type="checkbox"/> Anomalous phenomena not previously observed in your environment</label>
+                <label class="c-option"><input type="checkbox"/> <span class="redacted"> Control of your body relinquished to a third party</span></label>
+              </div>
+            </div>
+          </div>
+          <div class="form-row one">
+            <div class="form-group">
+              <label>Additional notes</label>
+              <textarea class="f-textarea" placeholder="Use this space for context, secondary observations, or information you are not certain how to categorise."></textarea>
+            </div>
+          </div>
+          <div class="form-submit-row">
+            <div class="form-legal">
+              By submitting this form you confirm the information is accurate to the best of your knowledge, consent to the Wishmakers Corporation retaining and acting on this information, and acknowledge that submission may result in contact from our Intake team, our Research Division, or in some cases our <span class="reveal-redacted">Field Operations Division, which you should not take personally</span>.
+            </div>
+            <button class="btn-submit" onclick="handleSubmit(event)">Submit Report</button>
+          </div>
+        </div>
+        <div class="form-footer-bar">
+          <span>WMC/IR/PUBLIC v3.1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+<footer>
+  <div class="footer-top-bar">
+    <div class="footer-top-inner">
+      <div class="footer-top-left">
+        <span class="footer-top-label">Global Operations Status</span>
+        <div class="footer-status-dots">
+          <span class="status-dot green"></span><span class="status-text">Americas</span>
+          <span class="status-dot green"></span><span class="status-text">EMEA</span>
+          <span class="status-dot amber"></span><span class="status-text">APAC</span>
+          <span class="status-dot red"></span><span class="status-text">Europe</span>
+        </div>
+      </div>
+      <div class="footer-top-right">
+        <span class="footer-top-label">Investor Relations</span>
+        <span class="footer-stock">WMC &nbsp;▲ 2.4%&nbsp; <span class="stock-val">$341.88</span></span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-main">
+    <div class="footer-main-inner">
+      <div class="footer-brand-col">
+        <div class="footer-wordmark">WISHMAKERS<br><span>CORPORATION</span></div>
+        <div class="footer-tagline">Building a Better World.<br>One Wish at a Time.™</div>
+        <div class="footer-certifications">
+          <div class="cert-badge">ISO<br><span>9001</span></div>
+          <div class="cert-badge">ISO<br><span>27001</span></div>
+          <div class="cert-badge">ISO<br><span>45001</span></div>
+          <div class="cert-badge redacted-cert"><span class="redacted">██████</span><br><span class="redacted">████</span></div>
+        </div>
+        <div class="footer-awards">
+          <div class="award-item">★ Forbes Global 500 — 2023</div>
+          <div class="award-item">★ Best Workplace in Anomaly Mgmt. — 2021</div>
+          <div class="award-item">★ <span class="redacted">████████████████████</span> — Cycle-14</div>
+        </div>
+      </div>
+      <div class="footer-links-area">
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Solutions</div>
+          <ul>
+            <li>Anomaly Classification</li>
+            <li>Containment Services</li>
+            <li>Incident Resolution</li>
+            <li>Risk Assessment</li>
+            <li>Civilian Cover Management</li>
+            <li><span class="redacted">Category X Handling</span></li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Industries</div>
+          <ul>
+            <li>Government & Defence</li>
+            <li>Infrastructure</li>
+            <li>Financial Services</li>
+            <li>Healthcare</li>
+            <li>Real Estate</li>
+            <li>Extra-Dimensional</li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Company</div>
+          <ul>
+            <li>About Us</li>
+            <li>Leadership</li>
+            <li>Careers</li>
+            <li>Press Room</li>
+            <li>Corporate Responsibility</li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Resources</div>
+          <ul>
+            <li>Field Manual</li>
+            <li>Anomaly Registry</li>
+            <li>Training Portal</li>
+            <li>Contractor Hub</li>
+            <li>Wellness Program</li>
+            <li><span class="redacted">Research Archive</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-compliance">
+    <div class="footer-compliance-inner">
+      <div class="footer-compliance-left">
+      </div>
+      <div class="footer-compliance-right">
+        <div class="footer-legal-links">
+          <span>Privacy Policy</span>
+          <span>Terms of Service</span>
+          <span>Cookie Preferences</span>
+          <span>Non-Disclosure Terms</span>
+        </div>
+        <div class="footer-legal-text">
+          © Wishmakers Corporation. All rights reserved. Wishmakers Corporation is registered in <span class="redacted">██████████</span> and operates under the Wishmakers trademark in all jurisdictions. "Wishmakers", "WMC", and "Building a Better World. One Wish at a Time." are registered trademarks. All anomalies, entities, and incidents referenced are classified infrastructure assets. Unauthorised disclosure is a terms of service violation and may result in <span class="redacted">consequences not enumerated in this document</span>.
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<div class="consent-banner" id="consentBanner">
+  <div class="consent-inner">
+    <div class="consent-left">
+      <div class="consent-title">Before You Continue</div>
+      <div class="consent-body">
+        Wishmakers Corporation uses cookies, session identifiers, and baseline anomalous readings to improve your experience. 
+        By continuing to use this portal you consent to data collection as outlined in our Privacy Policy, you may customise your preferences below. 
+        Note that declining non-essential monitoring may affect your experience.
+      </div>
+    </div>
+    <div class="consent-right">
+      <div class="consent-options">
+        <label class="consent-toggle">
+          <div class="toggle-info">
+            <span class="toggle-label">Essential Cookies</span>
+            <span class="toggle-desc">Required for portal function</span>
+          </div>
+          <div class="toggle-switch active" id="toggleCookies" onclick="handleToggle(this)">
+            <div class="toggle-knob"></div>
+          </div>
+        </label>
+        <label class="consent-toggle">
+          <div class="toggle-info">
+            <span class="toggle-label">Analytics & Performance</span>
+            <span class="toggle-desc">Helps us understand usage patterns</span>
+          </div>
+          <div class="toggle-switch active" id="toggleAnalytics" onclick="handleToggle(this)">
+            <div class="toggle-knob"></div>
+          </div>
+        </label>
+        <label class="consent-toggle">
+          <div class="toggle-info">
+            <span class="toggle-label">Anomalous Baseline Monitoring</span>
+            <span class="toggle-desc">Passive anomalous readings tracking</span>
+          </div>
+          <div class="toggle-switch active" id="toggleExposure" onclick="handleToggle(this)">
+            <div class="toggle-knob"></div>
+          </div>
+        </label>
+        <label class="consent-toggle">
+          <div class="toggle-info">
+            <span class="toggle-label"><span class="redacted">██████████ Protocols</span></span>
+            <span class="toggle-desc"><span class="redacted">████████████████████████</span></span>
+          </div>
+          <div class="toggle-switch active locked" id="toggleRedacted">
+            <div class="toggle-knob"></div>
+          </div>
+        </label>
+      </div>/
+      <div class="consent-buttons">
+        <button class="consent-btn-secondary" onclick="handleReject()">Decline Non-Essential</button>
+        <button class="consent-btn-primary" onclick="handleAccept()">Accept & Continue</button>
+      </div>
+    </div>
+  </div>
+  <div class="consent-footer-bar">
+    <span>WMC/LEGAL/CONSENT-v2.4 — This notice is required under applicable data protection frameworks.</span>
+    <span>Dismissing this banner does not constitute refusal of consent</span>
+  </div>
+</div>
+  <script>
+    function toggleAccord(btn) {
+      const item = btn.closest('.accord-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('#lore-accord .accord-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    }
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target;
+      btn.textContent = 'Submitting…';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Report Received';
+        btn.style.background = 'var(--green)';
+        const notice = document.querySelector('.form-notice');
+        notice.style.background = 'rgba(61,107,140,0.2)';
+        notice.style.borderColor = 'rgba(61,107,140,0.4)';
+        notice.style.color = 'var(--green-light)';
+        notice.innerHTML = '✓&nbsp; Your report has been received and assigned a case number. An Intake Officer will review it. If your situation is ongoing, please remain calm and do not open any doors that were not there before.';
+      }, 1200);
+    }
+    if (localStorage.getItem('wmc_consent')) {
+      document.getElementById('consentBanner')?.remove()
+    }
+    function handleToggle(el) {
+      if (el.classList.contains('locked')) return;
+      el.classList.toggle('active');
+    }
+    function handleAccept() {
+      localStorage.setItem('wmc_consent', JSON.stringify({
+        accepted: true,
+        timestamp: Date.now(),
+        analytics: true,
+        monitoring: true,
+        cookies: true,
+      }))
+      document.getElementById('consentBanner').style.animation = 'slideDown 0.3s ease forwards';
+      setTimeout(() => document.getElementById('consentBanner').remove(), 300);
+    }
+    function handleReject() {
+      localStorage.setItem('wmc_consent', JSON.stringify({
+        accepted: false,
+        timestamp: Date.now(),
+        analytics: false,
+        monitoring: false,
+        cookies: false,
+      }))
+      document.getElementById('toggleCookies').classList.remove('active');
+      document.getElementById('toggleAnalytics').classList.remove('active');
+      document.getElementById('toggleExposure').classList.remove('active');
+      setTimeout(() => {
+        const notice = document.querySelector('.consent-body');
+        notice.innerHTML = `Preferences updated. Note that declining Anomalous Baseline Monitoring may result in an <span class="reveal-redacted">undetected escalation in your corruption index</span>. We recommend reconsidering. You can update your preferences at any time by visiting Settings.`;
+      }, 400);
+    }
+    const PERSONNEL = [
+      {
+        name: "S. G. Okarin",
+        id: "WMC/AGENT/0114",
+        division: "Field Operations",
+        commendation: "Commended for sustained containment of WMC/WRLD/0078 over a 14-week period, during which Agent Okarin filed 31 incident reports and developped an extensive exploratory manual which has been invaluable towards the research conducted within the daydream.",
+        stats: [
+          { label: "Years Active",   val: "7",          flag: false },
+          { label: "Incidents Filed", val: "31",        flag: false },
+          { label: "Corruption Index", val: "56",         flag: true  },
+          { label: "Psych Eval",     val: "██ / 100",    flag: false },
+        ],
+        flagNote: null,
+      },
+      {
+        name: "F. Lorentzen",
+        id: "WMC/AGENT/0009",
+        division: "Research Division",
+        commendation: "Recognised for his ongoing contributions towards the efficient archival and management of all documents and files entered into our system. In addition to his work on establishing most of the standard formats and regulations used within the company.",
+        stats: [
+          { label: "Years Active",   val: "11",       flag: false },
+          { label: "Papers Filed",   val: "3021",       flag: false },
+          { label: "Corruption Index", val: "19",      flag: false },
+          { label: "Psych Eval",     val: "21 / 100",    flag: false },,
+        ],
+        flagNote: null,
+      },
+      {
+        name: "K. Leander",
+        id: "WMC/AGENT/0007",
+        division: "Public & Client Relations",
+        commendation: "Consistently rated highest in client satisfaction surveys for four consecutive years. Commended also for her contributions towards vastly improving relations with the general populace and her efforts in keeping their morale high. She has requested that this spotlight inform the reader that her next concert is scheduled in-",
+        stats: [
+          { label: "Years Active",   val: "11",       flag: false },
+          { label: "Cases Closed",   val: "109",     flag: false },
+          { label: "Corruption Index", val: "134",     flag: false },
+          { label: "Psych Eval",     val: "91/100", flag: false  },
+        ],
+        flagNote: "⚑ Under routine review. Not related to client outcomes.",
+      },
+      {
+        name: "K. Soleum",
+        id: "WMC/AGENT/████",
+        division: "████████████",
+        commendation: "This commendation has been approved for display. The commendation text is classified above your clearance. Please accept that it is well-deserved.",
+        stats: [
+          { label: "Years Active",   val: "██",          flag: false },
+          { label: "Incidents Filed", val: "██████",     flag: false },
+          { label: "Corruption Index", val: "—",           flag: false },
+          { label: "Clearance",      val: "██████████",  flag: false },
+        ],
+        flagNote: null,
+      },
+    ];
+
+    let spotIndex = 0;
+
+    function renderSpotlight() {
+      const p = PERSONNEL[spotIndex];
+      const statsHTML = p.stats.map(s => `
+        <div class="spot-stat">
+          <span class="spot-stat-label">${s.label}</span>
+          <span class="spot-stat-val${s.flag ? ' flagged' : ''}">${s.val}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('spotlightInner').innerHTML = `
+        <div class="spot-photo-row">
+          <div class="spot-photo">
+            <div class="spot-photo-placeholder">PHOTO<br>ON FILE<br>[REDACTED]</div>
+          </div>
+          <div class="spot-id-block">
+            <div class="spot-name">${p.name}</div>
+            <div class="spot-id">${p.id}</div>
+            <div class="spot-division">${p.division}</div>
+          </div>
+        </div>
+        <div class="spot-commendation">${p.commendation}</div>
+        <div class="spot-stats">${statsHTML}</div>
+        ${p.flagNote ? `<div class="spot-flag-note">${p.flagNote}</div>` : ''}
+      `;
+      document.getElementById('spotlightCount').textContent =
+        `${spotIndex + 1} / ${PERSONNEL.length}`;
+    }
+
+    function nextSpotlight() {
+      spotIndex = (spotIndex + 1) % PERSONNEL.length;
+      renderSpotlight();
+    }
+    function prevSpotlight() {
+      spotIndex = (spotIndex - 1 + PERSONNEL.length) % PERSONNEL.length;
+      renderSpotlight();
+    }
+
+    renderSpotlight();
+  </script>
+</body>
+</html>
