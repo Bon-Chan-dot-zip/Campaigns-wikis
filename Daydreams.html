@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WMC:: Daydreams</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green: #3d6b8c;
+      --green-light: #6fa3c4;
+      --green-dim: #1e3a4f;
+      --cream: #e8e0cc;
+      --paper: #d4c9ae;
+      --tan: #b8a98a;
+      --rust: #7a3d2c;
+      --rust-light: #a65c45;
+      --navy: #0d1520;
+      --navy-light: #162338;
+      --yellow: #c48a14;
+      --yellow-pale: #e8c060;
+      --ink: #1a1410;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --serif: 'IBM Plex Serif', serif;
+    }
+
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--tan) transparent;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--tan);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--rust);
+    }
+    html { 
+      scroll-behavior: smooth; 
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    header {
+      background: var(--navy);
+      border-bottom: 4px solid var(--rust);
+      position: relative;
+      overflow: hidden;
+    }
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, var(--rust) 0, var(--rust) 12px, transparent 10px, transparent 20px);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .logo-text h1 {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: 0.22em;
+      color: var(--cream);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .logo-text .tagline {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--yellow-pale);
+      letter-spacing: 0.18em;
+      margin-top: 4px;
+      opacity: 0.85;
+    }
+    nav {
+      background: var(--green-dim);
+      border-bottom: 4px solid var(--rust);
+    }
+    nav ul {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      list-style: none;
+    }
+    nav ul li a {
+      display: block;
+      padding: 0.65rem 1.2rem;
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      border-right: 1px solid rgba(255,255,255,0.1);
+      transition: background 0.15s, color 0.15s;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background: var(--rust);
+      color: #fff;
+    }
+    nav ul li:last-child a { 
+      border-right: none; 
+    }
+    .alert-strip {
+      background: var(--rust-light);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      padding: 8px 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      overflow: hidden;
+    }
+    .alert-label {
+      background: #fff;
+      color: var(--rust-light);
+      font-weight: 700;
+      padding: 1px 8px;
+      flex-shrink: 0;
+      font-size: 0.65rem;
+    }
+    .alert-scroll {
+      overflow: hidden;
+      flex: 1;
+    }
+    .alert-scroll span {
+      display: inline-block;
+      white-space: nowrap;
+      animation: scroll-left 28s linear infinite;
+    }
+    @keyframes scroll-left {
+      0%   { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in   { animation: fadeInUp 0.5s ease both; }
+    .fade-in-1 { animation-delay: 0.1s; }
+    .fade-in-2 { animation-delay: 0.25s; }
+    .page-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 2.5rem;
+      align-items: start;
+      overflow: hidden;
+    }
+    .main-col {
+      overflow-y: auto;
+      height: 100%;
+    }
+    .side-col { 
+      position: sticky; 
+      top: 4rem;
+    }
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.8rem 0;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--tan);
+      grid-column: 1 / -1;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--tan);
+    }
+    .redacted {
+      background: var(--ink);
+      color: transparent;
+      user-select: none;
+      padding: 0 4px;
+      cursor: not-allowed;
+    }
+    .reveal-redacted {
+      background: var(--ink);
+      color: transparent;
+      cursor: pointer;
+      padding: 0 4px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .reveal-redacted:hover {
+      background: rgba(122,61,44,0.25);
+      color: var(--rust-light);
+      outline: 1px solid var(--rust);
+    }
+    .sb {
+      background: var(--paper);
+      border: 1px solid var(--tan);
+      margin-bottom: 1.2rem;
+      overflow: hidden;
+    }
+    .sb-head {
+      padding: 0.9rem 1.1rem;
+      border-bottom: 1px solid rgba(184,169,138,0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sb-title {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+    }
+    .sb-badge {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border: 1px solid rgba(184,169,138,0.4);
+      color: var(--yellow-pale);
+    }
+    .sb-body { padding: 1.1rem; max-height: 400px; overflow-y: auto;
+    }
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-family: var(--sans);
+    }
+    .footer-top-bar {
+      background: #080e18;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0.6rem 2rem;
+    }
+    .footer-top-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-top-label {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+    .footer-status-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .status-dot.green  { 
+      background: #4caf50; 
+      box-shadow: 0 0 5px rgba(76,175,80,0.6); 
+    }
+    .status-dot.amber { 
+      background: var(--yellow); 
+      box-shadow: 0 0 5px rgba(196,138,20,0.6); 
+    }
+    .status-dot.red    { 
+      background: var(--rust-light); 
+      box-shadow: 0 0 5px rgba(166,92,69,0.6); 
+    }
+    .status-text { 
+      margin-right: 0.6rem; 
+    }
+    .footer-stock {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+    }
+    .stock-val { 
+      color: #4caf50; 
+      font-weight: 700; 
+    }
+    .footer-main {
+      background: #0a1120;
+      padding: 3.5rem 2rem 2.5rem;
+    }
+    .footer-main-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 4rem;
+    }
+    .footer-wordmark {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.25em;
+      color: var(--cream);
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 0.8rem;
+    }
+    .footer-wordmark span {
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.35);
+    }
+    .footer-tagline {
+      font-family: var(--serif);
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--tan);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .footer-certifications {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .cert-badge {
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.4rem 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 1.6;
+    }
+    .cert-badge span { 
+      color: rgba(255,255,255,0.5); 
+      font-size: 0.55rem; 
+    }
+    .redacted-cert { 
+      border-color: rgba(122,61,44,0.3); 
+    }
+    .footer-awards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .award-item {
+      font-family: var(--mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.2);
+    }
+    .footer-links-area {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .footer-link-heading {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-link-col ul { 
+      list-style: none; 
+    }
+    .footer-link-col ul li {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: color 0.15s;
+      font-family: var(--sans);
+    }
+    .footer-link-col ul li:hover { 
+      color: rgba(255,255,255,0.75); 
+    }
+    .footer-compliance {
+      background: #060c14;
+      padding: 1.5rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-compliance-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .compliance-logos {
+      display: flex;
+      gap: 0.6rem;
+    }
+    .comp-logo {
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.5rem 0.7rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+    .comp-logo span { 
+      color: rgba(255,255,255,0.25); 
+      font-weight: 400; 
+      font-size: 0.45rem; 
+    }
+    .footer-legal-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .footer-legal-links span {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.35);
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .footer-legal-links span:hover { 
+      color: rgba(255,255,255,0.65); 
+    }
+    .footer-legal-text {
+      font-family: var(--mono);
+      font-size: 0.48rem;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.18);
+      line-height: 1.9;
+    }
+    @media (max-width: 900px) {
+      .footer-main-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-links-area { grid-template-columns: 1fr 1fr; }
+      .footer-compliance-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .footer-links-area { grid-template-columns: 1fr; }
+      .footer-top-inner { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    }
+    @media (max-width: 900px) {
+      .page-wrap { grid-template-columns: 1fr; }
+      .side-col { position: static; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .header-inner { flex-wrap: wrap; }
+      .footer-inner { grid-template-columns: 1fr; }
+      nav ul { flex-wrap: wrap; }
+    }
+    .page-hero {
+      background: var(--navy);
+      padding: 2.5rem 2rem;
+      border-bottom: 2px solid var(--rust);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(74,124,89,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(74,124,89,.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .page-hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .page-hero-eyebrow {
+      font-family: var(--mono);
+      font-size: .6rem;
+      letter-spacing: .25em;
+      color: var(--green-light);
+      margin-bottom: .7rem;
+    }
+    .page-hero h2 {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: .6rem;
+    }
+    .page-hero p {
+      font-family: var(--serif);
+      font-size: .92rem;
+      color: var(--tan);
+      max-width: 620px;
+      line-height: 1.75;
+    }
+    .breadcrumb {
+      font-family: var(--mono);
+      font-size: .58rem;
+      letter-spacing: .12em;
+      color: var(--tan);
+      margin-bottom: 1rem;
+    }
+    .breadcrumb a {
+      color: var(--green-light);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover {
+      text-decoration:underline;
+    }
+    .anomaly-card{
+      background:var(--navy);
+      border:1px solid rgba(255,255,255,0.07);
+      margin-bottom:1rem;
+      overflow:hidden;
+      transition:box-shadow .15s;
+    }
+    .anomaly-card:hover{
+      box-shadow:0 4px 20px rgba(0,0,0,0.3);
+    }
+    .anomaly-card.green  { border-left:4px solid var(--green); }
+    .anomaly-card.amber  { border-left:4px solid var(--yellow); }
+    .anomaly-card.red    { border-left:4px solid var(--rust-light); }
+    .anomaly-card.crimson{ border-left:4px solid #c0392b; }
+    .anomaly-card.void   { border-left:4px solid var(--void-light); }
+    .ac-trigger{
+      width:100%;
+      background:none;
+      border:none;
+      cursor:pointer;
+      padding:1.1rem 1.4rem;
+      display:grid;
+      grid-template-columns:auto 1fr auto auto;
+      align-items:center;
+      gap:1rem;
+      text-align:left;
+    }
+    .ac-trigger:hover {
+      background:rgba(255,255,255,0.03);
+    }
+    .ac-class-pip {
+      width:10px;
+      height:10px;
+      flex-shrink:0;
+    }
+    .anomaly-card.green  .ac-class-pip{background:var(--green);}
+    .anomaly-card.amber  .ac-class-pip{background:var(--yellow);}
+    .anomaly-card.red    .ac-class-pip{background:var(--rust-light);}
+    .anomaly-card.crimson .ac-class-pip{background:#c0392b;}
+    .anomaly-card.void   .ac-class-pip{background:var(--void-light);}
+
+    .ac-title-block{}
+    .ac-designation {
+      font-family:var(--mono);
+      font-size:.52rem;
+      letter-spacing:.16em;
+      color:var(--tan);
+      margin-bottom:3px;
+    }
+    .ac-name  {
+      font-family:var(--serif);
+      font-size:1.05rem;
+      font-weight:600;
+      color:var(--cream);
+      line-height:1.2;
+    }
+    .ac-sub {
+      font-family:var(--mono);
+      font-size:.55rem;
+      letter-spacing:.1em;
+      color:var(--tan);
+      margin-top:3px;
+    }
+    .ac-tags {
+      display:flex;
+      gap:.35rem;
+      flex-wrap:wrap;
+      flex-shrink:0;
+    }
+    .ac-tag {
+      font-family:var(--mono);
+      font-size:.5rem;
+      letter-spacing:.1em;
+      padding:2px 7px;
+      border:1px solid;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .anomaly-card.green   .ac-tag.class {
+      color:var(--green-light);
+      border-color:var(--green);
+    }
+    .anomaly-card.amber   .ac-tag.class {
+      color:var(--yellow-pale);
+      border-color:var(--yellow);
+    }
+    .anomaly-card.red     .ac-tag.class {
+      color:var(--rust-light);
+      border-color:var(--rust);
+    }
+    .anomaly-card.crimson .ac-tag.class {
+      color:#e74c3c;
+      border-color:#c0392b;
+    }
+    .anomaly-card.void    .ac-tag.class {
+      color:var(--void-light);
+      border-color:var(--void);
+    }
+    .ac-tag.trait {
+      color:rgba(255,255,255,.35);
+      border-color:rgba(255,255,255,.12);
+    }
+    .ac-tag.contained {
+      color:var(--green-light);
+      border-color:rgba(74,124,89,.5);
+    }
+    .ac-tag.active {
+      color:var(--rust-light);
+      border-color:rgba(155,74,42,.5);
+    }
+    .ac-tag.breached {
+      color:var(--yellow-pale);
+      border-color:rgba(212,160,23,.5);
+      animation:blink 1.4s step-end infinite;
+    }
+    .ac-arrow {
+      font-family:var(--mono);
+      font-size:.75rem;
+      color:var(--tan);
+      transition:transform .2s;
+      flex-shrink:0;
+    }
+    .anomaly-card.open .ac-arrow {
+      transform:rotate(90deg);
+    }
+    .ac-body {
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .4s ease;
+    }
+    .anomaly-card.open .ac-body {
+      max-height:1200px;
+    }
+    .ac-tabs {
+      display:flex;
+      border-top:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      background:rgba(0,0,0,.2);
+    }
+    .ac-tab-btn {
+      font-family:var(--mono);
+      font-size:.58rem;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      padding:.55rem 1.1rem;
+      background:none;
+      border:none;
+      cursor:pointer;
+      color:rgba(255,255,255,.35);
+      border-right:1px solid rgba(255,255,255,.06);
+      transition:color .12s,background .12s;
+    }
+    .ac-tab-btn:hover {
+      color:var(--cream);
+      background:rgba(255,255,255,.04);
+    }
+    .ac-tab-btn.active {
+      color:var(--cream);
+      background:rgba(255,255,255,.06);
+      border-bottom:2px solid var(--rust);
+    }
+    .ac-tab-pane {
+      display:none;
+      padding:1.4rem;
+    }
+    .ac-tab-pane.active {
+      display:block;
+    }
+    .ac-info-grid {
+      display:grid;
+      grid-template-columns:1fr 170px;
+      gap:1.4rem;
+    }
+    .ac-desc {
+      font-family:var(--serif);
+      font-size:.88rem;
+      line-height:1.85;
+      color:var(--tan);
+    }
+    .ac-desc p {
+      margin-bottom:.8rem;
+    }
+    .ac-desc p:last-child {
+      margin-bottom:0;
+    }
+    .ac-desc strong {
+      color:var(--cream);
+    }
+    .ac-data {
+      border-left:1px solid rgba(255,255,255,.08);
+      padding-left:1.2rem;
+    }
+    .ac-data-row {
+      padding:.4rem 0;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .ac-data-row:last-child {
+      border-bottom:none;
+    }
+    .ac-data-label {
+      font-family:var(--mono)
+      ;font-size:.5rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.3);
+      display:block;
+      margin-bottom:2px;
+    }
+    .ac-data-val {
+      font-family:var(--mono);
+      font-size:.68rem;
+      letter-spacing:.06em;
+      color:var(--cream);
+    }
+    .ac-works-header {
+      display:flex;gap:.8rem;
+      margin-bottom:1rem;flex-wrap:wrap;
+    }
+    .ac-work-chip {
+      padding:.4rem .9rem;
+      font-family:var(--mono);
+      font-size:.6rem;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      border:1px solid;
+    }
+    .ac-work-chip.pref {
+      background:rgba(74,124,89,.2);
+      color:var(--green-light);
+      border-color:var(--green);
+    }
+    .ac-work-chip.neutral {
+      background:rgba(255,255,255,.05);
+      color:rgba(255,255,255,.4);
+      border-color:rgba(255,255,255,.1);
+    }
+    .ac-work-chip.avoid {
+      background:rgba(155,74,42,.15);
+      color:var(--rust-light);
+      border-color:rgba(155,74,42,.35);
+    }
+    .ac-works-track {
+      margin-top:1rem;
+      margin-bottom:1rem;
+    }
+    .ac-works-label {
+      font-family:var(--mono);
+      font-size:.55rem;
+      letter-spacing:.14em;
+      color:var(--tan);
+      text-transform:uppercase;
+      margin-bottom:.5rem;
+    }
+    .ac-work-pips {
+      display:flex;
+      gap:4px;
+      flex-wrap:wrap;
+    }
+    .ac-work-pip {
+      width:20px;
+      height:20px;
+      border:1.5px solid rgba(255,255,255,.2);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:var(--mono);
+      font-size:.55rem;
+    }
+    .ac-work-pip.success {
+      background:var(--green);
+      border-color:var(--green);
+      color:#fff;
+    }
+    .ac-work-pip.fail-limit {
+      background:rgba(155,74,42,.4);
+      border-color:var(--rust);
+      color:var(--rust-light);
+    }
+    .ac-work-pip.empty {
+      color:rgba(255,255,255,.2);
+    }
+    .ac-formula-row {
+      background:rgba(0,0,0,.25);
+      padding:.8rem 1rem;
+      font-family:var(--mono);
+      font-size:.72rem;
+      letter-spacing:.06em;
+      color:var(--cream);
+      margin-bottom:.8rem;
+      border-left:3px solid var(--green);
+    }
+    .ac-formula-row .fl {
+      font-size:.5rem;
+      letter-spacing:.16em;
+      color:var(--tan);
+      text-transform:uppercase;
+      display:block;
+      margin-bottom:3px;
+    }
+    .ac-breach-box  {
+      background:rgba(155,74,42,.15);
+      border:1px solid rgba(155,74,42,.4);
+      padding:.7rem 1rem;
+      font-family:var(--serif);
+      font-size:.82rem;
+      line-height:1.65;
+      color:var(--tan);
+    }
+    .ac-breach-box strong {
+      font-family:var(--mono);
+      font-size:.58rem;
+      letter-spacing:.12em;
+      color:var(--rust-light);
+      display:block;
+      margin-bottom:.4rem;
+      text-transform:uppercase;
+    }
+    .ac-no-breach {
+      font-family:var(--mono);
+      font-size:.6rem;
+      letter-spacing:.1em;
+      color:var(--green-light);
+      padding:.5rem;
+      border:1px solid rgba(74,124,89,.3);
+      display:inline-block;
+    }
+    .ac-mood-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:.5rem;
+      margin-top:.8rem;
+    }
+    .ac-mood-cell {
+      padding:.8rem;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .ac-mood-cell.sad {
+      background:rgba(26,39,68,.3);
+    }
+    .ac-mood-cell.neutral {
+      background:rgba(74,124,89,.1);
+    }
+    .ac-mood-cell.happy {
+      background:rgba(212,160,23,.1);
+    }
+    .ac-mood-name {
+      font-family:var(--mono);
+      font-size:.55rem;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      margin-bottom:.4rem;
+    }
+    .ac-mood-cell.sad .ac-mood-name {color:var(--tan);}
+    .ac-mood-cell.neutral .ac-mood-name {color:var(--green-light);}
+    .ac-mood-cell.happy .ac-mood-name {color:var(--yellow-pale);}
+    .ac-mood-item  {
+      font-family:var(--serif);
+      font-size:.78rem;
+      line-height:1.6;
+      color:var(--tan);
+    }
+    .ac-reverie {
+      background:rgba(0,0,0,.15);
+      border:1px solid rgba(255,255,255,.07);
+      overflow:hidden;
+    }
+    .ac-rev-header {
+      padding:.9rem 1.2rem;
+      border-bottom:2px solid var(--yellow);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:rgba(212,160,23,.07);
+    }
+    .ac-rev-title {
+      font-family:var(--mono);
+      font-size:.62rem;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--yellow-pale);
+    }
+    .ac-rev-rank {
+      font-family:var(--mono);
+      font-size:.55rem;
+      letter-spacing:.12em;
+      padding:2px 8px;
+      border:1px solid var(--yellow);
+      color:var(--yellow-pale);
+    }
+    .ac-rev-body {
+      padding:1.2rem;
+      display:grid;
+      grid-template-columns:1fr 180px;
+      gap:1.2rem;
+    }
+    .ac-rev-desc {
+      font-family:var(--serif);
+      font-size:.85rem;
+      line-height:1.8;
+      color:var(--tan);
+    }
+    .ac-rev-desc p {
+      margin-bottom:.7rem;
+    }
+    .ac-rev-desc p:last-child {
+      margin-bottom:0;
+    }
+    .ac-rev-desc strong {
+      color:var(--cream);
+    }
+    .ac-rev-meta {
+      border-left:1px solid rgba(255,255,255,.08);
+      padding-left:1.1rem;
+    }
+    .ac-rev-meta-row {
+      padding:.35rem 0;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .ac-rev-meta-row:last-child {
+      border-bottom:none;
+    }
+    .ac-rev-meta-label {
+      font-family:var(--mono);
+      font-size:.48rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.3);
+      display:block;
+      margin-bottom:2px;
+    }
+    .ac-rev-meta-val {
+      font-family:var(--mono);
+      font-size:.65rem;
+      color:var(--cream);
+    }
+    .ac-aff-section {
+      margin-top:1rem;
+      padding-top:1rem;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+    .ac-aff-label {
+      font-family:var(--mono);
+      font-size:.55rem;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      color:var(--yellow-pale);
+      margin-bottom:.6rem;
+    }
+    .ac-aff-row {
+      display:flex;
+      align-items:center;
+      gap:.7rem;
+      margin-bottom:.4rem;
+    }
+    .ac-aff-key {
+      font-family:var(--mono);
+      font-size:.55rem;
+      color:rgba(255,255,255,.4);
+      width:70px;
+      flex-shrink:0;
+    }
+    .ac-aff-track {
+      flex:1;height:7px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .ac-aff-fill {
+      height:100%;
+      background:var(--yellow);
+    }
+    .ac-aff-val {
+      font-family:var(--mono);
+      font-size:.55rem;
+      color:var(--tan);
+      width:35px;
+      text-align:right;
+      flex-shrink:0;
+    }
+    .ac-ability {
+      border:1px solid rgba(255,255,255,.08);
+      margin-bottom:.5rem;
+      background:rgba(255,255,255,.02);
+    }
+    .ac-ability-head {
+      padding:.5rem .8rem;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      display:flex;
+      align-items:center;
+      gap:.6rem;
+    }
+    .ac-ability-type {
+      font-family:var(--mono);
+      font-size:.48rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;padding:1px 5px;
+      border:1px solid;}
+    .ac-ability-type.act {
+      color:var(--rust-light);
+      border-color:var(--rust);
+    }
+    .ac-ability-type.pas {
+      color:var(--green-light);
+      border-color:var(--green);
+    }
+    .ac-ability-type.bas {
+      color:rgba(255,255,255,.3);
+      border-color:rgba(255,255,255,.15);
+    }
+    .ac-ability-name {
+      font-family:var(--sans);
+      font-weight:700;
+      font-size:.75rem;
+      color:var(--cream);
+    }
+    .ac-ability-cost {
+      font-family:var(--mono);
+      font-size:.5rem;
+      color:rgba(255,255,255,.3);
+      margin-left:auto
+      ;}
+    .ac-ability-body {
+      padding:.5rem .8rem;
+      font-family:var(--serif);
+      font-size:.78rem;
+      line-height:1.65;
+      color:var(--tan);
+    }
+    .ac-ability-body .hi {
+      font-family:var(--mono);
+      font-size:.6rem;
+      color:var(--rust-light);
+      background:rgba(155,74,42,.12);
+      padding:0 3px;
+    }
+    .ac-ability-body .hi.g {
+      color:var(--green-light);
+      background:rgba(74,124,89,.12);
+    }
+    .filter-bar {
+      display:flex;
+      gap:.5rem;
+      flex-wrap:wrap;
+      margin-bottom:1.5rem;
+      align-items:center;
+    }
+    .filter-label {
+      font-family:var(--mono);
+      font-size:.58rem;
+      letter-spacing:.14em;
+      color:var(--tan);
+      text-transform:uppercase;
+      margin-right:.3rem;
+    }
+    .filter-btn {
+      font-family:var(--mono);
+      font-size:.6rem;
+      letter-spacing:.12em;
+      padding:4px 12px;
+      border:1.5px solid var(--tan);
+      background:transparent;
+      cursor:pointer;
+      color:var(--ink); 
+    }
+    .filter-btn:hover {
+      background:var(--navy);
+      color:var(--cream);
+      border-color:var(--navy);
+    }
+    .filter-btn.active {
+      background:var(--navy);
+      color:var(--cream);
+      border-color:var(--navy);
+    }
+    .filter-btn.c-green.active {
+      background:var(--green);
+      border-color:var(--green);
+      color:#fff;
+    }
+    .filter-btn.c-amber.active {
+      background:var(--yellow);
+      border-color:var(--yellow);
+      color:var(--ink);
+    }
+    .filter-btn.c-red.active {
+      background:var(--rust);
+      border-color:var(--rust);
+      color:#fff;
+    }
+    .filter-btn.c-crimson.active {
+      background:#c0392b;
+      border-color:#c0392b;
+      color:#fff;
+    }
+    .filter-btn.c-void.active {
+      background:var(--void);
+      border-color:var(--void);
+      color:#fff;
+    }
+    .ac-work-pip.sad { 
+      background: var(--navy-light); 
+      border-color: var(--tan);        
+      color: var(--tan); 
+    }
+    .ac-work-pip.neutral { 
+      background: var(--green-dim);  
+      border-color: var(--green);      
+      color: var(--green-light); 
+    }
+    .ac-work-pip.happy { 
+      background: rgba(212,160,23,.3); 
+      border-color: var(--yellow);   
+      color: var(--yellow-pale); 
+    }
+    .ac-work-track-wrap { 
+      display: inline-flex; 
+      flex-direction: column; 
+      gap: 4px; 
+    }
+    .ac-work-pips {
+      display: flex;
+      gap: 4px; 
+      align-items: center; 
+    }
+    .ac-work-pip-gap {
+      width: 8px; 
+    }
+    .ac-work-zone-labels { 
+      display: flex; 
+      gap: 8px; 
+    } 
+    .ac-zone-label {
+      font-family: var(--mono); 
+      font-size: .48rem; 
+      letter-spacing: .12em;
+      text-transform: uppercase; 
+      text-align: center;
+    }
+    .ac-zone-label.sad { 
+      color: var(--tan); 
+    }
+    .ac-zone-label.neutral {
+      color: var(--green-light); 
+    }
+    .ac-zone-label.happy { 
+      color: var(--yellow-pale); 
+    }
+
+    @media(max-width:900px){.page-wrap{grid-template-columns:1fr;}.side-col{position:static;}.ac-info-grid{grid-template-columns:1fr;}.ac-rev-body{grid-template-columns:1fr;}.header-inner{grid-template-columns:1fr;}.header-meta{display:none;}.footer-inner{grid-template-columns:1fr 1fr;}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo-block">
+        <img src="Wishmakers_logo.png" style="height: 72px;">
+        <div class="logo-text">
+          <h1>Wishmakers</h1>
+          <div class="tagline">Building a Better World, One Wish at a Time</div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="Wishmakers_Home.html">Home</a></li>
+      <li><a href="Stats.html">Core Stats</a></li>
+      <li><a href="Missions.html">Missions</a></li>
+      <li><a href="Kits.html">Kits</a></li>
+      <li><a href="Combat.html">Combat</a></li>
+      <li><a href="Daydreams.html" class="active">Daydream Archive</a></li>
+      <li><a href="#"><s>Field Archive</s></a></li>
+      <li><a href="#"><s>Lore Archive</s></a></li>
+    </ul>
+  </nav>
+  <div class="alert-strip">
+    <span class="alert-label">NOTICE</span>
+    <div class="alert-scroll">
+      <span>
+        ACTIVE INCIDENT — EASTERN EUROPE SECTOR — LOCKDOWN IN EFFECT &nbsp;⬥&nbsp;
+        NEW NIGHTMARE TYPE: "NOETIC" OFFICIALLY ADOPTED &nbsp;⬥&nbsp;
+        ALL FIELD AGENTS: REQUIRED RECERTIFICATION BY END OF QUARTER &nbsp;⬥&nbsp;
+        WISHMAKERS CORP. IS CURRENTLY ACCEPTING CONTRACTOR APPLICATIONS &nbsp;⬥&nbsp;
+        REMINDER: NON-DISCLOSURE AGREEMENTS ARE BINDING. &nbsp;⬥&nbsp;
+        ISLE TECHNOLOGIES PARTNERSHIP DEAL CLOSED &nbsp;⬥&nbsp;
+      </span>
+    </div>
+  </div>
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="Wishmakers_Home.html">Home</a> / Anomaly Registry</div>
+    <div class="page-hero-eyebrow">▸ WMC/REG/ANOMALY - Classified Daydream Compendium</div>
+    <h2>Daydream Registry</h2>
+    <p>Documented Daydreams currently or previously under Wishmakers Corporation management. Each entry includes classification, containment status, Works requirements, and associated Reverie data. Expand any entry to view full details.</p>
+  </div>
+</div>
+<div class="page-wrap">
+<div class="main-col">
+  <div class="filter-bar">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" onclick="filterCards('all',this)">All</button>
+    <button class="filter-btn c-green" onclick="filterCards('green',this)">Category I</button>
+    <button class="filter-btn c-amber" onclick="filterCards('amber',this)">Category II</button>
+    <button class="filter-btn c-red" onclick="filterCards('red',this)">Category III</button>
+    <button class="filter-btn c-crimson" onclick="filterCards('crimson',this)">Category IIII</button>
+    <button class="filter-btn c-void" onclick="filterCards('void',this)">Category V</button>
+  </div>
+
+
+  <div class="anomaly-card green" data-class="green" id="ano-0017">
+    <button class="ac-trigger" onclick="toggleCard('ano-0017',this)">
+      <div class="ac-class-pip"></div>
+      <div class="ac-title-block">
+        <div class="ac-designation">WMC/DAY/0067</div>
+        <div class="ac-name">Test Dummy</div>
+        <div class="ac-sub">Just a simple test dummy usually used for calibrating various objects.</div>
+      </div>
+      <div class="ac-tags">
+        <span class="ac-tag class">Category 1</span>
+        <span class="ac-tag trait">Passive</span>
+        <span class="ac-tag trait">Stationary</span>
+        <span class="ac-tag contained">Contained</span>
+      </div>
+      <span class="ac-arrow">▶</span>
+    </button>
+
+    <div class="ac-body">
+      <div class="ac-tabs">
+        <button class="ac-tab-btn active" onclick="switchTab(this,'t0067-info')">Overview</button>
+        <button class="ac-tab-btn" onclick="switchTab(this,'t0067-works')">Works</button>
+        <button class="ac-tab-btn" onclick="switchTab(this,'t0067-reverie')">Reverie</button>
+      </div>
+
+      <div class="ac-tab-pane active" id="t0067-info">
+        <div class="ac-info-grid">
+          <div class="ac-desc">
+            <p>An inanimate, inorganic, non-humanoid object in the form of a simple black and yellow bakelite test dummy.</p>
+            <p>Only anomalous property is its ability to undo damage done to it when not observed through a pseudo-temporal form of regeneration.</p>
+            <p>Although assumed to be inanimate some agents believe it may harbor a consciousness or basic cognition, sentient enough apparently to intentionally delay its regeneration if it is antagonized. (Supposedly caused by being "too rough" with it)</p>
+          </div>
+          <div class="ac-data">
+            <div class="ac-data-row"><span class="ac-data-label">ID</span><span class="ac-data-val">WMC/DAY/0067</span></div>
+            <div class="ac-data-row"><span class="ac-data-label">Class</span><span class="ac-data-val" style="color:var(--green-light);">Category I</span></div>
+            <div class="ac-data-row"><span class="ac-data-label">Type</span><span class="ac-data-val">Stationary / Passive</span></div>
+            <div class="ac-data-row"><span class="ac-data-label">Mobility</span><span class="ac-data-val">None</span></div>
+            <div class="ac-data-row"><span class="ac-data-label">Hostile</span><span class="ac-data-val">No</span></div>
+            <div class="ac-data-row"><span class="ac-data-label">First Contact</span><span class="ac-data-val">06/11/2020</span></div>
+            <div class="ac-data-row"><span class="ac-data-label">Location</span><span class="ac-data-val">Wishmakers East Coast HQ</span></div>
+            <div class="ac-data-row"><span class="ac-data-label">Lead Division</span><span class="ac-data-val">Research</span></div>
+            <div class="ac-data-row"><span class="ac-data-label">Status</span><span class="ac-data-val" style="color:var(--green-light);">Contained</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ac-tab-pane" id="t0067-works">
+        <div class="ac-works-header">
+          <div class="ac-work-chip pref">★ Preferred: Insight</div>
+          <div class="ac-work-chip neutral">Neutral: Instinct</div>
+          <div class="ac-work-chip neutral">Neutral: Technique</div>
+        </div>
+        <div class="ac-formula-row">
+          <span class="fl">Insight Roll Formula</span>
+          (AVG of INT + CLA × 2) + 15 (preference bonus) vs. d100
+        </div>
+        <div class="ac-works-label">Works Required: 3</div>
+        <div class="ac-work-track-wrap">
+          <div class="ac-work-pips">
+            <div class="ac-work-pip neutral">1</div>
+            <div class="ac-work-pip neutral">2</div>
+            <div class="ac-work-pip happy">3</div>
+          </div>
+          <div class="ac-work-zone-labels">
+            <span class="ac-zone-label neutral" style="margin-right: 6px">Neutral</span>
+            <span class="ac-zone-label happy" style="margin-right: 52px">Happy</span>
+          </div>
+        </div>
+        <div class="ac-works-track">
+          <div class="ac-works-label">Breach Conditions:</div>
+          <div class="ac-no-breach">✓ No breach conditions</div>
+        </div>
+        <div style="margin-top:1rem;margin-bottom:.8rem;font-family:var(--mono);font-size:.55rem;letter-spacing:.15em;color:var(--tan);text-transform:uppercase;">Daydream Mood - Rewards</div>
+        <div class="ac-mood-grid">
+          <div class="ac-mood-cell sad"><div class="ac-mood-name">Sad</div><div class="ac-mood-item">Nothing happens, the dummy remains inanimate.</div></div>
+          <div class="ac-mood-cell neutral"><div class="ac-mood-name">Neutral</div><div class="ac-mood-item">A piece of the dummy's shell flakes off.</div></div>
+          <div class="ac-mood-cell happy"><div class="ac-mood-name">Happy</div><div class="ac-mood-item">Pieces of the dummy's shell flake off, they smell like... Cinnamon?</div></div>
+        </div>
+      </div>
+
+      <div class="ac-tab-pane" id="t0067-reverie">
+        <div class="ac-reverie">
+          <div class="ac-rev-header">
+            <div class="ac-rev-title">▸ Reverie: Dummy Flakes, Derived from WMC/DAY/0067</div>
+            <div class="ac-rev-rank">Category I</div>
+          </div>
+          <div class="ac-rev-body">
+            <div class="ac-rev-desc">
+              <p>A piece of the dummy's outer shell. It emits a strong cinnamon smell. Apparently edible, as tested by volunteers.</p>
+              <div class="ac-aff-section">
+                <div class="ac-aff-label">Affinity Requirement: None</div>
+              </div>
+            </div>
+            <div class="ac-rev-meta">
+              <div class="ac-rev-meta-row"><span class="ac-rev-meta-label">Item Type</span><span class="ac-rev-meta-val">Consumable</span></div>
+              <div class="ac-rev-meta-row"><span class="ac-rev-meta-label">Rank</span><span class="ac-rev-meta-val" style="color:var(--green-light);">Category I</span></div>
+              <div class="ac-rev-meta-row"><span class="ac-rev-meta-label">Equip Max</span><span class="ac-rev-meta-val">6</span></div>
+              <div class="ac-rev-meta-row"><span class="ac-rev-meta-label">Affinity Req.</span><span class="ac-rev-meta-val">None</span></div>
+              <div class="ac-rev-meta-row"><span class="ac-rev-meta-label">Equip Action</span><span class="ac-rev-meta-val">Minor</span></div>
+              <div class="ac-rev-meta-row"><span class="ac-rev-meta-label">Kit Slots Used</span><span class="ac-rev-meta-val">None</span></div>
+            </div>
+          </div>
+          <div style="padding:0 1.2rem 1.2rem;">
+            <div class="ac-ability"><div class="ac-ability-head"><span class="ac-ability-type act">Active</span><span class="ac-ability-name">Sturdy</span><span class="ac-ability-cost">Minor Action</span></div><div class="ac-ability-body"> Eat the flake, gain a passive<span class="hi g">1 DR</span> for 3 turns. You may eat up to 2 flakes in one use, effect stacks.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+ 
+<footer>
+  <div class="footer-top-bar">
+    <div class="footer-top-inner">
+      <div class="footer-top-left">
+        <span class="footer-top-label">Global Operations Status</span>
+        <div class="footer-status-dots">
+          <span class="status-dot green"></span><span class="status-text">Americas</span>
+          <span class="status-dot green"></span><span class="status-text">EMEA</span>
+          <span class="status-dot amber"></span><span class="status-text">APAC</span>
+          <span class="status-dot red"></span><span class="status-text">Europe</span>
+        </div>
+      </div>
+      <div class="footer-top-right">
+        <span class="footer-top-label">Investor Relations</span>
+        <span class="footer-stock">WMC &nbsp;▲ 2.4%&nbsp; <span class="stock-val">$341.88</span></span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-main">
+    <div class="footer-main-inner">
+      <div class="footer-brand-col">
+        <div class="footer-wordmark">WISHMAKERS<br><span>CORPORATION</span></div>
+        <div class="footer-tagline">Building a Better World.<br>One Wish at a Time.™</div>
+        <div class="footer-certifications">
+          <div class="cert-badge">ISO<br><span>9001</span></div>
+          <div class="cert-badge">ISO<br><span>27001</span></div>
+          <div class="cert-badge">ISO<br><span>45001</span></div>
+          <div class="cert-badge redacted-cert"><span class="redacted">██████</span><br><span class="redacted">████</span></div>
+        </div>
+        <div class="footer-awards">
+          <div class="award-item">★ Forbes Global 500 — 2023</div>
+          <div class="award-item">★ Best Workplace in Anomaly Mgmt. — 2021</div>
+          <div class="award-item">★ <span class="redacted">████████████████████</span> — Cycle-14</div>
+        </div>
+      </div>
+      <div class="footer-links-area">
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Solutions</div>
+          <ul>
+            <li>Anomaly Classification</li>
+            <li>Containment Services</li>
+            <li>Incident Resolution</li>
+            <li>Risk Assessment</li>
+            <li>Civilian Cover Management</li>
+            <li><span class="redacted">Category X Handling</span></li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Industries</div>
+          <ul>
+            <li>Government & Defence</li>
+            <li>Infrastructure</li>
+            <li>Financial Services</li>
+            <li>Healthcare</li>
+            <li>Real Estate</li>
+            <li>Extra-Dimensional</li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Company</div>
+          <ul>
+            <li>About Us</li>
+            <li>Leadership</li>
+            <li>Careers</li>
+            <li>Press Room</li>
+            <li>Corporate Responsibility</li>
+          </ul>
+        </div>
+        <div class="footer-link-col">
+          <div class="footer-link-heading">Resources</div>
+          <ul>
+            <li>Field Manual</li>
+            <li>Anomaly Registry</li>
+            <li>Training Portal</li>
+            <li>Contractor Hub</li>
+            <li>Wellness Program</li>
+            <li><span class="redacted">Research Archive</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-compliance">
+    <div class="footer-compliance-inner">
+      <div class="footer-compliance-left">
+      </div>
+      <div class="footer-compliance-right">
+        <div class="footer-legal-links">
+          <span>Privacy Policy</span>
+          <span>Terms of Service</span>
+          <span>Cookie Preferences</span>
+          <span>Non-Disclosure Terms</span>
+        </div>
+        <div class="footer-legal-text">
+          © Wishmakers Corporation. All rights reserved. Wishmakers Corporation is registered in <span class="redacted">██████████</span> and operates under the Wishmakers trademark in all jurisdictions. "Wishmakers", "WMC", and "Building a Better World. One Wish at a Time." are registered trademarks. All anomalies, entities, and incidents referenced are classified infrastructure assets. Unauthorised disclosure is a terms of service violation and may result in <span class="redacted">consequences not enumerated in this document</span>.
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+  <script>
+  function toggleCard(id, btn) {
+    const card = document.getElementById(id);
+    const isOpen = card.classList.contains('open');
+    document.querySelectorAll('.anomaly-card').forEach(c => c.classList.remove('open'));
+    if (!isOpen) card.classList.add('open');
+  }
+
+  function switchTab(btn, paneId) {
+    const body = btn.closest('.ac-body');
+    body.querySelectorAll('.ac-tab-btn').forEach(b => b.classList.remove('active'));
+    body.querySelectorAll('.ac-tab-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(paneId).classList.add('active');
+  }
+
+  function filterCards(cls, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.anomaly-card').forEach(card => {
+      if (cls === 'all' || card.dataset.class === cls) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+        card.classList.remove('open');
+      }
+    });
+  }
+  </script>
+</body>
+</html>
