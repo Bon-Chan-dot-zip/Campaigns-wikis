@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BYTHOS: I. THE FIELD</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#c8a45a;
+  --gold-bright:#e8c880;
+  --gold-dim:#7a5c28;
+  --gold-dead:#2e1e08;
+  --parchment:#f0e4c4;
+  --parchment-dim:#c8b888;
+  --ink:#1a1008;
+  --ngr:#1a3a4a;
+  --ngr-bright:#2a7aaa;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --mono:'Share Tech Mono',monospace;
+}
+
+html{background:#0a0804;}
+body{
+  font-family:var(--serif);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+  cursor:default;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(200,164,90,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(180,140,60,0.08) 0%, transparent 50%),
+    #0c0a06;
+}
+
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.035;
+  pointer-events:none;
+  z-index:1000;
+}
+
+
+.page{
+  max-width:1200px;
+  margin:0 auto;
+  padding:6rem 2rem 8rem;
+  display:grid;
+  gap:0 3rem;
+  position:relative;
+}
+
+
+.main{
+  position:relative;
+  justify-content: center
+}
+
+
+.section-label{
+  font-family:var(--mono);
+  font-size:0.6rem;
+  color:var(--gold-dim);
+  letter-spacing:0.4em;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:3rem;
+  opacity:0;
+  animation:fadeIn 1.5s 0.3s forwards;
+}
+
+h1{
+  font-family:var(--serif);
+  font-weight:300;
+  font-style:italic;
+  font-size:clamp(3.5rem,7vw,6rem);
+  color:var(--gold-bright);
+  line-height:1.05;
+  letter-spacing:-0.01em;
+  opacity:0;
+  animation:fadeIn 2s 0.6s forwards;
+  width: fit-content;
+  margin: 0 auto;
+  margin-bottom:1rem;
+  text-align: left;
+}
+
+h1 em{
+  font-style:normal;
+  color:var(--parchment-dim);
+  font-size:0.65em;
+  display:block;
+  letter-spacing:0.05em;
+  margin-top:0.4rem;
+}
+
+.body-text{
+  font-size:clamp(1.1rem,2vw,1.35rem);
+  font-weight:300;
+  line-height:2;
+  color:var(--parchment);
+  letter-spacing:0.01em;
+  width: fit-content;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.body-text p{
+  margin-bottom:1.8rem;
+  opacity:0;
+  animation:fadeIn 1.8s forwards;
+}
+
+.body-text p:nth-child(1){animation-delay:1s;}
+.body-text p:nth-child(2){animation-delay:1.4s;}
+.body-text p:nth-child(3){animation-delay:1.8s;}
+.body-text p:nth-child(4){animation-delay:2.3s;}
+.body-text p:nth-child(5){animation-delay:2.8s;}
+.body-text p:nth-child(6){animation-delay:3.4s;}
+
+.body-text em{
+  font-style:italic;
+  color:var(--gold);
+}
+
+
+.key-line{
+  font-size:clamp(1.4rem,2.8vw,1.9rem);
+  font-style:italic;
+  color:var(--gold-bright);
+  text-align:center;
+  padding:2rem 0 1rem;
+  line-height:1.4;
+  opacity:0;
+  animation:fadeIn 2s 3s forwards;
+}
+
+.empty-question{
+  font-size:clamp(1rem,2vw,1.3rem);
+  font-style:italic;
+  color:var(--parchment-dim);
+  text-align:center;
+  padding-bottom:2rem;
+  line-height:2;
+  opacity:0;
+  animation:fadeIn 2s 3.8s forwards;
+}
+
+.rule{
+  width:80px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
+  margin:2.5rem auto;
+  opacity:0;
+  animation:fadeIn 1s 2.5s forwards;
+}
+
+.margin{
+  position:relative;
+  padding-top:1rem;
+  border-left:1px solid rgba(42,122,170,0.15);
+  padding-left:1.5rem;
+}
+
+.ngr-annotation{
+  font-family:var(--mono);
+  font-size:0.62rem;
+  color:var(--ngr);
+  line-height:1.8;
+  margin-bottom:2.5rem;
+  position:relative;
+  opacity:0;
+  animation:fadeIn 1s forwards;
+}
+
+.ngr-annotation::before{
+  content:'[TGR]';
+  display:block;
+  color:var(--ngr-bright);
+  margin-bottom:0.3rem;
+  font-size:0.55rem;
+  letter-spacing:0.2em;
+}
+
+.ngr-intrusion{
+  font-family:var(--mono);
+  font-size:0.6rem;
+  color:rgba(42,122,170,0.5);
+  line-height:1.7;
+  margin:1.5rem 0;
+  padding:0.6rem 0.8rem;
+  border-left:2px solid rgba(42,122,170,0.2);
+  opacity:0;
+  animation:fadeIn 1s forwards;
+}
+
+.ngr-intrusion::before{
+  content:'// ';
+  color:rgba(42,122,170,0.35);
+}
+
+.ngr-annotation:nth-child(1){animation-delay:2s;position:sticky;top:2rem;}
+.ngr-annotation:nth-child(2){animation-delay:3.5s;}
+.ngr-annotation:nth-child(3){animation-delay:4.5s;}
+.ngr-annotation:nth-child(4){animation-delay:5.5s;}
+
+.page-nav{
+  grid-column:1/-1;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:2rem;
+  padding-top:4rem;
+  margin-top:2rem;
+  border-top:1px solid rgba(200,164,90,0.1);
+  opacity:0;
+  animation:fadeIn 1s 5s forwards;
+}
+
+.page-num{
+  font-family:var(--mono);
+  font-size:0.55rem;
+  color:var(--gold-dead);
+  letter-spacing:0.3em;
+}
+
+.next-btn{
+  font-family:var(--mono);
+  font-size:0.65rem;
+  color:var(--gold-dim);
+  letter-spacing:0.2em;
+  text-decoration:none;
+  text-transform:uppercase;
+  border:1px solid rgba(200,164,90,0.2);
+  padding:0.5rem 1.4rem;
+  transition:color 0.3s, border-color 0.3s, background 0.3s;
+  display:inline-flex;
+  align-items:center;
+  gap:0.6rem;
+}
+.next-btn:hover{
+  color:var(--gold-bright);
+  border-color:rgba(200,164,90,0.5);
+  background:rgba(200,164,90,0.04);
+}
+.next-btn::after{content:'→';}
+
+.reed-bg{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:40%;
+  pointer-events:none;
+  z-index:0;
+  opacity:0.04;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(6px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+
+.light-ray{
+  position:fixed;
+  top:-20%;left:15%;
+  width:60%;height:70%;
+  background:radial-gradient(ellipse at 40% 0%,rgba(200,164,90,0.06) 0%,transparent 65%);
+  pointer-events:none;
+  z-index:0;
+  animation:rayShift 20s ease-in-out infinite alternate;
+}
+@keyframes rayShift{
+  from{transform:rotate(-5deg) scaleX(0.9);}
+  to{transform:rotate(5deg) scaleX(1.1);}
+}
+
+@media(max-width:800px){
+  .page{grid-template-columns:1fr;gap:3rem 0;}
+  .margin{border-left:none;border-top:1px solid rgba(42,122,170,0.15);padding-left:0;padding-top:2rem;}
+  .ngr-annotation:nth-child(1){position:static;}
+}
+</style>
+</head>
+<body>
+
+<div class="light-ray"></div>
+
+<svg class="reed-bg" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#c8a45a" stroke-width="1.5" fill="none">
+    <line x1="60" y1="400" x2="55" y2="80"/>
+    <line x1="120" y1="400" x2="118" y2="60"/> <ellipse cx="55" cy="78" rx="4" ry="14"/>
+    <line x1="200" y1="400" x2="205" y2="90"/> <ellipse cx="118" cy="58" rx="4" ry="14"/>
+    <line x1="280" y1="400" x2="275" y2="50"/> <ellipse cx="205" cy="88" rx="4" ry="14"/>
+    <line x1="360" y1="400" x2="368" y2="100"/> <ellipse cx="275" cy="48" rx="4" ry="14"/>
+    <line x1="440" y1="400" x2="435" y2="70"/> <ellipse cx="368" cy="98" rx="4" ry="14"/>
+    <line x1="520" y1="400" x2="525" y2="85"/> <ellipse cx="435" cy="68" rx="4" ry="14"/>
+    <line x1="600" y1="400" x2="595" y2="55"/> <ellipse cx="525" cy="83" rx="4" ry="14"/>
+    <line x1="680" y1="400" x2="685" y2="95"/> <ellipse cx="595" cy="53" rx="4" ry="14"/>
+    <line x1="760" y1="400" x2="755" y2="65"/> <ellipse cx="685" cy="93" rx="4" ry="14"/>
+    <line x1="840" y1="400" x2="848" y2="80"/> <ellipse cx="755" cy="63" rx="4" ry="14"/>
+    <line x1="920" y1="400" x2="915" y2="50"/> <ellipse cx="848" cy="78" rx="4" ry="14"/>
+    <line x1="1000" y1="400" x2="1005" y2="90"/> <ellipse cx="915" cy="48" rx="4" ry="14"/>
+    <line x1="1080" y1="400" x2="1075" y2="70"/> <ellipse cx="1005" cy="88" rx="4" ry="14"/>
+    <line x1="1150" y1="400" x2="1148" y2="85"/> <ellipse cx="1075" cy="68" rx="4" ry="14"/>
+    
+    <line x1="70" y1="400" x2="85" y2="80"/> <ellipse cx="85" cy="78" rx="4" ry="14"/>
+    <line x1="110" y1="400" x2="100" y2="60"/> <ellipse cx="100" cy="58" rx="4" ry="14"/>
+    <line x1="132" y1="400" x2="150" y2="60"/> <ellipse cx="150" cy="59" rx="4" ry="14"/>
+    <line x1="180" y1="400" x2="175" y2="90"/> <ellipse cx="175" cy="92" rx="4" ry="14"/>
+    <line x1="260" y1="400" x2="225" y2="30"/> <ellipse cx="226" cy="31" rx="4" ry="14"/>
+    <line x1="270" y1="400" x2="255" y2="50"/> <ellipse cx="255" cy="50" rx="4" ry="14"/>
+    <line x1="280" y1="400" x2="315" y2="50"/> <ellipse cx="315" cy="50" rx="4" ry="14"/>
+    <line x1="350" y1="400" x2="335" y2="110"/> <ellipse cx="335" cy="110" rx="4" ry="14"/>
+    <line x1="440" y1="400" x2="465" y2="80"/> <ellipse cx="405" cy="79" rx="4" ry="14"/>
+    <line x1="435" y1="400" x2="405" y2="80"/> <ellipse cx="465" cy="79" rx="4" ry="14"/>
+    <line x1="550" y1="400" x2="545" y2="85"/> <ellipse cx="545" cy="83" rx="4" ry="14"/>
+    <line x1="550" y1="400" x2="575" y2="120"/> <ellipse cx="574" cy="120" rx="4" ry="14"/>
+    <line x1="655" y1="400" x2="635" y2="55"/> <ellipse cx="635" cy="55" rx="4" ry="14"/>
+    <line x1="668" y1="400" x2="659" y2="95"/> <ellipse cx="659" cy="93" rx="4" ry="14"/>
+    <line x1="740" y1="400" x2="715" y2="40"/> <ellipse cx="715" cy="40" rx="4" ry="14"/>
+    <line x1="800" y1="400" x2="778" y2="100"/> <ellipse cx="778" cy="99" rx="4" ry="14"/>
+    <line x1="800" y1="400" x2="800" y2="80"/> <ellipse cx="800" cy="81" rx="4" ry="14"/>
+    <line x1="800" y1="400" x2="820" y2="80"/> <ellipse cx="820" cy="80" rx="4" ry="14"/>
+    <line x1="920" y1="400" x2="890" y2="90"/> <ellipse cx="891" cy="89" rx="4" ry="14"/>
+    <line x1="1000" y1="400" x2="985" y2="40"/> <ellipse cx="960" cy="88" rx="4" ry="14"/>
+    <line x1="1000" y1="400" x2="960" y2="90"/> <ellipse cx="985" cy="40" rx="4" ry="14"/>
+    <line x1="1000" y1="400" x2="1040" y2="90"/> <ellipse cx="1039" cy="89" rx="4" ry="14"/>
+    <line x1="1080" y1="400" x2="1075" y2="70"/> <ellipse cx="1148" cy="83" rx="4" ry="14"/>
+    <line x1="1150" y1="400" x2="1148" y2="85"/>
+    
+  </g>
+</svg>
+
+<div class="page">
+
+  <main class="main">
+    <span class="section-label">BYTHOS: I. THE FIELD</span>
+
+    <h1>
+      The Far Shore
+    </h1>
+
+    <div class="body-text">
+      <p>A golden field of reeds glistens under the morning light.</p>
+      <p>Unseen suns cast radiant sunbeams through the scarce clouds.</p>
+      <p>Your feet still in the shallow water, yet to touch the sandbank.</p>
+      <p>Friends, family, loved ones. You see them stand amidst the ebbing stalks.</p>
+      <p>They look happy.</p>
+    </div>
+
+    <div class="rule"></div>
+
+    <p class="key-line">You know this place.</p>
+
+    <p class="empty-question">
+      But why...<br>
+      do you feel so empty?
+    </p>
+  </main>
+
+
+
+  <nav class="page-nav">
+    <span class="page-num">01 / 03</span>
+    <a href="02-dream.html" class="next-btn">THE DREAM</a>
+  </nav>
+
+</div>
+
+</body>
+</html>

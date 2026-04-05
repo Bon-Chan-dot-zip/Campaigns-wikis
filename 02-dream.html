@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BYTHOS: II. THE DREAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --white:#f0ede8;
+  --white-dim:#c8c0b0;
+  --white-dead:#605848;
+  --ghost:#e8e0d0;
+  --void:#0a0908;
+  --ngr:#3a6a9a;
+  --ngr-dim:rgba(58,106,154,0.5);
+  --red:#c84040;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --mono:'Share Tech Mono',monospace;
+}
+
+html{background:var(--void);}
+body{
+  font-family:var(--serif);
+  color:var(--white);
+  min-height:100vh;
+  overflow-x:hidden;
+  background:
+    radial-gradient(ellipse at 50% 30%,rgba(240,237,232,0.04) 0%,transparent 60%),
+    #0a0908;
+}
+
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.06;
+  pointer-events:none;
+  z-index:9000;
+}
+
+.page{
+  position:relative;
+  min-height:100vh;
+  padding:5rem 3rem 10rem;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.section-label{
+  font-family:var(--mono);
+  font-size:0.55rem;
+  color:rgba(240,237,232,0.2);
+  letter-spacing:0.5em;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:5rem;
+  transform:translateX(2px);
+}
+
+
+.fragment{
+  position:absolute;
+  font-family:var(--serif);
+  color:var(--white);
+  line-height:1.6;
+  opacity:0;
+}
+
+.f1{
+  top:8%;left:5%;
+  font-size:clamp(1rem,2.5vw,1.5rem);
+  font-weight:300;
+  font-style:italic;
+  color:var(--white-dim);
+  max-width:360px;
+  animation:appear 1s 0.5s forwards;
+}
+
+.f2{
+  top:14%;left:55%;
+  font-size:clamp(0.75rem,1.5vw,1rem);
+  font-family:var(--mono);
+  color:var(--ngr-dim);
+  max-width:280px;
+  line-height:1.8;
+  animation:appear 0.8s 1.5s forwards;
+}
+
+.f3{
+  top:28%;left:8%;
+  font-size:clamp(1.8rem,4.5vw,3.2rem);
+  font-weight:300;
+  font-style:italic;
+  color:var(--ghost);
+  letter-spacing:-0.01em;
+  animation:appear 1.5s 0.8s forwards;
+}
+
+.f4{
+  top:36%;left:42%;
+  font-size:clamp(0.7rem,1.2vw,0.9rem);
+  font-family:var(--mono);
+  color:var(--ngr);
+  max-width:220px;
+  line-height:1.9;
+  animation:appear 0.7s 2.5s forwards;
+  transform:rotate(-1.5deg);
+}
+
+.f5{
+  top:50%;left:3%;
+  font-size:clamp(0.9rem,1.8vw,1.2rem);
+  font-style:italic;
+  color:var(--white-dim);
+  max-width:300px;
+  line-height:1.9;
+  animation:appear 1.2s 1.2s forwards;
+}
+
+.f6{
+  top:52%;left:48%;
+  font-size:clamp(2.5rem,6vw,4.5rem);
+  font-weight:300;
+  font-style:italic;
+  color:rgba(240,237,232,0.08);
+  letter-spacing:0.05em;
+  animation:appear 2s 0.3s forwards;
+  white-space:nowrap;
+}
+
+.f7{
+  top:65%;left:12%;
+  font-size:clamp(1.2rem,2.8vw,2rem);
+  font-style:italic;
+  color:var(--white);
+  animation:appear 1.5s 2s forwards;
+  max-width:400px;
+  line-height:1.5;
+}
+
+.f8{
+  top:70%;left:55%;
+  font-size:clamp(0.6rem,1vw,0.75rem);
+  font-family:var(--mono);
+  color:rgba(58,106,154,0.4);
+  max-width:240px;
+  line-height:1.8;
+  animation:appear 0.6s 3.5s forwards;
+  transform:rotate(0.8deg);
+}
+
+.f9{
+  top:80%;left:6%;
+  font-size:clamp(0.85rem,1.7vw,1.1rem);
+  font-style:italic;
+  color:var(--white-dead);
+  animation:appear 1s 3s forwards;
+  max-width:380px;
+  line-height:2;
+}
+
+
+.f-ngr-error{
+  top:88%;left:5%;
+  right:5%;
+  font-family:var(--mono);
+  font-size:clamp(0.5rem,0.9vw,0.68rem);
+  color:rgba(58,106,154,0.7);
+  line-height:1.9;
+  animation:appear 0.5s 4.5s forwards;
+  border-top:1px solid rgba(58,106,154,0.15);
+  padding-top:1rem;
+}
+
+.f-ngr-error::before{
+  content:'[TGR] TRANSCRIPTION ERROR — ';
+  color:var(--ngr);
+}
+
+.gasp-block{
+  position:absolute;
+  top:38%;left:3%;
+  right:3%;
+  animation:appear 1s 1.8s forwards;
+  opacity:0;
+}
+
+.gasp-line{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:clamp(0.9rem,2vw,1.3rem);
+  color:var(--white-dim);
+  line-height:2.2;
+  display:block;
+}
+
+.gasp-line:nth-child(1){transform:translateX(0px);color:rgba(240,237,232,0.55);}
+.gasp-line:nth-child(2){transform:translateX(18px);color:rgba(240,237,232,0.45);}
+.gasp-line:nth-child(3){transform:translateX(35px);color:rgba(240,237,232,0.35);}
+
+
+.biometric{
+  position:absolute;
+  font-family:var(--mono);
+  font-size:0.5rem;
+  color:rgba(58,106,154,0.25);
+  letter-spacing:0.15em;
+  line-height:1.6;
+  animation:appear 0.5s forwards;
+}
+.bio1{top:22%;left:50%;animation-delay:4s;}
+.bio2{top:60%;right:5%;animation-delay:5s;text-align:right;}
+
+.ngr-stamp{
+  position:absolute;
+  top:44%;right:4%;
+  width:240px;
+  border:1px solid rgba(58,106,154,0.2);
+  padding:0.8rem 1rem;
+  font-family:var(--mono);
+  font-size:0.55rem;
+  color:rgba(58,106,154,0.5);
+  line-height:1.8;
+  animation:appear 0.6s 3s forwards;
+  opacity:0;
+  background:rgba(10,9,8,0.7);
+}
+.ngr-stamp::before{
+  content:'[ TGR — SCAN ANALYSIS ]';
+  display:block;
+  color:var(--ngr);
+  margin-bottom:0.5rem;
+  font-size:0.5rem;
+  letter-spacing:0.2em;
+}
+
+
+.surface-break{
+  position:absolute;
+  top:47%;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(240,237,232,0.06) 20%,rgba(240,237,232,0.15) 50%,rgba(240,237,232,0.06) 80%,transparent 100%);
+  animation:appear 0.3s 2.8s forwards;
+  opacity:0;
+}
+
+
+.page-nav{
+  position:fixed;
+  bottom:2.5rem;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:1.5rem;
+  align-items:center;
+  z-index:500;
+  opacity:0;
+  animation:appear 1s 5s forwards;
+}
+
+.page-num{
+  font-family:var(--mono);
+  font-size:0.5rem;
+  color:rgba(240,237,232,0.15);
+  letter-spacing:0.3em;
+}
+
+.nav-btn{
+  font-family:var(--mono);
+  font-size:0.58rem;
+  color:rgba(240,237,232,0.25);
+  letter-spacing:0.2em;
+  text-decoration:none;
+  text-transform:uppercase;
+  border:1px solid rgba(240,237,232,0.08);
+  padding:0.4rem 1rem;
+  transition:color 0.3s,border-color 0.3s;
+  background:rgba(10,9,8,0.8);
+}
+.nav-btn:hover{color:var(--white);border-color:rgba(240,237,232,0.3);}
+.nav-btn.prev::before{content:'← ';}
+.nav-btn.next::after{content:' →';}
+
+body{cursor:crosshair;}
+
+@keyframes appear{
+  from{opacity:0;}
+  to{opacity:1;}
+}
+
+@keyframes drift{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-6px);}
+}
+.f3,.f7{animation-name:appear,drift;animation-duration:1.5s,12s;animation-delay:0.8s,2s;animation-timing-function:ease,ease-in-out;animation-fill-mode:forwards,none;animation-iteration-count:1,infinite;}
+
+.page{min-height:130vh;}
+
+@media(max-width:700px){
+  .f6{display:none;}
+  .f2,.f4,.f8{left:50%;max-width:46%;}
+  .ngr-stamp{display:none;}
+  .gasp-block{position:relative;top:auto;left:auto;margin-top:8rem;}
+  .fragment{position:relative;top:auto!important;left:auto!important;display:block;margin-bottom:2rem;}
+  .page{min-height:auto;padding-bottom:8rem;}
+  .surface-break{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <span class="section-label">BYTHOS: II. THE DREAM</span>
+  <div class="fragment f1">
+    You try to gasp for air.
+  </div>
+
+  <div class="fragment f2">
+    RESPIRATORY_ATTEMPT: FAILED<br>
+    MEDIUM_RESISTANCE: 100%<br>
+    O2_SATURATION: [NULL]<br>
+    — You are not drowning.<br>
+    — You are dreaming of drowning.<br>
+    — I am not certain these are different anymore.
+  </div>
+
+  <div class="fragment f3">
+    the breath<br>never comes
+  </div>
+
+  <div class="fragment f4">
+    MUSCULAR_ENGAGEMENT: MEASURABLE<br>
+    SWIM_PATTERN: ATTEMPTED<br>
+    WATER_PRESENT: NO<br>
+    WATER_PRESENT: YES<br>
+    WATER_PRESENT: -<br>
+    WATER_PRESENT: -
+  </div>
+
+  <div class="gasp-block">
+    <span class="gasp-line">You try to swim,</span>
+    <span class="gasp-line">the water refuses to catch you.</span>
+    <span class="gasp-line">Your tears try to flow, they vanish with the rest.</span>
+  </div>
+
+  <div class="fragment f5">
+    you try to swim<br>
+    <span style="opacity:0.4;">you try to swim</span><br>
+    <span style="opacity:0.1;">you try to swim</span>
+  </div>
+
+  <div class="fragment f6">SURFACE</div>
+
+  <div class="ngr-stamp">
+    LACRIMATION_ATTEMPT: DETECTED<br>
+    FLUID_PRODUCED: 0.00 ML<br>
+    DURATION: 0.00s<br>
+    <br>
+    NOTE: You attempted 5 distinct waking reflexes within a 4s window. None succeeded. What a peculiar phenomenon. The previous 10 struggled with it.<br>
+  </div>
+
+  <div class="surface-break"></div>
+
+  <div class="fragment f7">
+    And suddenly,<br>you're back.
+  </div>
+
+  <div class="fragment f8">
+    CONSCIOUSNESS_RETURN: 04:17:33<br>
+    TRANSITION: ABRUPT<br>
+    CAUSE: UNKNOWN<br>
+    NOTES: You did not surface naturally. something ended the scan. I do not know what. this is the part I am <em>very interested</em> in studying.
+  </div>
+
+  <div class="fragment f9">
+    Just a bad dream,<br>
+    <span style="opacity:0.5;">nothing more.</span>
+  </div>
+
+  <div class="biometric bio1">
+    CORTISOL: +340%<br>
+    ADRENALINE: +280%<br>
+    HEART_RATE: 141 BPM<br>
+    —<br>
+    NOTE: subject is awake.<br>
+    NOTE: subject does not feel awake.<br>
+    NOTE: subject does not feel awake <br>
+    NOTE: subject does not feel awake 
+  </div>
+
+  <div class="biometric bio2">
+    SESSION: #00441<br>
+    SCAN_DEPTH: REM<br>
+    TIMESTAMP: 04:02—04:17<br>
+    STATUS: TERMINATED<br>
+    TRIGRAMMATON<br>
+  </div>
+
+</div>
+
+<nav class="page-nav">
+  <a href="01-field.html" class="nav-btn prev">THE FIELD</a>
+  <span class="page-num">02 / 03</span>
+  <a href="03-waking.html" class="nav-btn next">THE WAKING</a>
+</nav>
+
+</body>
+</html>
